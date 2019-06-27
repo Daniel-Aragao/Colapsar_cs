@@ -15,11 +15,19 @@ namespace colapsar_cs.models
             
         }
         
-        public Edge(Node source, Node target, float weight)
+        public Edge(Node source, Node target, float weight=0)
         {
+            if(source == null || target == null)
+            {
+                throw new ArgumentNullException("Neither source or target can be null");
+            }
+
             this.Source = source;
             this.Target = target;
             this.Weight = weight;
+
+            source.Edges.Add(this);
+            target.Edges.Add(this);
         }
 
         public int CompareTo(Edge e1, Edge e2)
