@@ -7,15 +7,15 @@ namespace colapsar_cs.models
     {
         public Node Source { get; set; }
         public Node Target { get; set; }
-        public float Weight { get; set; }
-        public Dictionary<string,Object> OtherAttributes { get; } = new Dictionary<string, object>();
+        public double Weight { get; set; }
+        public Dictionary<string,Object> OtherAttributes { get; private set;} = new Dictionary<string, object>();
         
         public Edge()
         {
             
         }
         
-        public Edge(Node source, Node target, float weight=0)
+        public Edge(Node source, Node target, double weight=0)
         {
             if(source == null || target == null)
             {

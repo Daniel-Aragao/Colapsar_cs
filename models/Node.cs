@@ -7,44 +7,12 @@ namespace colapsar_cs.models
     public class Node
     {
         public int Id { get; set; }
-        public float Weight { get; set; }
+        public double Weight { get; set; }
         public string Label { get; set; }
         public List<Edge> Edges { get; } = new List<Edge>();
 
         public int Degree { get { return Edges.Count();} }
-        public IList<Edge> EdgesIn
-        {
-            get { return Edges.Where(edge => edge.Source == this).ToList(); }
-        }
-        public IList<Edge> EdgesOut
-        {
-            get { return Edges.Where(edge => edge.Target == this).ToList(); }
-        }
-
-        public IList<Node> Neighbors
-        {
-            get 
-            { 
-                return (from edge in Edges select (edge.Source == this ? edge.Target : edge.Source)).Distinct().ToList();
-            }
-        }
-
-        public IList<Node> NeighborsIn
-        {
-            get 
-            { 
-                return (from edge in Edges where edge.Target == this select edge.Source).Distinct().ToList();
-            }
-        }
-
-        public IList<Node> NeighborsOut
-        {
-            get 
-            { 
-                return (from edge in Edges where edge.Source == this select edge.Target).Distinct().ToList();
-            }
-        }
-        
+                
         public Dictionary<string,Object> OtherAttributes { get; } = new Dictionary<string, object>();
         
         public Node()
@@ -57,7 +25,7 @@ namespace colapsar_cs.models
             this.Id = id;
         }
 
-        public Node(int id, string label, float weight=0f)
+        public Node(int id, string label, double weight=0f)
         {
             this.Id = id;
             this.Weight = weight;
@@ -93,6 +61,29 @@ namespace colapsar_cs.models
         //     return coefficient;
         // }
         
+        public IList<Edge> EdgesIn()
+        {
+            return Edges.Where(edge => edge.Source == this).ToList();
+        }
+        public IList<Edge> EdgesOut()
+        {
+            return Edges.Where(edge => edge.Target == this).ToList();
+        }
+
+        public IList<Node> Neighbors()
+        {
+            return (from edge in Edges select (edge.Source == this ? edge.Target : edge.Source)).Distinct().ToList();
+        }
+
+        public IList<Node> NeighborsIn()
+        {
+            return (from edge in Edges where edge.Target == this select edge.Source).Distinct().ToList();
+        }
+
+        public IList<Node> NeighborsOut()
+        {
+            return (from edge in Edges where edge.Source == this select edge.Target).Distinct().ToList();
+        }
         public bool IsNeighbor(Node neighbor)
         {
             return this.Edges.Exists(edge => edge.Source == neighbor || edge.Target == neighbor);
