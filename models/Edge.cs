@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+
+namespace colapsar_cs.models
+{
+    public class Edge
+    {
+        public Node Source { get; set; }
+        public Node Target { get; set; }
+        public float Weight { get; set; }
+        public Dictionary<string,Object> OtherAttributes { get; } = new Dictionary<string, object>();
+        
+        public Edge()
+        {
+            
+        }
+        
+        public Edge(Node source, Node target, float weight)
+        {
+            this.Source = source;
+            this.Target = target;
+            this.Weight = weight;
+        }
+
+        public int CompareTo(Edge e1, Edge e2)
+        {
+            return e1.Weight.CompareTo(e2.Weight);
+        }
+
+        public override bool Equals(object obj)
+        {
+            
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Edge a = (Edge) obj;
+
+            if(a.Source == this.Source && a.Target == this.Target)
+            {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+}
