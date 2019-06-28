@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace colapsar_cs.models
+namespace Core.models
 {
     public class Graph
     {
         public string Name { get; set; }
         public Dictionary<int, Node> Nodes { get; private set; } = new Dictionary<int,Node>();
         public IList<Edge> Edges { get; private set; } = new List<Edge>();
-        public int Size { get { return this.Nodes.Count();} }
+        public int Size { get { return this.Nodes.Count;} }
         public Node Hub { get { return this.Nodes.OrderByDescending(k => k.Value.Degree).First().Value;}  }
 
         public Graph()
@@ -22,7 +22,7 @@ namespace colapsar_cs.models
             this.Name = name;
         }
 
-        public Node CreateNode(int id, string label, double weight)
+        public Node CreateNode(int id, string label, double weight=0)
         {
             if(Nodes.ContainsKey(id))
             {
@@ -36,14 +36,31 @@ namespace colapsar_cs.models
             return node;
         }
 
-        public Edge CreateEdge(Node source, Node target, double weight)
+        public Edge CreateEdge(Node source, Node target, double weight=0)
         {
+            if(source == null || target == null)
+            {
+                throw new ArgumentNullException("Source and Target can't be null");
+            }
+
             var edge = new Edge(source, target, weight);
 
             source.Edges.Add(edge);
-            target.Edges.Add(edge);
+
+            if(source != target)
+                target.Edges.Add(edge);
 
             return edge;
+        }
+
+        public Edge CreateEdge(int idSource, int idTarget, double weight=0)
+        {
+            if(!this.Nodes.ContainsKey(idSource) || !this.Nodes.ContainsKey(idTarget))
+            {
+                throw new ArgumentNullException("Source or Target id does not exist");
+            }
+
+            return this.CreateEdge(this.Nodes[idSource], this.Nodes[idTarget], weight);
         }
 
         public Node RemoveNode(int id)
@@ -92,14 +109,14 @@ namespace colapsar_cs.models
             return edges;
         }
 
-        public double GetClusteringCoefficient()
+        public double GetClusteringCoefficient(bool directed)
         {		
             double coefficient = 0.0f;
             
-            double N = this.Nodes.Count();
+            double N = this.Nodes.Count;
             
             foreach (var pair in this.Nodes) {
-                double coef = pair.Value.GetClusteringCoefficient();
+                double coef = pair.Value.GetLocalClusteringCoefficient(directed);
 
                 if(!Double.IsNaN(coef)){
                     coefficient += coef;

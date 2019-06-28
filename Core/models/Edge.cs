@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace colapsar_cs.models
+namespace Core.models
 {
     public class Edge
     {
@@ -25,9 +25,6 @@ namespace colapsar_cs.models
             this.Source = source;
             this.Target = target;
             this.Weight = weight;
-
-            source.Edges.Add(this);
-            target.Edges.Add(this);
         }
 
         public int CompareTo(Edge e1, Edge e2)

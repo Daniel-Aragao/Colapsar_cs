@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace colapsar_cs.models
+namespace Core.models
 {
     public class Node
     {
@@ -11,7 +11,7 @@ namespace colapsar_cs.models
         public string Label { get; set; }
         public List<Edge> Edges { get; } = new List<Edge>();
 
-        public int Degree { get { return Edges.Count();} }
+        public int Degree { get { return Edges.Count;} }
                 
         public Dictionary<string,Object> OtherAttributes { get; } = new Dictionary<string, object>();
         
@@ -32,30 +32,31 @@ namespace colapsar_cs.models
             this.Label = label;
         }
 
-        public double GetClusteringCoefficient(bool directed=true)
+        public double GetLocalClusteringCoefficient(bool directed)
         {		
             IList<Node> neighbors = this.Neighbors();
             
-            double k = neighbors.Count();
+            double k = neighbors.Count;
             
             if(k == 1)
                 return 1;
             
             double y = 0;
             
-            for (int i = 0; i < neighbors.Count() - 1; i++) {
-                for (int j = i + 1; j < neighbors.Count(); j++) {
-                    Node neighbor1 = neighbors[i];
-                    Node neighbor2 = neighbors[j];
-                    
-                    if(neighbor1.IsNeighbor(neighbor2)){
-                        y += 1;
+            for (int i = 0; i < neighbors.Count; i++) {
+                for (int j = 0; j < neighbors.Count; j++) {
+                    if(i != j)
+                    {
+                        Node neighbor1 = neighbors[i];
+                        Node neighbor2 = neighbors[j];
+                        
+                        y += neighbor1.EdgesWhenSourceOf(neighbor2).Count;
                     }
                 }
             }
             
-            // if(!directed)
-            y *= 2;
+            if(!directed)
+                y = 2 * y;
                 
             double coefficient = y / (k * (k - 1));
             
@@ -88,6 +89,50 @@ namespace colapsar_cs.models
         public bool IsNeighbor(Node neighbor)
         {
             return this.Edges.Exists(edge => edge.Source == neighbor || edge.Target == neighbor);
+        }
+
+        public IList<Edge> EdgesWhenSourceOf(Node target)
+        {
+            return Edges.Where(edge => edge.Source == this && edge.Target == target).ToList();
+        }
+        
+        public override bool Equals(object obj)
+        {
+            if(obj != null && obj.GetType() == this.GetType())
+            {
+                Node a = (Node) obj;
+                
+                if(a.Id == this.Id)
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+    public class NodeEqualityComparer : IEqualityComparer<Node>
+    {
+        public bool Equals(Node a, Node b)
+        {
+            if(a != null && b != null && a.Id == b.Id)
+            {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        // override object.GetHashCode
+        public int GetHashCode(Node a)
+        {
+            return a.GetHashCode();
         }
     }
 }
