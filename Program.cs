@@ -26,7 +26,7 @@ namespace colapsar_cs
             var e3 = new Edge(n3, n1);
             var e4 = new Edge(n2, n4);
 
-            ((List<Node>)n1.Neighbors).ForEach(Console.WriteLine);
+            ((List<Node>)n1.Neighbors()).ForEach(Console.WriteLine);
         }
     }
 }

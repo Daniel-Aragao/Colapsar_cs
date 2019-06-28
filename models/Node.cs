@@ -32,34 +32,35 @@ namespace colapsar_cs.models
             this.Label = label;
         }
 
-        // public double getClusteringCoefficient(){	
-		
-        //     IList<Node> neighbors = this.Neighbors;
+        public double GetClusteringCoefficient(bool directed=true)
+        {		
+            IList<Node> neighbors = this.Neighbors();
             
-        //     double k = neighbors.Count();
+            double k = neighbors.Count();
             
-        //     if(k == 1)
-        //         return 1;
+            if(k == 1)
+                return 1;
             
-        //     double y = 0;
+            double y = 0;
             
-        //     for (int i = 0; i < neighbors.Count(); i++) {
-        //         for (int j = 0; j < neighbors.Count(); j++) {
-        //             if(j > i){
-        //                 Node neighbor1 = neighbors[i];
-        //                 Node neighbor2 = neighbors[j];
-                        
-        //                 if(neighbor1.IsNeighbor(neighbor2)){
-        //                     y += 1;
-        //                 }
-        //             }			
-        //         }
-        //     }
+            for (int i = 0; i < neighbors.Count() - 1; i++) {
+                for (int j = i + 1; j < neighbors.Count(); j++) {
+                    Node neighbor1 = neighbors[i];
+                    Node neighbor2 = neighbors[j];
+                    
+                    if(neighbor1.IsNeighbor(neighbor2)){
+                        y += 1;
+                    }
+                }
+            }
             
-        //     double coefficient = (2 * y) / (k*(k-1));
+            // if(!directed)
+            y *= 2;
+                
+            double coefficient = y / (k * (k - 1));
             
-        //     return coefficient;
-        // }
+            return coefficient;
+        }
         
         public IList<Edge> EdgesIn()
         {

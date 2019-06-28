@@ -91,5 +91,22 @@ namespace colapsar_cs.models
 
             return edges;
         }
+
+        public double GetClusteringCoefficient()
+        {		
+            double coefficient = 0.0f;
+            
+            double N = this.Nodes.Count();
+            
+            foreach (var pair in this.Nodes) {
+                double coef = pair.Value.GetClusteringCoefficient();
+
+                if(!Double.IsNaN(coef)){
+                    coefficient += coef;
+                }
+            }
+            
+            return coefficient / N ;
+        }
     }
 }
