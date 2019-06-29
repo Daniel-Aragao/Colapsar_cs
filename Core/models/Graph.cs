@@ -11,6 +11,7 @@ namespace Core.models
         public IList<Edge> Edges { get; private set; } = new List<Edge>();
         public int Size { get { return this.Nodes.Count;} }
         public Node Hub { get { return this.Nodes.OrderByDescending(k => k.Value.Degree).First().Value;}  }
+        
 
         public Graph()
         {
@@ -124,6 +125,24 @@ namespace Core.models
             }
             
             return coefficient / N ;
+        }
+
+        public double Density(bool directed)
+        { 
+            var edgesSize = this.Edges.Count;
+            var nodeSize = this.Nodes.Count;
+
+            if(!directed)
+            {
+                edgesSize = 2 * edgesSize;
+            }
+
+            return edgesSize / (nodeSize * (nodeSize - 1));
+        }
+
+        public double Entropy()
+        {
+            
         }
     }
 }
