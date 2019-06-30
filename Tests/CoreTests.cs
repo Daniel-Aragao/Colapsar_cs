@@ -9,7 +9,8 @@ namespace Tests
 {
     public class CoreTests
     {   
-        const double MinNormal = 2.2250738585072014E-308d;
+        const double MinDifference = 0.000001;
+
         Graph[] Gs;
 
         NodeEqualityComparer nodeEqualityComparer = new NodeEqualityComparer();
@@ -143,7 +144,7 @@ namespace Tests
         {
             var coef = getGraph(gId).Nodes[1].GetLocalClusteringCoefficient(true);
             
-            Assert.True(0.000001 > Math.Abs(coef - result));
+            Assert.True(CoreTests.MinDifference > Math.Abs(coef - result));
         }
 
         [Theory]
@@ -154,8 +155,36 @@ namespace Tests
         {
             var coef = getGraph(gId).Nodes[1].GetLocalClusteringCoefficient(false);
 
-            Assert.True(0.000001 > Math.Abs(coef - result));
+            Assert.True(CoreTests.MinDifference > Math.Abs(coef - result));
             // Assert.Equal(result, coef);
+        }
+
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(1, 1.5)]
+        [InlineData(2, 0.811278124)]
+        public void ReturnTheCorrectShannonsEntropyForTheGivenGraph(int gId, double result)
+        {
+            var entropy = getGraph(gId).Entropy();
+
+            Assert.True(CoreTests.MinDifference > Math.Abs(result - entropy));
+        }
+
+        [Fact]
+        public void ForTheGivenPathReturnTheCorrectNodes()
+        {
+            var g = getGraph(0);
+            
+            Edge[] edges = new Edge[3];
+            edges[0] = g.Nodes[1].EdgesWhenSourceOf(g.Nodes[2])[0];
+            edges[1] = g.Nodes[2].EdgesWhenSourceOf(g.Nodes[3])[0];
+            edges[2] = g.Nodes[3].EdgesWhenSourceOf(g.Nodes[4])[0];
+
+            Node[] nodes = new Node[] { g.Nodes[1], g.Nodes[2], g.Nodes[3], g.Nodes[4]};
+
+            PathRoute pr = new PathRoute(edges, 4);
+
+            Assert.Equal(nodes, pr.Nodes);
         }
     }
 }

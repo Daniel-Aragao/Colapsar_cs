@@ -14,10 +14,12 @@ namespace Core.models
         public int Degree { get { return Edges.Count;} }
                 
         public Dictionary<string,Object> OtherAttributes { get; } = new Dictionary<string, object>();
+        public static Func<Edge, double> defaultShortestPath = edge => edge.Weight;
+
+        public Position Position { get; set; }
         
         public Node()
         {
-            var e = new Edge();
         }
 
         public Node(int id)
@@ -94,6 +96,31 @@ namespace Core.models
         public IList<Edge> EdgesWhenSourceOf(Node target)
         {
             return Edges.Where(edge => edge.Source == this && edge.Target == target).ToList();
+        }
+
+        public static PathRoute shortestPathBetweenNeihbours(Node source, Node target)
+        {
+            return Node.shortestPathBetweenNeihbours(source, target, defaultShortestPath);
+        }
+
+
+        public static PathRoute shortestPathBetweenNeihbours(Node source, Node target, Func<Edge, double> edgeWeightCalculation)
+        {
+            Edge shortestEdge = null;
+            var shortest = 0d;
+
+            foreach(Edge edge in source.EdgesWhenSourceOf(target))
+            {
+                var calc = edgeWeightCalculation(edge);
+
+                if(shortestEdge == null || calc < shortest)
+                {
+                    shortestEdge = edge;
+                    shortest = calc;
+                }
+            }
+
+            return new PathRoute(new Edge[] { shortestEdge }, shortest);
         }
         
         public override bool Equals(object obj)

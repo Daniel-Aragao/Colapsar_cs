@@ -142,7 +142,35 @@ namespace Core.models
 
         public double Entropy()
         {
-            
+            float nodesSize = this.Nodes.Count;
+            double summ = 0f;
+
+            var probabilities = from node in this.Nodes
+            group node by node.Value.Degree into degrees
+            select new { Key = degrees.Key, Value = degrees.Count()/nodesSize };
+
+            foreach (var degreeProb in probabilities)
+            {
+                summ += degreeProb.Value * ( Math.Log(degreeProb.Value, 2) );
+            }
+
+            return - summ;
+        }
+
+        
+        public PathRoute ShortestPathHeuristic(Node source, Node target)
+        {
+            return ShortestPathHeuristic(source, target, Node.defaultShortestPath, null);
+        }
+
+        public PathRoute ShortestPathHeuristic(Node source, Node target, Func<Node, Node, double> distanceHeuristic)
+        {
+            return ShortestPathHeuristic(source, target, Node.defaultShortestPath, distanceHeuristic);
+        }
+
+        public PathRoute ShortestPathHeuristic(Node source, Node target, Func<Edge, double> edgeWeightCalculation, Func<Node, Node, double> distanceHeuristic)
+        {   
+            throw new NotImplementedException();
         }
     }
 }
