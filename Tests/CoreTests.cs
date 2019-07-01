@@ -9,7 +9,9 @@ namespace Tests
 {
     public class CoreTests
     {   
-        const double MinDifference = 0.000001;
+        const double MIN_DIFFERENCE = 0.000001;
+        const int ROUND_FIXED = 5;
+        const int ROUND_FIXED_FOR_DISTANCE = 2;
 
         Graph[] Gs;
 
@@ -138,36 +140,35 @@ namespace Tests
 
         [Theory]
         [InlineData(0, 0.5)]
-        [InlineData(1, 0.166666667)]
+        [InlineData(1, 0.16667)]
         [InlineData(2, 0)]
         public void ReturnTheCorrectLocalClusterCoefficientGivenTheGraphAndNodeN1AndDirectedGraph(int gId, double result)
         {
             var coef = getGraph(gId).Nodes[1].GetLocalClusteringCoefficient(true);
             
-            Assert.True(CoreTests.MinDifference > Math.Abs(coef - result));
+            Assert.Equal(result, Math.Round(coef, CoreTests.ROUND_FIXED));
         }
 
         [Theory]
         [InlineData(0, 1)]
-        [InlineData(1, 0.333333333333333)]
+        [InlineData(1, 0.33333)]
         [InlineData(2, 0)]
         public void ReturnTheCorrectLocalClusterCoefficientGivenTheGraphAndNodeN1AndUnDirectedGraph(int gId, double result)
         {
             var coef = getGraph(gId).Nodes[1].GetLocalClusteringCoefficient(false);
 
-            Assert.True(CoreTests.MinDifference > Math.Abs(coef - result));
-            // Assert.Equal(result, coef);
+            Assert.Equal(result, Math.Round(coef, CoreTests.ROUND_FIXED));
         }
 
         [Theory]
         [InlineData(0, 0)]
         [InlineData(1, 1.5)]
-        [InlineData(2, 0.811278124)]
+        [InlineData(2, 0.81128)]
         public void ReturnTheCorrectShannonsEntropyForTheGivenGraph(int gId, double result)
         {
             var entropy = getGraph(gId).Entropy();
 
-            Assert.True(CoreTests.MinDifference > Math.Abs(result - entropy));
+            Assert.Equal(result, Math.Round(entropy, CoreTests.ROUND_FIXED));
         }
 
         [Fact]
@@ -185,6 +186,38 @@ namespace Tests
             PathRoute pr = new PathRoute(edges, 4);
 
             Assert.Equal(nodes, pr.Nodes);
+        }
+
+        [Theory]
+        [InlineData(10, 10, 13, 14,5)]
+        [InlineData(0, 0, 3, 4, 5)]
+        [InlineData(0, 7, 3, 6, 3.16228)]
+        public void ReturnTheGivenEuclideanBasedOnThePositionsPassed(double x1, double y1, double x2, double y2, double result)
+        {
+            var p1 = new Position(x1, y1, Position.EucledeanDistance);
+            var p2 = new Position(x2, y2, Position.EucledeanDistance);            
+
+            Assert.Equal(result, Math.Round(p1.Distance(p2), CoreTests.ROUND_FIXED));
+        }
+
+        [Theory]
+        [InlineData(50.06638, 5.71472, 58.64389, 3.07000, 996.17)]
+        public void ReturnTheGivenHaversineBasedOnThePositionsPassed(double x1, double y1, double x2, double y2, double result)
+        {
+            var p1 = new Position(x1, y1, Position.HaversineDistance);
+            var p2 = new Position(x2, y2, Position.HaversineDistance);            
+            // 996.43478
+            Assert.Equal(result, Math.Round(p1.Distance(p2), CoreTests.ROUND_FIXED_FOR_DISTANCE));
+        }
+
+        [Theory]
+        [InlineData(50.0663800, 5.71472, 58.64389, 3.07000, 996.18)]
+        public void ReturnTheGivenGeoLocationBasedOnThePositionsPassed(double x1, double y1, double x2, double y2, double result)
+        {
+            var p1 = new Position(x1, y1, Position.GeoCoordinateDistance);
+            var p2 = new Position(x2, y2, Position.GeoCoordinateDistance);
+            // 996.43478
+            Assert.Equal(result, Math.Round(p1.Distance(p2), CoreTests.ROUND_FIXED_FOR_DISTANCE));
         }
     }
 }
