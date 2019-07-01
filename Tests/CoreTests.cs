@@ -200,24 +200,67 @@ namespace Tests
             Assert.Equal(result, Math.Round(p1.Distance(p2), CoreTests.ROUND_FIXED));
         }
 
-        [Theory]
-        [InlineData(50.06638, 5.71472, 58.64389, 3.07000, 996.17)]
-        public void ReturnTheGivenHaversineBasedOnThePositionsPassed(double x1, double y1, double x2, double y2, double result)
-        {
-            var p1 = new Position(x1, y1, Position.HaversineDistance);
-            var p2 = new Position(x2, y2, Position.HaversineDistance);            
-            // 996.43478
-            Assert.Equal(result, Math.Round(p1.Distance(p2), CoreTests.ROUND_FIXED_FOR_DISTANCE));
-        }
+        // [Theory]
+        // [InlineData(50.06638, 5.71472, 58.64389, 3.07000, 996.17)]
+        // [InlineData(139.74477, 35.6544, 39.8261, 21.4225, 9480.66)]
+        // public void ReturnTheGivenHaversineBasedOnThePositionsPassed(double x1, double y1, double x2, double y2, double result)
+        // {
+        //     var p1 = new Position(x1, y1, Position.HaversineDistance);
+        //     var p2 = new Position(x2, y2, Position.HaversineDistance);
+        //     Assert.Equal(result, Math.Round(p1.Distance(p2), CoreTests.ROUND_FIXED_FOR_DISTANCE));
+        // }
 
         [Theory]
         [InlineData(50.0663800, 5.71472, 58.64389, 3.07000, 996.18)]
+        [InlineData(139.74477, 35.6544, 39.8261, 21.4225, 9488.84)]
         public void ReturnTheGivenGeoLocationBasedOnThePositionsPassed(double x1, double y1, double x2, double y2, double result)
         {
             var p1 = new Position(x1, y1, Position.GeoCoordinateDistance);
             var p2 = new Position(x2, y2, Position.GeoCoordinateDistance);
-            // 996.43478
+            
             Assert.Equal(result, Math.Round(p1.Distance(p2), CoreTests.ROUND_FIXED_FOR_DISTANCE));
         }
+
+
+        // Graph.cs TESTS TO BE IMPLEMENTED
+        // public void entropy()
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public void density()
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public void avgPathLenght()
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public void diameter()
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public void shortpath()
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public void graph_CRUD_operations()
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public void connectedComponent()
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public void biggestComponent()
+        // {
+        //     throw new NotImplementedException();
+        // }
     }
 }

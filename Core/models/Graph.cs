@@ -156,7 +156,6 @@ namespace Core.models
 
             return - summ;
         }
-
         
         public PathRoute ShortestPathHeuristic(Node source, Node target)
         {
@@ -170,6 +169,26 @@ namespace Core.models
 
         public PathRoute ShortestPathHeuristic(Node source, Node target, Func<Edge, double> edgeWeightCalculation, Func<Node, Node, double> distanceHeuristic)
         {   
+            throw new NotImplementedException();
+        }
+
+        public double AveragePathLenght()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double Diamater()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<Graph> ConnectedComponents()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Graph BiggestComponent()
+        {
             throw new NotImplementedException();
         }
     }

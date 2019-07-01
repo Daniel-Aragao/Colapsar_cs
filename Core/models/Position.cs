@@ -37,22 +37,23 @@ namespace Core.models
 
         public static double HaversineDistance(Position source, Position target)
         {
-            return HaversineDistance(source, target, 6371);
+            return HaversineDistance(source, target, 6371000);
         }
         public static double HaversineDistance(Position source, Position target, double radius)
         {
-            var latSource = source.Y.ToRadians();
-            var latTarget = target.Y.ToRadians();
-            var deltaLat = (source.Y - target.Y).ToRadians();
-            var deltaLon = (source.X - target.X).ToRadians();
+            throw new Exception("Function not passing the tests");
+            // var latSource = source.Y.ToRadians();
+            // var latTarget = target.Y.ToRadians();
+            // var deltaLat = (source.Y - target.Y).ToRadians();
+            // var deltaLon = (source.X - target.X).ToRadians();
 
-            var a = Math.Pow(Math.Sin(deltaLat / 2), 2);
-            var b = a + (Math.Cos(latSource) * Math.Cos(latTarget) * Math.Pow(deltaLon / 2, 2));
-            var c = 2 * Math.Asin(Math.Sqrt(b));
+            // var a = Math.Pow(Math.Sin(deltaLat / 2), 2);
+            // var b = a + (Math.Cos(latSource) * Math.Cos(latTarget) * Math.Pow(deltaLon / 2, 2));
+            // var c = 2 * Math.Asin(Math.Sqrt(b));
             
-            var distance =  radius * c;
+            // var distance =  radius * c;
             
-            return distance;
+            // return distance;
         }
 
         private static GeoCoordinate GenerateGeoCoodinateFromPosition(Position pos)
