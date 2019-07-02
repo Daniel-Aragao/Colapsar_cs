@@ -144,21 +144,21 @@ namespace Tests
         [InlineData(2, 0)]
         public void ReturnTheCorrectLocalClusterCoefficientGivenTheGraphAndNodeN1AndDirectedGraph(int gId, double result)
         {
-            var coef = getGraph(gId).Nodes[1].GetLocalClusteringCoefficient(true);
+            var coef = getGraph(gId).Nodes[1].GetLocalClusteringCoefficient();
             
             Assert.Equal(result, Math.Round(coef, CoreTests.ROUND_FIXED));
         }
 
-        [Theory]
-        [InlineData(0, 1)]
-        [InlineData(1, 0.33333)]
-        [InlineData(2, 0)]
-        public void ReturnTheCorrectLocalClusterCoefficientGivenTheGraphAndNodeN1AndUnDirectedGraph(int gId, double result)
-        {
-            var coef = getGraph(gId).Nodes[1].GetLocalClusteringCoefficient(false);
+        // [Theory]
+        // [InlineData(0, 1)]
+        // [InlineData(1, 0.33333)]
+        // [InlineData(2, 0)]
+        // public void ReturnTheCorrectLocalClusterCoefficientGivenTheGraphAndNodeN1AndUnDirectedGraph(int gId, double result)
+        // {
+        //     var coef = getGraph(gId).Nodes[1].GetLocalClusteringCoefficient(directed=false);
 
-            Assert.Equal(result, Math.Round(coef, CoreTests.ROUND_FIXED));
-        }
+        //     Assert.Equal(result, Math.Round(coef, CoreTests.ROUND_FIXED));
+        // }
 
         [Theory]
         [InlineData(0, 0)]
@@ -183,7 +183,7 @@ namespace Tests
 
             Node[] nodes = new Node[] { g.Nodes[1], g.Nodes[2], g.Nodes[3], g.Nodes[4]};
 
-            PathRoute pr = new PathRoute(edges, 4);
+            PathRoute pr = new PathRoute(edges, 4, EPathStatus.Found);
 
             Assert.Equal(nodes, pr.Nodes);
         }
@@ -212,7 +212,11 @@ namespace Tests
 
         [Theory]
         [InlineData(50.0663800, 5.71472, 58.64389, 3.07000, 996.18)]
+        [InlineData(50.0663800, 5.71472, 50.0663800, 5.71472, 0)]
+        [InlineData(58.64389, 3.07000, 58.64389, 3.07000, 0)]
         [InlineData(139.74477, 35.6544, 39.8261, 21.4225, 9488.84)]
+        [InlineData(139.74477, 35.6544, 139.74477, 35.6544, 0)]
+        [InlineData(39.8261, 21.4225, 39.8261, 21.4225, 0)]
         public void ReturnTheGivenGeoLocationBasedOnThePositionsPassed(double x1, double y1, double x2, double y2, double result)
         {
             var p1 = new Position(x1, y1, Position.GeoCoordinateDistance);
@@ -259,6 +263,11 @@ namespace Tests
         // }
 
         // public void biggestComponent()
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public void ShortestPathHeuristic()
         // {
         //     throw new NotImplementedException();
         // }

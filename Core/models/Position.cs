@@ -41,7 +41,7 @@ namespace Core.models
         }
         public static double HaversineDistance(Position source, Position target, double radius)
         {
-            throw new Exception("Function not passing the tests");
+            throw new Exception("The function is not passing the tests");
             // var latSource = source.Y.ToRadians();
             // var latTarget = target.Y.ToRadians();
             // var deltaLat = (source.Y - target.Y).ToRadians();

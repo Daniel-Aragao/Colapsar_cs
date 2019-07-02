@@ -13,7 +13,7 @@ namespace Core.models
 
         public int Degree { get { return Edges.Count;} }
                 
-        public Dictionary<string,Object> OtherAttributes { get; } = new Dictionary<string, object>();
+        private Dictionary<string,Object> OtherAttributes { get; } = new Dictionary<string, object>();
         public static Func<Edge, double> defaultShortestPath = edge => edge.Weight;
 
         public Position Position { get; set; }
@@ -34,7 +34,7 @@ namespace Core.models
             this.Label = label;
         }
 
-        public double GetLocalClusteringCoefficient(bool directed)
+        public double GetLocalClusteringCoefficient()
         {		
             IList<Node> neighbors = this.Neighbors();
             
@@ -57,8 +57,8 @@ namespace Core.models
                 }
             }
             
-            if(!directed)
-                y = 2 * y;
+            // if(!directed)
+            //     y = 2 * y;
                 
             double coefficient = y / (k * (k - 1));
             
@@ -120,7 +120,17 @@ namespace Core.models
                 }
             }
 
-            return new PathRoute(new Edge[] { shortestEdge }, shortest);
+            return new PathRoute(new Edge[] { shortestEdge }, shortest, EPathStatus.Found);
+        }
+
+        public void PutAttribute(string attr, Object value)
+        {
+            this.OtherAttributes.Add(attr, value);
+        }
+
+        public Object GetAttribute(string attr)
+        {
+            return this.OtherAttributes[attr];
         }
         
         public override bool Equals(object obj)

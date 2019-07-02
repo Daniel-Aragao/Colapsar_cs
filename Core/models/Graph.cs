@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.extensions;
 
 namespace Core.models
 {
+    /// A class the represents digraphs (directed graphs)
     public class Graph
     {
         public string Name { get; set; }
@@ -11,11 +13,11 @@ namespace Core.models
         public IList<Edge> Edges { get; private set; } = new List<Edge>();
         public int Size { get { return this.Nodes.Count;} }
         public Node Hub { get { return this.Nodes.OrderByDescending(k => k.Value.Degree).First().Value;}  }
+        // public bool Directed { get; set; }
         
-
         public Graph()
         {
-             
+
         }
 
         public Graph(string name)
@@ -110,14 +112,14 @@ namespace Core.models
             return edges;
         }
 
-        public double GetClusteringCoefficient(bool directed)
+        public double GetClusteringCoefficient()
         {		
             double coefficient = 0.0f;
             
             double N = this.Nodes.Count;
             
             foreach (var pair in this.Nodes) {
-                double coef = pair.Value.GetLocalClusteringCoefficient(directed);
+                double coef = pair.Value.GetLocalClusteringCoefficient();
 
                 if(!Double.IsNaN(coef)){
                     coefficient += coef;
@@ -127,15 +129,15 @@ namespace Core.models
             return coefficient / N ;
         }
 
-        public double Density(bool directed)
+        public double Density()
         { 
             var edgesSize = this.Edges.Count;
             var nodeSize = this.Nodes.Count;
 
-            if(!directed)
-            {
-                edgesSize = 2 * edgesSize;
-            }
+            // if(!directed)
+            // {
+            //     edgesSize = 2 * edgesSize;
+            // }
 
             return edgesSize / (nodeSize * (nodeSize - 1));
         }
@@ -157,19 +159,110 @@ namespace Core.models
             return - summ;
         }
         
-        public PathRoute ShortestPathHeuristic(Node source, Node target)
+        public static PathRoute ShortestPathHeuristic(Node source, Node target)
         {
             return ShortestPathHeuristic(source, target, Node.defaultShortestPath, null);
         }
 
-        public PathRoute ShortestPathHeuristic(Node source, Node target, Func<Node, Node, double> distanceHeuristic)
+        public static PathRoute ShortestPathHeuristic(Node source, Node target, Func<Node, Node, double> distanceHeuristic)
         {
             return ShortestPathHeuristic(source, target, Node.defaultShortestPath, distanceHeuristic);
         }
 
-        public PathRoute ShortestPathHeuristic(Node source, Node target, Func<Edge, double> edgeWeightCalculation, Func<Node, Node, double> distanceHeuristic)
+        public static PathRoute ShortestPathHeuristic(Node source, Node target, Func<Edge, double> edgeWeightCalculation, Func<Node, Node, double> distanceHeuristic)
         {   
-            throw new NotImplementedException();
+            // f(n) = g(n) + h(n)
+            if(source == null || target == null || edgeWeightCalculation == null || distanceHeuristic == null)
+            {
+                throw new ArgumentNullException("No parameter can be null");
+            }
+
+            if(source == target || source.Id == target.Id)
+            {
+                throw new ArgumentException("Source and target must be different");
+            }
+
+            IList<Node> border = new List<Node>();
+            IDictionary<int, double> weightToNode = new Dictionary<int, double>();
+            IDictionary<int, double> totalCostForNode = new Dictionary<int, double>();
+            IDictionary<int, Node> parents = new Dictionary<int, Node>();
+            int quantityOfExpansions = 0;
+
+            IList<int> searched = new List<int>();
+
+            border.Add(source);
+            weightToNode.Add(source.Id, 0);
+            totalCostForNode.Add(source.Id, distanceHeuristic(source, target));
+
+            Node current = null;
+
+            while(border.Count != 0)
+            {
+                current = border[0];
+                border.RemoveAt(0);
+                quantityOfExpansions++;
+
+                if(current == target) break;
+
+                var currentWeight = weightToNode[current.Id];
+                
+                IList<Node> childrens = null;
+
+                childrens = current.NeighborsOut();
+                
+                foreach (Node children in childrens)
+                {
+                    var bestRouteToChildren = Node.shortestPathBetweenNeihbours(current, children, edgeWeightCalculation);
+
+                    Edge edge = bestRouteToChildren.Edges[0];
+                    var weight = bestRouteToChildren.Distance;
+
+                    double weightToChildren = currentWeight + weight ;
+                    double costToTarget = distanceHeuristic(children, target);
+                    double costFunction = weightToChildren + costToTarget;
+
+                    if(weightToNode.ContainsKey(children.Id))
+                    {
+                        if(weightToNode[children.Id] <= weightToChildren)
+                        {
+                            continue;
+                        }
+                    }else
+                    {
+                        border.Remove(children);
+                    }
+
+                    weightToNode[children.Id] = weightToChildren;
+                    totalCostForNode[children.Id] = costFunction;
+                    parents[children.Id] = current;
+
+                    var index = border.FindIndex(node => totalCostForNode[node.Id] > costFunction);
+                    
+                    border.Insert(index >= 0 ? index : border.Count, children);
+
+                }
+            }
+
+            if(current == target)
+            {
+                IList<Node> nodes = new List<Node>();
+                nodes.Add(target);
+
+                Node parent = target;
+
+                while(parent != source)
+                {
+                    parent = parents[parent.Id];
+                    nodes.Add(parent);
+                }
+
+                var pathRoute = new PathRoute(nodes.Reverse().ToArray(), weightToNode[target.Id], EPathStatus.Found);
+                pathRoute.QuantityOfExpansions = quantityOfExpansions;
+
+                return pathRoute;
+            }
+
+            return new PathRoute(EPathStatus.NotFound);            
         }
 
         public double AveragePathLenght()

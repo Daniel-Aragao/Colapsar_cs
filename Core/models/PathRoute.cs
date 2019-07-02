@@ -9,14 +9,20 @@ namespace Core.models
         public Edge[] Edges { get; }
         public Node[] Nodes { get; }
         public double Distance { get; }
-        public int Jumps { get { return Edges.Length;} }
-        public int JumpsToFind { get; set; }
-        public EPathStatus Status { get; set; }
-
-        public PathRoute(Edge[] edges, double distance)
+        public int Jumps { get { return Nodes.Length - 1; }}
+        public int QuantityOfExpansions { get; set; }
+        public EPathStatus Status { get; }
+        
+        public PathRoute(Edge[] edges, double distance, EPathStatus status)
         {
+            if(edges == null)
+            {
+                throw new ArgumentNullException("Edges can't be null");
+            }
+
             this.Edges = edges;
             this.Distance = distance;
+            this.Status = status;
 
             this.Nodes = new Node[edges.Length + 1];
 
@@ -29,6 +35,23 @@ namespace Core.models
                     this.Nodes[i + 1] = edge.Target;
                 }
             }
+        }
+
+        public PathRoute(Node[] nodes, double distance, EPathStatus status)
+        {
+            if(nodes == null)
+            {
+                throw new ArgumentNullException("Edges can't be null");
+            }
+
+            this.Nodes = nodes;
+            this.Distance = distance;
+            this.Status = status;
+        }
+
+        public PathRoute(EPathStatus status)
+        {
+            this.Status = status;
         }
     }
     public enum EPathStatus
