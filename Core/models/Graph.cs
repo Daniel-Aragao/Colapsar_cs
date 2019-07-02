@@ -161,7 +161,8 @@ namespace Core.models
         
         public static PathRoute ShortestPathHeuristic(Node source, Node target)
         {
-            return ShortestPathHeuristic(source, target, Node.defaultShortestPath, null);
+            Func<Node, Node, double> heuristic = (src, tgt) => Position.GeoCoordinateDistance(src.Position, tgt.Position);
+            return ShortestPathHeuristic(source, target, Node.defaultShortestPath, heuristic);
         }
 
         public static PathRoute ShortestPathHeuristic(Node source, Node target, Func<Node, Node, double> distanceHeuristic)
@@ -267,12 +268,60 @@ namespace Core.models
 
         public double AveragePathLenght()
         {
-            throw new NotImplementedException();
+            double avg = 0;
+
+            var nodes = this.Nodes.Values;
+
+            int nodesSize = nodes.Count;
+            int possibleEdges = nodesSize * (nodesSize - 1);
+
+            foreach(var source in nodes)
+            {
+                foreach(var target in nodes)
+                {
+                    if(source != target)
+                    {
+                        var pathRoute = Graph.ShortestPathHeuristic(source, target);
+
+                        if(pathRoute.Status == EPathStatus.Found)
+                        {
+                            avg += pathRoute.Distance;
+                        }
+                    }
+                }
+            }
+
+            avg = avg / possibleEdges;
+
+            return avg;
         }
 
         public double Diamater()
         {
-            throw new NotImplementedException();
+            double diameter = 0;
+
+            var nodes = this.Nodes.Values;
+
+            int nodesSize = nodes.Count;
+            int possibleEdges = nodesSize * (nodesSize - 1);
+
+            foreach(var source in nodes)
+            {
+                foreach(var target in nodes)
+                {
+                    if(source != target)
+                    {
+                        var pathRoute = Graph.ShortestPathHeuristic(source, target);
+
+                        if(pathRoute.Status == EPathStatus.Found)
+                        {
+                            diameter = Math.Max(diameter, pathRoute.Distance);
+                        }
+                    }
+                }
+            }
+
+            return diameter;
         }
 
         public IList<Graph> ConnectedComponents()
