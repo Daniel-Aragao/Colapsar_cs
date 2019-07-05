@@ -10,7 +10,7 @@ namespace Core.models
         public double Weight { get; set; }
         public string Label { get; set; }
 
-        public Dictionary<string,Object> OtherAttributes { get; private set;} = new Dictionary<string, object>();
+        private Dictionary<string, object> OtherAttributes { get; } = new Dictionary<string, object>();
         
         public Edge()
         {
@@ -27,6 +27,16 @@ namespace Core.models
             this.Source = source;
             this.Target = target;
             this.Weight = weight;
+        }
+
+        public void PutAttribute(string attr, Object value)
+        {
+            this.OtherAttributes.Add(attr, value);
+        }
+
+        public Object GetAttribute(string attr)
+        {
+            return this.OtherAttributes[attr];
         }
 
         public int CompareTo(Edge e1, Edge e2)

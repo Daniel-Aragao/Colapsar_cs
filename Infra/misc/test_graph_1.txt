@@ -1,0 +1,10 @@
+nodes
+245656627,cross,0.0,latitude,18.9638132,longitude,72.8182657
+4294951432,cross,0.0,latitude,18.9638506,longitude,72.8183647
+4294951452,cross,0.0,latitude,18.9651663,longitude,72.8188305
+4294951453,cross,0.0,latitude,18.9657557,longitude,72.8191172
+edges
+4294951453,1.0,4294951452,distance,72.14034314043423,name-street,Dr Dadasaheb Bhadkamkar Marg,type_route,driving
+4294951452,1.0,4294951432,distance,154.2815560270423,name-street,Dr Dadasaheb Bhadkamkar Marg,type_route,driving
+4294951432,1.0,245656627,distance,11.210694705547965,name-street,Allibhai Premji Marg,type_route,driving
+245656627,1.0,4294951453,distance,80.210694705547965,name-street,Fake street,type_route,driving

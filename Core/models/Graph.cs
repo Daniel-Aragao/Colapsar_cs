@@ -9,7 +9,7 @@ namespace Core.models
     public class Graph
     {
         public string Name { get; set; }
-        public Dictionary<int, Node> Nodes { get; private set; } = new Dictionary<int,Node>();
+        public Dictionary<long, Node> Nodes { get; private set; } = new Dictionary<long,Node>();
         public IList<Edge> Edges { get; private set; } = new List<Edge>();
         public int Size { get { return this.Nodes.Count;} }
         public Node Hub { get { return this.Nodes.OrderByDescending(k => k.Value.Degree).First().Value;}  }
@@ -25,7 +25,7 @@ namespace Core.models
             this.Name = name;
         }
 
-        public Node CreateNode(int id, string label, double weight=0)
+        public Node CreateNode(long id, string label, double weight=0)
         {
             if(Nodes.ContainsKey(id))
             {
@@ -56,7 +56,7 @@ namespace Core.models
             return edge;
         }
 
-        public Edge CreateEdge(int idSource, int idTarget, double weight=0)
+        public Edge CreateEdge(long idSource, long idTarget, double weight=0)
         {
             if(!this.Nodes.ContainsKey(idSource) || !this.Nodes.ContainsKey(idTarget))
             {
@@ -184,12 +184,12 @@ namespace Core.models
             }
 
             IList<Node> border = new List<Node>();
-            IDictionary<int, double> weightToNode = new Dictionary<int, double>();
-            IDictionary<int, double> totalCostForNode = new Dictionary<int, double>();
-            IDictionary<int, Node> parents = new Dictionary<int, Node>();
+            IDictionary<long, double> weightToNode = new Dictionary<long, double>();
+            IDictionary<long, double> totalCostForNode = new Dictionary<long, double>();
+            IDictionary<long, Node> parents = new Dictionary<long, Node>();
             int quantityOfExpansions = 0;
 
-            IList<int> searched = new List<int>();
+            IList<long> searched = new List<long>();
 
             border.Add(source);
             weightToNode.Add(source.Id, 0);
@@ -332,6 +332,16 @@ namespace Core.models
         public Graph BiggestComponent()
         {
             throw new NotImplementedException();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

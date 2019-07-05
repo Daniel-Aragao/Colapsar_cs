@@ -6,7 +6,7 @@ namespace Core.models
 {
     public class Node
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public double Weight { get; set; }
         public string Label { get; set; }
         public List<Edge> Edges { get; } = new List<Edge>();
@@ -22,12 +22,12 @@ namespace Core.models
         {
         }
 
-        public Node(int id)
+        public Node(long id)
         {
             this.Id = id;
         }
 
-        public Node(int id, string label, double weight=0f)
+        public Node(long id, string label, double weight=0f)
         {
             this.Id = id;
             this.Weight = weight;
