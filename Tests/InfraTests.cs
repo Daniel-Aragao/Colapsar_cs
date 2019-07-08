@@ -4,13 +4,14 @@ using Infra.services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 using Xunit;
 
 namespace Tests
 {
     public class InfraTests
-    {   
+    {
         const double MIN_DIFFERENCE = 0.000001;
         const int ROUND_FIXED = 5;
         const int ROUND_FIXED_FOR_DISTANCE = 2;
