@@ -12,7 +12,8 @@ namespace Infra.services
         {
             if(!File.Exists(path))
             {
-                throw new ArgumentException("The path informed do not exist" + path);
+                Console.WriteLine(Directory.GetCurrentDirectory());
+                throw new ArgumentException("The path informed do not exist" + Directory.GetCurrentDirectory() + path);
             }
             
             Graph graph = new Graph(Path.GetFileName(path));
@@ -36,15 +37,15 @@ namespace Infra.services
                     if(lineSplited.Length % 2 != 1)
                     {
                         throw new FileLoadException("The file don't have the correct format"
-                            + " on the line (" + lineCount + "): " + line 
-                            + " (lines should have id,label,weight,key,value,key,value..." 
+                            + " on the line (" + lineCount + "): " + line
+                            + " (lines should have id,label,weight,key,value,key,value..."
                             + " with pairs of key and value optional)");
                     }
 
                     var identityData = lineSplited.SubArray(0, 3);
                     Dictionary<string, string> properties = new Dictionary<string, string>();
 
-                    for(var i = 3; i < lineSplited.Length; i+=2)                   
+                    for(var i = 3; i < lineSplited.Length; i+=2)
                     {
                         properties.Add(lineSplited[i], lineSplited[i + 1]);
                     }
