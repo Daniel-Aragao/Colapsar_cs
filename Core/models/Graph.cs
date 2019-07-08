@@ -336,7 +336,41 @@ namespace Core.models
 
         public override bool Equals(object obj)
         {
-            return false;
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            
+            var graph = (Graph) obj;
+
+            foreach (var node in this.Nodes)
+            {
+                if(!graph.Nodes.ContainsKey(node.Key))
+                {
+                    return false;
+                }
+            }
+
+            foreach (var edge1 in this.Edges)
+            {
+                var haveEqual = false;
+
+                foreach (var edge2 in graph.Edges)
+                {
+                    if(edge1.Equals(edge2))
+                    {
+                        haveEqual = true;
+                        break;
+                    }
+                }
+
+                if(!haveEqual)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public override int GetHashCode()

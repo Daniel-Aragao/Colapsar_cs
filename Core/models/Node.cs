@@ -141,6 +141,13 @@ namespace Core.models
                 
                 if(a.Id == this.Id)
                 {
+                    // foreach (var keypair in this.OtherAttributes)
+                    // {
+                    //     if(!a.OtherAttributes.ContainsKey(keypair.Key) || a.OtherAttributes[keypair.Key] != keypair.Value)
+                    //     {
+                    //         return false;
+                    //     }
+                    // }
                     return true;
                 }
             }

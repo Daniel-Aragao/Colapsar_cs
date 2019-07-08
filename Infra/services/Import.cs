@@ -12,8 +12,9 @@ namespace Infra.services
         {
             if(!File.Exists(path))
             {
-                Console.WriteLine(Directory.GetCurrentDirectory());
-                throw new ArgumentException("The path informed do not exist" + Directory.GetCurrentDirectory() + path);
+                Console.WriteLine("------------ Current directory: " + Directory.GetCurrentDirectory() + "------------");
+                
+                throw new ArgumentException("The path informed do not exist " + path);
             }
             
             Graph graph = new Graph(Path.GetFileName(path));
@@ -52,7 +53,7 @@ namespace Infra.services
 
                     if(mode.Equals("nodes"))
                     {
-                        var node = graph.CreateNode(Int32.Parse(identityData[0]), identityData[1], Double.Parse(identityData[2]));
+                        var node = graph.CreateNode(long.Parse(identityData[0]), identityData[1], Double.Parse(identityData[2]));
 
                         var x = 0D;
                         var y = 0D;
@@ -99,7 +100,7 @@ namespace Infra.services
                             weight = Double.Parse(identityData[1]);
                         }
                         
-                        var edge = graph.CreateEdge(Int32.Parse(identityData[0]), Int32.Parse(identityData[2]), weight);
+                        var edge = graph.CreateEdge(long.Parse(identityData[0]), long.Parse(identityData[2]), weight);
 
                         if(properties.ContainsKey("name-street"))
                         {

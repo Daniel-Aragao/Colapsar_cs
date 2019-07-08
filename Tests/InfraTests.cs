@@ -15,6 +15,7 @@ namespace Tests
         const double MIN_DIFFERENCE = 0.000001;
         const int ROUND_FIXED = 5;
         const int ROUND_FIXED_FOR_DISTANCE = 2;
+        const string file_path = "/home/daniel/Documentos/Git/Colapsar_cs/Infra/misc/";
 
         Graph[] Gs;
 
@@ -56,7 +57,7 @@ namespace Tests
         [Fact]
         public void LoadCityFromText_TestGraph1()
         {
-            Graph graphImported = Import.LoadCityFromText("Infra/misc/test_graph_1.txt");
+            Graph graphImported = Import.LoadCityFromText(file_path + "test_graph_1.txt");
 
             Assert.True(getGraph(0).Equals(graphImported));
         }
@@ -64,7 +65,7 @@ namespace Tests
         [Fact]
         public void LoadCityFromText_TestGraph2()
         {
-            Graph graphImported = Import.LoadCityFromText("Infra/misc/test_graph_2.txt");
+            Graph graphImported = Import.LoadCityFromText(file_path + "test_graph_2.txt");
 
             Assert.True(getGraph(1).Equals(graphImported));
         }

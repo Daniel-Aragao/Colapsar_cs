@@ -9,6 +9,7 @@ namespace Core.models
         public Node Target { get; set; }
         public double Weight { get; set; }
         public string Label { get; set; }
+        const int ROUND_FIXED = 5;
 
         private Dictionary<string, object> OtherAttributes { get; } = new Dictionary<string, object>();
         
@@ -53,8 +54,9 @@ namespace Core.models
             }
 
             Edge a = (Edge) obj;
+            var weight = Math.Round(this.Weight, ROUND_FIXED);
 
-            if(a.Source == this.Source && a.Target == this.Target)
+            if(a.Source.Equals(this.Source) && a.Target.Equals(this.Target) && weight == Math.Round(a.Weight, ROUND_FIXED))
             {
                 return true;
             }
