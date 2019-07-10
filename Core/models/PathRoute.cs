@@ -53,6 +53,23 @@ namespace Core.models
         {
             this.Status = status;
         }
+
+        // // override object.Equals
+        // public override bool Equals(object obj)
+        // {
+        //     if (obj == null || GetType() != obj.GetType())
+        //     {
+        //         return false;
+        //     }
+            
+
+        //     return base.Equals (obj);
+        // }
+        
+        // public override int GetHashCode()
+        // {
+        //     return base.GetHashCode();
+        // }
     }
     public enum EPathStatus
     {   

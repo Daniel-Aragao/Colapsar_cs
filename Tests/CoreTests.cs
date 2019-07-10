@@ -1,7 +1,9 @@
 using Core.models;
+using Infra.services;
+
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 using System;
 using Xunit;
 
@@ -19,7 +21,25 @@ namespace Tests
 
         public CoreTests()
         {
-            Gs = new Func<Graph>[] { G1, G2, G3 };
+            Gs = new Func<Graph>[] { G0, G1, G2, G3 };
+        }
+
+        private Graph G0()
+        {
+            Graph g = new Graph("test graph 0");
+
+            g.CreateNode(1, "n1");
+            g.CreateNode(2, "n2");
+            g.CreateNode(3, "n3");
+            g.CreateNode(4, "n4");
+            g.CreateEdge(1, 2);
+            g.CreateEdge(1, 3);
+            g.CreateEdge(1, 4);
+            g.CreateEdge(2, 3);
+            g.CreateEdge(2, 4);
+            g.CreateEdge(3, 4);
+
+            return g;
         }
 
         private Graph G1()
@@ -30,12 +50,9 @@ namespace Tests
             g.CreateNode(2, "n2");
             g.CreateNode(3, "n3");
             g.CreateNode(4, "n4");
-
             g.CreateEdge(1, 2);
             g.CreateEdge(1, 3);
             g.CreateEdge(1, 4);
-            g.CreateEdge(2, 3);
-            g.CreateEdge(2, 4);
             g.CreateEdge(3, 4);
 
             return g;
@@ -52,7 +69,6 @@ namespace Tests
             g.CreateEdge(1, 2);
             g.CreateEdge(1, 3);
             g.CreateEdge(1, 4);
-            g.CreateEdge(3, 4);
 
             return g;
         }
@@ -68,6 +84,15 @@ namespace Tests
             g.CreateEdge(1, 2);
             g.CreateEdge(1, 3);
             g.CreateEdge(1, 4);
+            g.CreateEdge(2, 1);
+            g.CreateEdge(2, 3);
+            g.CreateEdge(2, 4);
+            g.CreateEdge(3, 1);
+            g.CreateEdge(3, 2);
+            g.CreateEdge(3, 4);
+            g.CreateEdge(4, 1);
+            g.CreateEdge(4, 2);
+            g.CreateEdge(4, 3);
 
             return g;
         }
@@ -80,7 +105,8 @@ namespace Tests
         [InlineData(0,4)]
         [InlineData(1,4)]
         [InlineData(2,4)]
-        public void TheGivenGraphMustHave4Nodes(int gId, int nodeSize)
+        [InlineData(3,4)]
+        public void TheGivenGraphMustHaveTheGivenNodes(int gId, int nodeSize)
         {
             Assert.Equal(nodeSize, getGraph(gId).Nodes.Count);
         }
@@ -89,15 +115,89 @@ namespace Tests
         [InlineData(0,6)]
         [InlineData(1,4)]
         [InlineData(2,3)]
-        public void TheGivenGraphMustHave4Edges(int gId, int edgesSize)
+        [InlineData(3,12)]
+        public void TheGivenGraphMustHaveTheGivenEdges(int gId, int edgesSize)
         {
             Assert.Equal(edgesSize, getGraph(gId).Edges.Count);
         }
 
         [Fact]
-        public void TheGraph1MustReturnTheCorrectsNodesFromN2Neighbors()
+        public void RemoveSecondEdgeFromG0AndRemoveFromGraphAndNodes()
         {
-            Graph g = getGraph(0);
+            Graph g0_modified = new Graph("test graph 0");
+
+            g0_modified.CreateNode(1, "n1");
+            g0_modified.CreateNode(2, "n2");
+            g0_modified.CreateNode(3, "n3");
+            g0_modified.CreateNode(4, "n4");
+            g0_modified.CreateEdge(1, 2);
+            g0_modified.CreateEdge(1, 4);
+            g0_modified.CreateEdge(2, 3);
+            g0_modified.CreateEdge(2, 4);
+            g0_modified.CreateEdge(3, 4);
+
+            var g0 = this.G0();
+            var edge = g0.Edges[1];
+
+            g0.RemoveEdge(edge);
+            
+
+            Assert.True(g0_modified.Equals(g0));
+        }
+
+        [Fact]
+        public void RemoveEdgeFromEdge2ToEdge3FromG0AndRemoveFromGraphAndNodes()
+        {
+            Graph g0_modified = new Graph("test graph 0");
+
+            g0_modified.CreateNode(1, "n1");
+            g0_modified.CreateNode(2, "n2");
+            g0_modified.CreateNode(3, "n3");
+            g0_modified.CreateNode(4, "n4");
+            g0_modified.CreateEdge(1, 2);
+            g0_modified.CreateEdge(1, 3);
+            g0_modified.CreateEdge(1, 4);
+            g0_modified.CreateEdge(2, 4);
+            g0_modified.CreateEdge(3, 4);
+
+            var g0 = this.G0();
+            var n2 = g0.Nodes[2];
+            var n3 = g0.Nodes[3];
+
+            g0.RemoveEdges(n2, n3);
+
+            Assert.True(g0_modified.Equals(g0));
+        }
+
+        [Fact]
+        public void RemoveThirdNodeFromG3AndRemoveFromGraphAndEdges()
+        {
+            Graph g3_modified = new Graph("test graph 3");
+
+            g3_modified.CreateNode(1, "n1");
+            g3_modified.CreateNode(2, "n2");
+            g3_modified.CreateNode(4, "n4");
+            g3_modified.CreateEdge(1, 2);
+            g3_modified.CreateEdge(1, 4);
+            g3_modified.CreateEdge(2, 1);
+            g3_modified.CreateEdge(2, 4);
+            g3_modified.CreateEdge(4, 1);
+            g3_modified.CreateEdge(4, 2);
+            
+            var g3 = this.G3();
+            var n3 = g3.Nodes[3];
+
+            g3.RemoveNode(n3);
+
+            Assert.Equal(g3_modified.Nodes.Count, g3.Nodes.Count);
+            Assert.Equal(g3_modified.Edges.Count, g3.Edges.Count);
+            Assert.True(g3_modified.Equals(g3));
+        }
+
+        [Fact]
+        public void TheGraph0MustReturnTheCorrectsNodesFromN2Neighbors()
+        {
+            Graph g = this.G0();
             IList<Node> correctNodes = new List<Node>();
             correctNodes.Add(g.Nodes[1]);
             correctNodes.Add(g.Nodes[3]);
@@ -109,9 +209,9 @@ namespace Tests
         }
 
         [Fact]
-        public void TheGraph2MustReturnTheCorrectsNodesFromN3Neighbors()
+        public void TheGraph1MustReturnTheCorrectsNodesFromN3Neighbors()
         {
-            Graph g = getGraph(1);
+            Graph g = this.G1();
             IList<Node> correctNodes = new List<Node>();
             correctNodes.Add(g.Nodes[1]);
             correctNodes.Add(g.Nodes[4]);
@@ -122,9 +222,9 @@ namespace Tests
         }
 
         [Fact]
-        public void TheGraph2MustReturnTheCorrectsNodesFromN4Neighbors()
+        public void TheGraph1MustReturnTheCorrectsNodesFromN4Neighbors()
         {
-            Graph g = getGraph(1);
+            Graph g = this.G1();
             IList<Node> correctNodes = new List<Node>();
             correctNodes.Add(g.Nodes[1]);
             correctNodes.Add(g.Nodes[3]);
@@ -136,9 +236,9 @@ namespace Tests
         }
 
         [Fact]
-        public void TheNode1MustReturnTheCorrectEdgeNumberInEdgesWhenSourceOfTarget()
+        public void InGraph0TheNode1MustReturnTheCorrectEdgeNumberIn_EdgesWhenSourceOfTarget()
         {
-            Graph g = getGraph(0);
+            Graph g = G0();
             var target = g.Nodes[2];
             var edges = g.Nodes[1].EdgesWhenSourceOf(target);
 
@@ -164,6 +264,10 @@ namespace Tests
         [InlineData(2, 2, 1)]
         [InlineData(2, 3, 1)]
         [InlineData(2, 4, 1)]
+        [InlineData(3, 1, 3)]
+        [InlineData(3, 2, 3)]
+        [InlineData(3, 3, 3)]
+        [InlineData(3, 4, 3)]
         public void ReturnTheCorrectAmountOfNeihboursForTheGivenGraphAndGivenNode(int gId, int nId, double result)
         {
             Assert.Equal(result, getGraph(gId).Nodes[nId].Neighbors().Count);
@@ -173,6 +277,7 @@ namespace Tests
         [InlineData(0, 0.5)]
         [InlineData(1, 0.16667)]
         [InlineData(2, 0)]
+        [InlineData(3, 1)]
         public void ReturnTheCorrectLocalClusterCoefficientGivenTheGraphAndNodeN1AndDirectedGraph(int gId, double result)
         {
             var coef = getGraph(gId).Nodes[1].GetLocalClusteringCoefficient();
@@ -195,6 +300,7 @@ namespace Tests
         [InlineData(0, 0)]
         [InlineData(1, 1.5)]
         [InlineData(2, 0.81128)]
+        [InlineData(3, 0)]
         public void ReturnTheCorrectShannonsEntropyForTheGivenGraph(int gId, double result)
         {
             var entropy = getGraph(gId).Entropy();
@@ -203,9 +309,9 @@ namespace Tests
         }
 
         [Fact]
-        public void ForTheGivenPathReturnTheCorrectNodes()
+        public void ForTheGivenPathReturnTheCorrectNodesForGraph0()
         {
-            var g = getGraph(0);
+            var g = G0();
             
             Edge[] edges = new Edge[3];
             edges[0] = g.Nodes[1].EdgesWhenSourceOf(g.Nodes[2])[0];
@@ -256,17 +362,63 @@ namespace Tests
             Assert.Equal(result, Math.Round(p1.Distance(p2), CoreTests.ROUND_FIXED_FOR_DISTANCE));
         }
 
+        [Theory]
+        [InlineData(0, 0.5)]
+        [InlineData(1, 0.33333)]
+        [InlineData(2, 0.25)]
+        [InlineData(3, 1)]
+        public void ReturnTheCorrectSDensityForTheGivenGraph(int gId, double result)
+        {
+            var density = getGraph(gId).Density();
+
+            Assert.Equal(result, Math.Round(density, CoreTests.ROUND_FIXED));
+        }
+
+        [Fact]
+        public void ShortestPathBetwenAradAndBucharestMustBe418km()
+        {
+            // to bucharest from arad running 418km (arad > sibiu > rimnicu vilcea > pitesti > bucharest)
+
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+            
+            var arad = graph.getNodeByLabel("Arad");
+            var sibiu = graph.getNodeByLabel("Sibiu");
+            var rimnicuVilcea = graph.getNodeByLabel("Rimnicu Vilcea");
+            var pitesti = graph.getNodeByLabel("Pitesti");
+            var bucharest = graph.getNodeByLabel("Bucharest");
+
+            var route = Graph.ShortestPathHeuristic(arad, bucharest);
+
+            Assert.Equal(418, route.Distance);
+            Assert.Equal(new Node[] {arad, sibiu, rimnicuVilcea, pitesti, bucharest}, route.Nodes);
+            Assert.Equal(EPathStatus.Found, route.Status);
+        }
+
+        [Fact]
+        public void ShortestPathBetwen5729And2500MustBe15056_65()
+        {
+            // to bucharest from arad running 418km (arad > sibiu > rimnicu vilcea > pitesti > bucharest)
+
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_4.bus-network.txt");
+            
+            var p_5729 = graph.Nodes[5729];
+            var p_2500 = graph.Nodes[2500];
+
+            var route = Graph.ShortestPathHeuristic(p_5729, p_2500);
+
+            IEnumerable<long> expected = new long[] {2500, 2498, 2502, 2503, 2504, 2496, 2499, 2491, 2485, 2479, 2472, 2450, 2446, 2852, 5225, 4389, 4018, 2413, 5553, 2829, 2830, 2823, 2835, 2836, 2821, 2914, 2915, 2912, 2922, 3875, 2899, 2901, 1646, 1642, 1622, 1629, 1630, 1633, 0183, 0176, 0175, 0179, 0445, 0424, 0426, 5735, 5734, 5741, 5733, 5732, 5731, 5730, 5729};
+            expected = expected.Reverse();
+
+            var result = new List<Node>(route.Nodes);
+
+            var resultLong = from r in result select r.Id;
+
+            Assert.Equal(15056.65, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
+            Assert.Equal(expected, resultLong);
+            Assert.Equal(EPathStatus.Found, route.Status);
+        }
 
         // Graph.cs TESTS TO BE IMPLEMENTED
-        // public void entropy()
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void density()
-        // {
-        //     throw new NotImplementedException();
-        // }
 
         // public void avgPathLenght()
         // {
@@ -274,16 +426,6 @@ namespace Tests
         // }
 
         // public void diameter()
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void shortpath()
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void graph_CRUD_operations()
         // {
         //     throw new NotImplementedException();
         // }

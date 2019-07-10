@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using GeoCoordinatePortable;
 using Core.extensions;
 
@@ -10,6 +11,8 @@ namespace Core.models
         public double X { get;}
         public double Y { get;}
         public Func<Position, Position, double> DistanceFunction { get;}
+        public Dictionary<string, double> DistanceMap { get; set; }
+        public string MapId { get; set; }
 
         public Position(double x, double y)
         {
@@ -67,6 +70,11 @@ namespace Core.models
             var targetGeo = GenerateGeoCoodinateFromPosition(target);
 
             return sourceGeo.GetDistanceTo(targetGeo) / 1000;
+        }
+
+        public static double Mapped(Position source, Position target)
+        {
+            return source.DistanceMap[target.MapId];
         }
 
     }

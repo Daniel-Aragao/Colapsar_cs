@@ -15,7 +15,7 @@ namespace Tests
         const double MIN_DIFFERENCE = 0.000001;
         const int ROUND_FIXED = 5;
         const int ROUND_FIXED_FOR_DISTANCE = 2;
-        const string file_path = "/home/daniel/Documentos/Git/Colapsar_cs/Infra/misc/";
+        public const string file_path = "/home/daniel/Documentos/Git/Colapsar_cs/Infra/misc/";
 
         Func<Graph>[] Gs;
 
@@ -23,12 +23,12 @@ namespace Tests
 
         public InfraTests()
         {
-            Gs = new Func<Graph>[] { G1, G2 };
+            Gs = new Func<Graph>[] { G0, G1 };
         }
         
-        private Graph G1()
+        private Graph G0()
         {
-            Graph g = new Graph("test graph 1 latitude, longetude");
+            Graph g = new Graph("test graph 0 latitude, longetude");
 
             g.CreateNode(245656627, "cross");
             g.CreateNode(4294951432, "cross");
@@ -43,9 +43,9 @@ namespace Tests
             return g;
         }
 
-        private Graph G2()
+        private Graph G1()
         {
-            Graph g = new Graph("test graph 2 x,y");
+            Graph g = new Graph("test graph 1 x,y");
 
             g.CreateNode(64,"sintetic");
             g.CreateNode(65,"sintetic");

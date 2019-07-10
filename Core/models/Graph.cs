@@ -5,7 +5,7 @@ using Core.extensions;
 
 namespace Core.models
 {
-    /// A class the represents digraphs (directed graphs)
+    /// A class that represents digraphs (directed graphs)
     public class Graph
     {
         public string Name { get; set; }
@@ -13,7 +13,7 @@ namespace Core.models
         public IList<Edge> Edges { get; private set; } = new List<Edge>();
         public int Size { get { return this.Nodes.Count;} }
         public Node Hub { get { return this.Nodes.OrderByDescending(k => k.Value.Degree).First().Value;}  }
-        // public bool Directed { get; set; }
+        public bool Directed { get { return true; }  }
         
         public Graph()
         {
@@ -43,7 +43,7 @@ namespace Core.models
         {
             if(source == null || target == null)
             {
-                throw new ArgumentNullException("Source and Target can't be null");
+                throw new ArgumentNullException("Neither Source or Target can be null");
             }
 
             var edge = new Edge(source, target, weight);
@@ -68,10 +68,12 @@ namespace Core.models
             return this.CreateEdge(this.Nodes[idSource], this.Nodes[idTarget], weight);
         }
 
-        public Node RemoveNode(int id)
+        public Node RemoveNode(long id)
         {
             if(this.Nodes.ContainsKey(id)){
                 Node node = this.Nodes[id];
+
+                this.RemoveEdges(node);                
 
                 if(this.Nodes.Remove(id)){
                     return node;
@@ -83,42 +85,63 @@ namespace Core.models
 
         public Node RemoveNode(Node node)
         {
-            return this.RemoveNode(node);
+            return this.RemoveNode(node.Id);
         }
 
         public Edge RemoveEdge(Edge edge)
         {
             if(this.Edges.Remove(edge))
             {
+                edge.Source.Edges.Remove(edge);
+                edge.Target.Edges.Remove(edge);
+
                 return edge;
             }
 
             return null;
         }
 
-        public IList<Edge> RemoveEdges(Node source, Node target, bool removeFromNodes=false)
+        public IList<Edge> RemoveEdges(Node source, Node target)
         {
             IList<Edge> edges = this.Edges.Where(edge => edge.Source == source && edge.Target == target).ToList();
 
             foreach(Edge edge in edges)
             {
-                this.Edges.Remove(edge);
+                this.RemoveEdge(edge);
+            }
+ 
+            return edges;
+        }
 
-                if(removeFromNodes)
-                {
-                    source.Edges.Remove(edge);
-                    target.Edges.Remove(edge);
-                }
+        public IList<Edge> RemoveEdges(Node node)
+        {
+            IList<Edge> edges = this.Edges.Where(edge => edge.Source == node || edge.Target == node).ToList();
+
+            Console.WriteLine(edges.Count);
+
+            foreach(Edge edge in edges)
+            {
+                this.RemoveEdge(edge);
             }
 
             return edges;
         }
 
+        public Node getNodeByLabel(string label)
+        {
+            return this.Nodes.First(keypair => keypair.Value.Label.Equals(label)).Value;
+        }
+
+        public Edge getEdgeByLabel(string label)
+        {
+            return this.Edges.First(edge => edge.Label.Equals(label));
+        }
+
         public double GetClusteringCoefficient()
         {		
-            double coefficient = 0.0f;
+            double coefficient = 0d;
             
-            double N = this.Nodes.Count;
+            float N = this.Nodes.Count;
             
             foreach (var pair in this.Nodes) {
                 double coef = pair.Value.GetLocalClusteringCoefficient();
@@ -133,15 +156,14 @@ namespace Core.models
 
         public double Density()
         { 
-            var edgesSize = this.Edges.Count;
-            var nodeSize = this.Nodes.Count;
+            float edgesSize = this.Edges.Count;
+            float nodesSize = this.Nodes.Count;
 
             // if(!directed)
             // {
             //     edgesSize = 2 * edgesSize;
             // }
-
-            return edgesSize / (nodeSize * (nodeSize - 1));
+            return (edgesSize / (nodesSize * (nodesSize - 1f)));
         }
 
         public double Entropy()
@@ -163,8 +185,8 @@ namespace Core.models
         
         public static PathRoute ShortestPathHeuristic(Node source, Node target)
         {
-            Func<Node, Node, double> heuristic = (src, tgt) => Position.GeoCoordinateDistance(src.Position, tgt.Position);
-            return ShortestPathHeuristic(source, target, Node.defaultShortestPath, heuristic);
+            Func<Node, Node, double> heuristic = (src, tgt) => src.Position.DistanceFunction(src.Position, tgt.Position);
+            return ShortestPathHeuristic(source, target, heuristic);
         }
 
         public static PathRoute ShortestPathHeuristic(Node source, Node target, Func<Node, Node, double> distanceHeuristic)

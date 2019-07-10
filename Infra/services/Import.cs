@@ -2,6 +2,9 @@ using System;
 using System.IO;
 using System.Globalization;
 using System.Collections.Generic;
+
+using Newtonsoft.Json;
+
 using Core.models;
 using Core.extensions;
 
@@ -9,7 +12,7 @@ namespace Infra.services
 {
     public class Import
     {
-        public static Graph LoadCityFromText(string path)
+        public static Graph LoadCityFromText(string path, char separator=',')
         {
             if(!File.Exists(path))
             {
@@ -22,9 +25,9 @@ namespace Infra.services
 
             using(StreamReader sr = File.OpenText(path))
             {
-                string line;
+                string line ;
                 string mode = null;
-                int lineCount = 0;
+                int lineCount = 1;
 
                 while((line = sr.ReadLine()) != null)
                 {
@@ -34,7 +37,7 @@ namespace Infra.services
                         lineCount++;
                         continue;
                     }
-                    var lineSplited = line.Split(',');
+                    var lineSplited = line.Split(separator);
 
                     if(lineSplited.Length % 2 != 1)
                     {
@@ -60,6 +63,7 @@ namespace Infra.services
                         var y = 0D;
 
                         Func<Position, Position,double> distanceFunction = null;
+                        Dictionary<string, double> distanceMap = null;
 
                         if(properties.ContainsKey("x") && properties.ContainsKey("y"))
                         {
@@ -78,9 +82,21 @@ namespace Infra.services
                             properties.Remove("latitude");
 
                             distanceFunction = Position.GeoCoordinateDistance;
+                        }else if(properties.ContainsKey("distance-map"))
+                        {
+                            distanceFunction = Position.Mapped;
+                            distanceMap = JsonConvert.DeserializeObject<Dictionary<string, double>>(properties["distance-map"]);
+                            properties.Remove("distance-map");
                         }
 
                         var position = new Position(x, y, distanceFunction);
+
+                        if(distanceFunction == Position.Mapped)
+                        {
+                            position.DistanceMap = distanceMap;
+                            position.MapId = node.Id.ToString();
+                        }
+
                         node.Position = position;
 
                         foreach(var property in properties)
