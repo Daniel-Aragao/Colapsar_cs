@@ -13,54 +13,85 @@ namespace Tests
         const int ROUND_FIXED = 5;
         const int ROUND_FIXED_FOR_DISTANCE = 2;
 
-        Graph[] Gs;
+        Func<Graph>[] Gs;
 
         NodeEqualityComparer nodeEqualityComparer = new NodeEqualityComparer();
 
         public CoreTests()
         {
-            Graph G1 = new Graph("test graph 1");
+            Gs = new Func<Graph>[] { G1, G2, G3 };
+        }
 
-            G1.CreateNode(1, "n1");
-            G1.CreateNode(2, "n2");
-            G1.CreateNode(3, "n3");
-            G1.CreateNode(4, "n4");
+        private Graph G1()
+        {
+            Graph g = new Graph("test graph 1");
 
-            G1.CreateEdge(1, 2);
-            G1.CreateEdge(1, 3);
-            G1.CreateEdge(1, 4);
-            G1.CreateEdge(2, 3);
-            G1.CreateEdge(2, 4);
-            G1.CreateEdge(3, 4);
+            g.CreateNode(1, "n1");
+            g.CreateNode(2, "n2");
+            g.CreateNode(3, "n3");
+            g.CreateNode(4, "n4");
 
-            Graph G2 = new Graph("test graph 2");
+            g.CreateEdge(1, 2);
+            g.CreateEdge(1, 3);
+            g.CreateEdge(1, 4);
+            g.CreateEdge(2, 3);
+            g.CreateEdge(2, 4);
+            g.CreateEdge(3, 4);
 
-            G2.CreateNode(1, "n1");
-            G2.CreateNode(2, "n2");
-            G2.CreateNode(3, "n3");
-            G2.CreateNode(4, "n4");
+            return g;
+        }
 
-            G2.CreateEdge(1, 2);
-            G2.CreateEdge(1, 3);
-            G2.CreateEdge(1, 4);
-            G2.CreateEdge(3, 4);
+        private Graph G2()
+        {
+            Graph g = new Graph("test graph 2");
 
-            Graph G3 = new Graph("test graph 3");
+            g.CreateNode(1, "n1");
+            g.CreateNode(2, "n2");
+            g.CreateNode(3, "n3");
+            g.CreateNode(4, "n4");
+            g.CreateEdge(1, 2);
+            g.CreateEdge(1, 3);
+            g.CreateEdge(1, 4);
+            g.CreateEdge(3, 4);
 
-            G3.CreateNode(1, "n1");
-            G3.CreateNode(2, "n2");
-            G3.CreateNode(3, "n3");
-            G3.CreateNode(4, "n4");
-            
-            G3.CreateEdge(1, 2);
-            G3.CreateEdge(1, 3);
-            G3.CreateEdge(1, 4);
+            return g;
+        }
 
-            Gs = new Graph[] { G1, G2, G3 };
+        private Graph G3()
+        {
+            Graph g = new Graph("test graph 3");
+
+            g.CreateNode(1, "n1");
+            g.CreateNode(2, "n2");
+            g.CreateNode(3, "n3");
+            g.CreateNode(4, "n4");
+            g.CreateEdge(1, 2);
+            g.CreateEdge(1, 3);
+            g.CreateEdge(1, 4);
+
+            return g;
         }
 
         public Graph getGraph(int id){
-            return Gs[id];
+            return Gs[id]();
+        }
+
+        [Theory]
+        [InlineData(0,4)]
+        [InlineData(1,4)]
+        [InlineData(2,4)]
+        public void TheGivenGraphMustHave4Nodes(int gId, int nodeSize)
+        {
+            Assert.Equal(nodeSize, getGraph(gId).Nodes.Count);
+        }
+
+        [Theory]
+        [InlineData(0,6)]
+        [InlineData(1,4)]
+        [InlineData(2,3)]
+        public void TheGivenGraphMustHave4Edges(int gId, int edgesSize)
+        {
+            Assert.Equal(edgesSize, getGraph(gId).Edges.Count);
         }
 
         [Fact]

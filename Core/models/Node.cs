@@ -125,7 +125,7 @@ namespace Core.models
 
         public void PutAttribute(string attr, Object value)
         {
-            this.OtherAttributes.Add(attr, value);
+            this.OtherAttributes[attr] = value;
         }
 
         public Object GetAttribute(string attr)
@@ -137,21 +137,25 @@ namespace Core.models
         {
             if(obj != null && obj.GetType() == this.GetType())
             {
-                Node a = (Node) obj;
-                
-                if(a.Id == this.Id)
+                Node node = (Node) obj;
+
+                if(node.Id == this.Id)
                 {
-                    // foreach (var keypair in this.OtherAttributes)
-                    // {
-                    //     if(!a.OtherAttributes.ContainsKey(keypair.Key) || a.OtherAttributes[keypair.Key] != keypair.Value)
-                    //     {
-                    //         return false;
-                    //     }
-                    // }
-                    return true;
+                    if(this.OtherAttributes.Count == node.OtherAttributes.Count)
+                    {
+                        foreach (var keypair in this.OtherAttributes)
+                        {
+                            if(!node.OtherAttributes.ContainsKey(keypair.Key) || !node.OtherAttributes[keypair.Key].Equals(keypair.Value))
+                            {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
                 }
             }
-            
+
             return false;
         }
 

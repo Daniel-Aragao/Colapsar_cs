@@ -32,7 +32,7 @@ namespace Core.models
 
         public void PutAttribute(string attr, Object value)
         {
-            this.OtherAttributes.Add(attr, value);
+            this.OtherAttributes[attr] = value;
         }
 
         public Object GetAttribute(string attr)
@@ -47,18 +47,28 @@ namespace Core.models
 
         public override bool Equals(object obj)
         {
-            
             if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }
+            
+            Edge edge = (Edge) obj;
 
-            Edge a = (Edge) obj;
-            var weight = Math.Round(this.Weight, ROUND_FIXED);
-
-            if(a.Source.Equals(this.Source) && a.Target.Equals(this.Target) && weight == Math.Round(a.Weight, ROUND_FIXED))
+            if(edge.Source.Equals(this.Source) && edge.Target.Equals(this.Target) && Math.Round(this.Weight, ROUND_FIXED) == Math.Round(edge.Weight, ROUND_FIXED))
             {
-                return true;
+                
+                if(this.OtherAttributes.Count == edge.OtherAttributes.Count)
+                {
+                    foreach (var keypair in this.OtherAttributes)
+                    {
+                        if(!edge.OtherAttributes.ContainsKey(keypair.Key) || !edge.OtherAttributes[keypair.Key].Equals(keypair.Value))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
             
             return false;

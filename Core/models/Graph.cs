@@ -52,6 +52,8 @@ namespace Core.models
 
             if(source != target)
                 target.Edges.Add(edge);
+            
+            this.Edges.Add(edge);
 
             return edge;
         }
@@ -342,14 +344,24 @@ namespace Core.models
             }
             
             var graph = (Graph) obj;
-
+            
+            if(this.Nodes.Count != graph.Nodes.Count || this.Edges.Count != graph.Edges.Count)
+            {
+                return false;
+            }
+            
             foreach (var node in this.Nodes)
             {
                 if(!graph.Nodes.ContainsKey(node.Key))
                 {
                     return false;
                 }
-            }
+
+                if(!graph.Nodes[node.Key].Equals(node.Value))
+                {
+                    return false;
+                }
+            }            
 
             foreach (var edge1 in this.Edges)
             {

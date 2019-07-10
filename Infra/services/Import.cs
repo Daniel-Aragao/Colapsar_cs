@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Globalization;
 using System.Collections.Generic;
 using Core.models;
 using Core.extensions;
@@ -53,7 +54,7 @@ namespace Infra.services
 
                     if(mode.Equals("nodes"))
                     {
-                        var node = graph.CreateNode(long.Parse(identityData[0]), identityData[1], Double.Parse(identityData[2]));
+                        var node = graph.CreateNode(long.Parse(identityData[0], CultureInfo.InvariantCulture), identityData[1], Double.Parse(identityData[2], CultureInfo.InvariantCulture));
 
                         var x = 0D;
                         var y = 0D;
@@ -62,8 +63,8 @@ namespace Infra.services
 
                         if(properties.ContainsKey("x") && properties.ContainsKey("y"))
                         {
-                            x = Double.Parse(properties["x"]);
-                            y = Double.Parse(properties["y"]);
+                            x = Double.Parse(properties["x"], CultureInfo.InvariantCulture);
+                            y = Double.Parse(properties["y"], CultureInfo.InvariantCulture);
                             properties.Remove("x");
                             properties.Remove("y");
 
@@ -71,8 +72,8 @@ namespace Infra.services
                         }
                         else if(properties.ContainsKey("latitude") && properties.ContainsKey("longitude"))
                         {
-                            x = Double.Parse(properties["longitude"]);
-                            y = Double.Parse(properties["latitude"]);
+                            x = Double.Parse(properties["longitude"], CultureInfo.InvariantCulture);
+                            y = Double.Parse(properties["latitude"], CultureInfo.InvariantCulture);
                             properties.Remove("longitude");
                             properties.Remove("latitude");
 
@@ -93,14 +94,14 @@ namespace Infra.services
 
                         if(properties.ContainsKey("distance"))
                         {
-                            weight = Double.Parse(properties["distance"]);
+                            weight = Double.Parse(properties["distance"], CultureInfo.InvariantCulture);
                             properties.Remove("distance");
                         }else
                         {
-                            weight = Double.Parse(identityData[1]);
+                            weight = double.Parse(identityData[1], CultureInfo.InvariantCulture);
                         }
                         
-                        var edge = graph.CreateEdge(long.Parse(identityData[0]), long.Parse(identityData[2]), weight);
+                        var edge = graph.CreateEdge(long.Parse(identityData[0], CultureInfo.InvariantCulture), long.Parse(identityData[2], CultureInfo.InvariantCulture), weight);
 
                         if(properties.ContainsKey("name-street"))
                         {
