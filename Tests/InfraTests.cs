@@ -4,6 +4,7 @@ using Infra.services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.IO;
 
 using Xunit;
@@ -15,7 +16,9 @@ namespace Tests
         const double MIN_DIFFERENCE = 0.000001;
         const int ROUND_FIXED = 5;
         const int ROUND_FIXED_FOR_DISTANCE = 2;
-        public const string file_path = "/home/daniel/Documentos/Git/Colapsar_cs/Infra/misc/";
+        // public const string file_path = "/home/daniel/Documentos/Git/Colapsar_cs/Tests/misc/";
+        // (.*Colapsar_cs\/).*
+        public const string file_path = "/home/danielfilhoce/Git/Colapsar_cs/Tests/misc/";
 
         Func<Graph>[] Gs;
 
