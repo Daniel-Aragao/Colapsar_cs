@@ -320,14 +320,12 @@ namespace Core.models
             return avg;
         }
 
-        public double Diamater()
+        public PathRoute Diamater()
         {
             double diameter = 0;
+            PathRoute diameterPath = null;
 
             var nodes = this.Nodes.Values;
-
-            int nodesSize = nodes.Count;
-            int possibleEdges = nodesSize * (nodesSize - 1);
 
             foreach(var source in nodes)
             {
@@ -340,12 +338,16 @@ namespace Core.models
                         if(pathRoute.Status == EPathStatus.Found)
                         {
                             diameter = Math.Max(diameter, pathRoute.Distance);
+                            if(diameterPath == null || pathRoute.Distance > diameterPath.Distance)
+                            {
+                                diameterPath = pathRoute;
+                            }
                         }
                     }
                 }
             }
 
-            return diameter;
+            return diameterPath;
         }
 
         public IList<Graph> ConnectedComponents()

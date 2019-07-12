@@ -132,6 +132,11 @@ namespace Core.models
         {
             return this.OtherAttributes[attr];
         }
+
+        public override string ToString()
+        {
+            return this.Id.ToString();
+        }
         
         public override bool Equals(object obj)
         {

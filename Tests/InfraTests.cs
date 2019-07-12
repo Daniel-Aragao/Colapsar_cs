@@ -18,7 +18,7 @@ namespace Tests
         const int ROUND_FIXED_FOR_DISTANCE = 2;
         // public const string file_path = "/home/daniel/Documentos/Git/Colapsar_cs/Tests/misc/";
         // (.*Colapsar_cs\/).*
-        public const string file_path = "/home/danielfilhoce/Git/Colapsar_cs/Tests/misc/";
+        public const string file_path = "/home/danielaragao/Documents/Git/Colapsar_cs/Tests/misc/";
 
         Func<Graph>[] Gs;
 

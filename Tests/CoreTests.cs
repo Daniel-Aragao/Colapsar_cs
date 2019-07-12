@@ -418,6 +418,29 @@ namespace Tests
             Assert.Equal(EPathStatus.Found, route.Status);
         }
 
+        [Fact]
+        public void Diameter8ForRegular5x5Graph()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "RegularGraph_5_5_2019_7_12_17_34_57.txt");
+
+            var result = graph.Diamater();
+            result.Nodes.ToList().ForEach(Console.WriteLine);
+            
+            Assert.Equal(8, result.Distance);
+        }
+
+        [Fact]
+        public void Diameter8ForSmallWorld5x5Graph()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "SmallWorldGraph_5_5_0.05_2019_7_12_17_35_12.txt");
+
+            var result = graph.Diamater();
+
+            result.Nodes.ToList().ForEach(Console.WriteLine);
+            
+            Assert.Equal(8, result.Distance);
+        }
+
         // Graph.cs TESTS TO BE IMPLEMENTED
 
         // public void avgPathLenght()
@@ -436,11 +459,6 @@ namespace Tests
         // }
 
         // public void biggestComponent()
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void ShortestPathHeuristic()
         // {
         //     throw new NotImplementedException();
         // }
