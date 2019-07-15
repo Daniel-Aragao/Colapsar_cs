@@ -417,16 +417,106 @@ namespace Tests
             Assert.Equal(expected, resultLong);
             Assert.Equal(EPathStatus.Found, route.Status);
         }
+        [Fact]
+        public void ShortestPathBetwenSmallWorld5x5From4And21MustBe5()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "SmallWorldGraph_5_5_0.05_2019_7_12_17_35_12.txt");
+            
+            var p_4 = graph.Nodes[4];
+            var p_21 = graph.Nodes[21];
+
+            var route = Graph.ShortestPathHeuristic(p_4, p_21);
+
+            IEnumerable<long> expected = new long[] {4, 3, 12, 17, 16, 21};
+
+            var result = new List<Node>(route.Nodes);
+
+            var resultLong = from r in result select r.Id;
+
+            Assert.Equal(EPathStatus.Found, route.Status);
+            Assert.Equal(5, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
+            Assert.Equal(expected, resultLong);
+        }
+
+        [Fact]
+        public void ShortestPathBetwenSmallWorld5x5From21And4MustBe5()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "SmallWorldGraph_5_5_0.05_2019_7_12_17_35_12.txt");
+            
+            var p_4 = graph.Nodes[4];
+            var p_21 = graph.Nodes[21];
+
+            var route = Graph.ShortestPathHeuristic(p_21, p_4);
+
+            IEnumerable<long> expected = new long[] {21, 16, 17, 12, 3, 4};
+
+            var result = new List<Node>(route.Nodes);
+
+            var resultLong = from r in result select r.Id;
+
+            Assert.Equal(EPathStatus.Found, route.Status);
+            Assert.Equal(5, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
+            Assert.Equal(expected, resultLong);
+        }
+
+        [Fact]
+        public void ShortestPathBetwenRegular5x5From8And20MustBe6()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "RegularGraph_5_5_2019_7_12_17_34_57.txt");
+            
+            var p_8 = graph.Nodes[8];
+            var p_20 = graph.Nodes[20];
+
+            var route = Graph.ShortestPathHeuristic(p_8, p_20);
+
+            IEnumerable<long> expected = new long[] {8, 7, 12, 17, 16, 21, 20};
+
+            var result = new List<Node>(route.Nodes);
+
+            var resultLong = from r in result select r.Id;
+
+            Assert.Equal(EPathStatus.Found, route.Status);
+            Assert.Equal(6, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
+            Assert.Equal(expected, resultLong);
+        }
+
+        [Fact]
+        public void ShortestPathBetwenRegular5x5From20And8MustBe6()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "RegularGraph_5_5_2019_7_12_17_34_57.txt");
+            
+            var p_8 = graph.Nodes[8];
+            var p_20 = graph.Nodes[20];
+
+            var route = Graph.ShortestPathHeuristic(p_20, p_8);
+
+            IEnumerable<long> expected = new long[] {20, 21, 16, 11, 12, 13, 8};
+
+            var result = new List<Node>(route.Nodes);
+
+            var resultLong = from r in result select r.Id;
+
+            Assert.Equal(EPathStatus.Found, route.Status);
+            Assert.Equal(6, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
+            Assert.Equal(expected, resultLong);
+        }
 
         [Fact]
         public void Diameter8ForRegular5x5Graph()
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "RegularGraph_5_5_2019_7_12_17_34_57.txt");
 
-            var result = graph.Diamater();
-            result.Nodes.ToList().ForEach(Console.WriteLine);
+            var route = graph.Diamater();
+
+            IEnumerable<long> expected = new long[] {20, 21, 16, 11, 12, 13, 8, 9, 4};
+
+            var result = new List<Node>(route.Nodes);
+
+            var resultLong = from r in result select r.Id;
             
-            Assert.Equal(8, result.Distance);
+            Assert.Equal(EPathStatus.Found, route.Status);
+            Assert.Equal(8, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
+            Assert.Equal(expected, resultLong);
         }
 
         [Fact]
@@ -434,21 +524,22 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "SmallWorldGraph_5_5_0.05_2019_7_12_17_35_12.txt");
 
-            var result = graph.Diamater();
+            var route = graph.Diamater();
 
-            result.Nodes.ToList().ForEach(Console.WriteLine);
+            IEnumerable<long> expected = new long[] {9, 8, 13, 12, 17, 16, 15, 20};
+
+            var result = new List<Node>(route.Nodes);
+
+            var resultLong = from r in result select r.Id;
             
-            Assert.Equal(8, result.Distance);
+            Assert.Equal(EPathStatus.Found, route.Status);
+            Assert.Equal(7, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
+            Assert.Equal(expected, resultLong);
         }
 
         // Graph.cs TESTS TO BE IMPLEMENTED
 
         // public void avgPathLenght()
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void diameter()
         // {
         //     throw new NotImplementedException();
         // }

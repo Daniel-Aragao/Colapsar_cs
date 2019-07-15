@@ -110,7 +110,7 @@ namespace Infra.services
 
                         if(properties.ContainsKey("distance"))
                         {
-                            weight = Double.Parse(properties["distance"], CultureInfo.InvariantCulture);
+                            weight = double.Parse(properties["distance"], CultureInfo.InvariantCulture);
                             properties.Remove("distance");
                         }else
                         {

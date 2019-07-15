@@ -322,7 +322,6 @@ namespace Core.models
 
         public PathRoute Diamater()
         {
-            double diameter = 0;
             PathRoute diameterPath = null;
 
             var nodes = this.Nodes.Values;
@@ -337,10 +336,10 @@ namespace Core.models
 
                         if(pathRoute.Status == EPathStatus.Found)
                         {
-                            diameter = Math.Max(diameter, pathRoute.Distance);
                             if(diameterPath == null || pathRoute.Distance > diameterPath.Distance)
                             {
                                 diameterPath = pathRoute;
+                                // Console.WriteLine(source.Id + " " + target.Id);
                             }
                         }
                     }

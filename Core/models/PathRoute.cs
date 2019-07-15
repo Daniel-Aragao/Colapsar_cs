@@ -41,7 +41,7 @@ namespace Core.models
         {
             if(nodes == null)
             {
-                throw new ArgumentNullException("Edges can't be null");
+                throw new ArgumentNullException("Nodes can't be null");
             }
 
             this.Nodes = nodes;
