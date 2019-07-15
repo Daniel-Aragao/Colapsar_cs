@@ -537,12 +537,27 @@ namespace Tests
             Assert.Equal(expected, resultLong);
         }
 
-        // Graph.cs TESTS TO BE IMPLEMENTED
+        [Fact]
+        public void ReturnTheCorrectAvgPathLengthForGraph5()
+        {
+        //Given
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_5.avgplength.txt");
+            var avgpl = graph.AveragePathLenght();
 
-        // public void avgPathLenght()
-        // {
-        //     throw new NotImplementedException();
-        // }
+            Assert.Equal(1.33333, Math.Round(avgpl, ROUND_FIXED));
+        }
+
+        [Fact]
+        public void ReturnTheCorrectAvgPathLengthForRegularGraph3x3()
+        {
+        //Given
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "RegularGraph_3_3_2019_7_15_16_56_22.txt");
+            var avgpl = graph.AveragePathLenght();
+
+            Assert.Equal(2, Math.Round(avgpl, ROUND_FIXED));
+        }
+
+        // Graph.cs TESTS TO BE IMPLEMENTED
 
         // public void connectedComponent()
         // {
