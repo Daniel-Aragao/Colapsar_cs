@@ -74,7 +74,10 @@ namespace Core.models
     public enum EPathStatus
     {   
         Found=0,
-        NotFound=1
+        NotFound=1,
+        FailOnRouteBuilding=2,
+        SourceOrTargetDoNotExist=3,
+        SourceAndTargetAreToCloseToCollapse=4
     }
 
 }

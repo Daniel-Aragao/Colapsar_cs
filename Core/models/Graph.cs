@@ -279,6 +279,11 @@ namespace Core.models
                 {
                     parent = parents[parent.Id];
                     nodes.Add(parent);
+
+                    if(parent == null)
+                    {
+                        new PathRoute(nodes.Reverse().ToArray(), weightToNode[target.Id], EPathStatus.FailOnRouteBuilding);
+                    }
                 }
 
                 var pathRoute = new PathRoute(nodes.Reverse().ToArray(), weightToNode[target.Id], EPathStatus.Found);
