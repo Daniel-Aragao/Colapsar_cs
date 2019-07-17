@@ -40,6 +40,11 @@ namespace Core.models
             return this.OtherAttributes[attr];
         }
 
+        public IList<string> getAttributes()
+        {
+            return new List<string>(this.OtherAttributes.Keys);
+        }
+
         public int CompareTo(Edge e1, Edge e2)
         {
             return e1.Weight.CompareTo(e2.Weight);

@@ -364,6 +364,11 @@ namespace Core.models
             throw new NotImplementedException();
         }
 
+        public Graph Clone()
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())

@@ -106,5 +106,11 @@ namespace Tests
             Assert.False(g.Equals(graphImported));
         }
 
+        [Fact]
+        public void CollapseCorrectlyTheGraph1Node1()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
