@@ -18,4 +18,10 @@
     <ProjectReference Include="..\Infra\Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="$(ProjectDir)misc\**" 
+          LinkBase="misc\" 
+          CopyToOutputDirectory="Always"/>
+  </ItemGroup>
+
 </Project>

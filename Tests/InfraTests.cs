@@ -16,9 +16,10 @@ namespace Tests
         const double MIN_DIFFERENCE = 0.000001;
         const int ROUND_FIXED = 5;
         const int ROUND_FIXED_FOR_DISTANCE = 2;
+        public const string file_path = "misc/";
         // public const string file_path = "/home/daniel/Documentos/Git/Colapsar_cs/Tests/misc/";
         // (.*Colapsar_cs\/).*
-        public const string file_path = "/home/danielaragao/Documents/Git/Colapsar_cs/Tests/misc/";
+        // public const string file_path = "/home/danielaragao/Documents/Git/Colapsar_cs/Tests/misc/";
 
         Func<Graph>[] Gs;
 
