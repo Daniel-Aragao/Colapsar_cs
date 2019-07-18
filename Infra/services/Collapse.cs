@@ -11,7 +11,7 @@ namespace Infra.services
         {
             IList<Node> nodes = Collapse.GetNodesInRadius(graph.Nodes, source, radius);
 
-            var superNode = graph.CreateNode(id, "super" + id, weight);
+            var superNode = graph.CreateNode(id, "super_" + id, weight);
 
             foreach(var node in nodes)
             {
@@ -19,12 +19,15 @@ namespace Infra.services
 
                 foreach(var edge in edges)
                 {
-                    var newEdge = graph.CreateEdge(edge.Source, superNode);
-                    newEdge.PutAttribute("original_edge", edge);
-
-                    foreach(var attribute in newEdge.getAttributes())
+                    if (edge.Source != superNode)
                     {
-                        newEdge.PutAttribute(attribute, newEdge.GetAttribute(attribute));
+                        var newEdge = graph.CreateEdge(edge.Source, superNode);
+                        newEdge.PutAttribute("original_edge", edge);
+
+                        foreach(var attribute in newEdge.getAttributes())
+                        {
+                            newEdge.PutAttribute(attribute, newEdge.GetAttribute(attribute));
+                        }
                     }
                 }
 
@@ -32,12 +35,15 @@ namespace Infra.services
 
                 foreach(var edge in edges)
                 {
-                    var newEdge = graph.CreateEdge(superNode, edge.Target);
-                    newEdge.PutAttribute("original_edge", edge);
-
-                    foreach(var attribute in newEdge.getAttributes())
+                    if (edge.Target != superNode)
                     {
-                        newEdge.PutAttribute(attribute, newEdge.GetAttribute(attribute));
+                        var newEdge = graph.CreateEdge(superNode, edge.Target);
+                        newEdge.PutAttribute("original_edge", edge);
+
+                        foreach(var attribute in newEdge.getAttributes())
+                        {
+                            newEdge.PutAttribute(attribute, newEdge.GetAttribute(attribute));
+                        }
                     }
                 }
             }
@@ -45,7 +51,7 @@ namespace Infra.services
             return superNode;
         }
 
-        private static IList<Node> GetNodesInRadius(IDictionary<long, Node> nodes, Node source, double radius)
+        public static IList<Node> GetNodesInRadius(IDictionary<long, Node> nodes, Node source, double radius)
         {
             IList<Node> neightbours = new List<Node>();
 

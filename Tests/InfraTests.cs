@@ -105,6 +105,32 @@ namespace Tests
         }
 
         [Fact]
+        public void GetNeightboursInRadius100ForNorvigGraph()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+            var bucharest = graph.getNodeByLabel("Bucharest");
+
+            var nodes = Collapse.GetNodesInRadius(graph.Nodes, bucharest, 100);
+
+            var nodesIds = from node in nodes select node.Id;
+
+            Assert.Equal(new long[] {12, 13, 14, 15}, nodesIds);
+        }
+
+        [Fact]
+        public void GetNeightboursInRadius200ForNorvigGraph()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+            var bucharest = graph.getNodeByLabel("Bucharest");
+
+            var nodes = Collapse.GetNodesInRadius(graph.Nodes, bucharest, 200);
+
+            var nodesIds = from node in nodes select node.Id;
+
+            Assert.Equal(new long[] {8, 9, 11, 12, 13, 14, 15, 16, 17, 18}, nodesIds);
+        }
+
+        [Fact]
         public void CollapseBucharestFromNorvigGraphCorrectlyWithRadius100()
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
@@ -122,14 +148,54 @@ namespace Tests
             var superNodeEdgesOut = (from edge in superNode.EdgesOut()
                                     select edge.Target.Id).ToList();
             
-            superNodeEdgesIn.ForEach(Console.WriteLine);
-
-            Assert.Equal(new long[] {8, 9, 13, 11, 12, 12, 14, 15}, superNodeEdgesIn);
-            Assert.Equal(new long[] {8, 9, 11, 12, 13, 14, 15}, superNodeEdgesOut);
-
-            // throw new NotImplementedException();
+            Assert.Equal(new long[] {8, 9, 13, 11, 12, 14, 15, 13, 13, 16, 18}, superNodeEdgesIn);
+            Assert.Equal(new long[] {8, 9, 13, 11, 12, 14, 15, 13, 13, 16, 18}, superNodeEdgesOut);
         }
 
+        [Fact]
+        public void CollapseBucharestFromNorvigGraphCorrectlyWithRadius200()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+
+            var bucharest = graph.getNodeByLabel("Bucharest");
+
+            var superNode = Collapse.collapse(graph, bucharest, 200, -2, 3);
+            
+            Assert.Equal(-2, superNode.Id);
+            Assert.Equal(3, superNode.Weight);
+
+            var superNodeEdgesIn = (from edge in superNode.EdgesIn()
+                                    select edge.Source.Id).ToList();
+
+            var superNodeEdgesOut = (from edge in superNode.EdgesOut()
+                                    select edge.Target.Id).ToList();
+            
+            Assert.Equal(new long[] {8, 9, 13, 11, 12, 14, 15, 13, 13, 16, 18}, superNodeEdgesIn);
+            Assert.Equal(new long[] {8, 9, 13, 11, 12, 14, 15, 13, 13, 16, 18}, superNodeEdgesOut);
+        }
+
+        [Fact]
+        public void CollapseNode4FromAvgplengthGraphCorrectlyWithRadius1()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_5.avgplength.txt");
+
+            var p_4 = graph.Nodes[4];
+
+            var superNode = Collapse.collapse(graph, p_4, 100, -70, 7);
+            
+            Assert.Equal(-70, superNode.Id);
+            Assert.Equal(7, superNode.Weight);
+
+            var superNodeEdgesIn = (from edge in superNode.EdgesIn()
+                                    select edge.Source.Id).ToList();
+
+            var superNodeEdgesOut = (from edge in superNode.EdgesOut()
+                                    select edge.Target.Id).ToList();
+            
+            // superNodeEdgesIn.ForEach(Console.WriteLine);
+            Assert.Equal(new long[] {1, 2, 3, 4}, superNodeEdgesIn);
+            Assert.Equal(new long[] {1, 2, 4, 3}, superNodeEdgesOut);
+        }
         // collapse tests
 
     }

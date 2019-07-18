@@ -557,6 +557,83 @@ namespace Tests
             Assert.Equal(2, Math.Round(avgpl, ROUND_FIXED));
         }
 
+        [Fact]
+        public void GetTheCorrectEdgesInForBucharestInNorvigGraph()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+
+            var bucharest = graph.getNodeByLabel("Bucharest");
+
+            var edgesIn = (from edge in bucharest.EdgesIn()
+                                    select edge.Source.Id).ToList();
+
+            Assert.Equal(new long[] {11, 12, 14, 15}, edgesIn);
+        }
+
+        [Fact]
+        public void GetTheCorrectEdgesInForSibiuInNorvigGraph()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+
+            var bucharest = graph.getNodeByLabel("Sibiu");
+
+            var edgesIn = (from edge in bucharest.EdgesIn()
+                                    select edge.Source.Id).ToList();
+
+            Assert.Equal(new long[] {1, 3, 9, 11}, edgesIn);
+        }
+
+        [Fact]
+        public void GetTheCorrectEdgesOutForBucharestInNorvigGraph()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+
+            var bucharest = graph.getNodeByLabel("Bucharest");
+
+            var edgesIn = (from edge in bucharest.EdgesOut()
+                                    select edge.Target.Id).ToList();
+
+            Assert.Equal(new long[] {11, 12, 14, 15}, edgesIn);
+        }
+
+        [Fact]
+        public void GetTheCorrectEdgesOutForSibiuInNorvigGraph()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+
+            var bucharest = graph.getNodeByLabel("Sibiu");
+
+            var edgesIn = (from edge in bucharest.EdgesOut()
+                                    select edge.Target.Id).ToList();
+
+            Assert.Equal(new long[] {1, 3, 9, 11}, edgesIn);
+        }
+
+        [Fact]
+        public void GetTheCorrectNeighborsInForBucharestInNorvigGraph()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_4.bus-network.txt");
+            var p2163 = graph.Nodes[2163];
+
+            p2163.NeighborsIn();
+            var edgesIn = (from edge in p2163.EdgesIn()
+                                    select edge.Source.Id).ToList();
+
+            Assert.Equal(new long[] {2165, 2522}, edgesIn);
+        }
+
+        [Fact]
+        public void GetTheCorrectNeighborsOutForBucharestInNorvigGraph()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_4.bus-network.txt");
+            var p2162 = graph.Nodes[2162];
+
+            p2162.NeighborsIn();
+            var edgesIn = (from edge in p2162.EdgesOut()
+                                    select edge.Target.Id).ToList();
+
+            Assert.Equal(new long[] {2529, 6236}, edgesIn);
+        }
         // Graph.cs TESTS TO BE IMPLEMENTED
 
         // public void connectedComponent()
@@ -565,16 +642,6 @@ namespace Tests
         // }
 
         // public void biggestComponent()
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void neighboursin/out/-()
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void edgesin/out()
         // {
         //     throw new NotImplementedException();
         // }
