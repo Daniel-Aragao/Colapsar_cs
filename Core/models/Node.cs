@@ -67,11 +67,11 @@ namespace Core.models
         
         public IList<Edge> EdgesIn()
         {
-            return Edges.Where(edge => edge.Source == this).ToList();
+            return Edges.Where(edge => edge.Target == this).ToList();
         }
         public IList<Edge> EdgesOut()
         {
-            return Edges.Where(edge => edge.Target == this).ToList();
+            return Edges.Where(edge => edge.Source == this).ToList();
         }
 
         public IList<Node> Neighbors()

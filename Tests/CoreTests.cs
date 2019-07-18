@@ -568,5 +568,15 @@ namespace Tests
         // {
         //     throw new NotImplementedException();
         // }
+
+        // public void neighboursin/out/-()
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public void edgesin/out()
+        // {
+        //     throw new NotImplementedException();
+        // }
     }
 }

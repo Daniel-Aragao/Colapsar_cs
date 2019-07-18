@@ -2,10 +2,8 @@ using Core.models;
 using Infra.services;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.IO;
+using System.Linq;
 
 using Xunit;
 
@@ -107,10 +105,32 @@ namespace Tests
         }
 
         [Fact]
-        public void CollapseCorrectlyTheGraph1Node1()
+        public void CollapseBucharestFromNorvigGraphCorrectlyWithRadius100()
         {
-            throw new NotImplementedException();
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+
+            var bucharest = graph.getNodeByLabel("Bucharest");
+
+            var superNode = Collapse.collapse(graph, bucharest, 100, -2, 3);
+            
+            Assert.Equal(-2, superNode.Id);
+            Assert.Equal(3, superNode.Weight);
+
+            var superNodeEdgesIn = (from edge in superNode.EdgesIn()
+                                    select edge.Source.Id).ToList();
+
+            var superNodeEdgesOut = (from edge in superNode.EdgesOut()
+                                    select edge.Target.Id).ToList();
+            
+            superNodeEdgesIn.ForEach(Console.WriteLine);
+
+            Assert.Equal(new long[] {8, 9, 13, 11, 12, 12, 14, 15}, superNodeEdgesIn);
+            Assert.Equal(new long[] {8, 9, 11, 12, 13, 14, 15}, superNodeEdgesOut);
+
+            // throw new NotImplementedException();
         }
+
+        // collapse tests
 
     }
 }

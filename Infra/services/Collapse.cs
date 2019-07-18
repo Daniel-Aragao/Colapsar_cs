@@ -51,7 +51,7 @@ namespace Infra.services
 
             foreach(var node in nodes)
             {
-                if(source.Position.DistanceFunction(source.Position, node.Value.Position) <= radius)
+                if(source.Position.DistanceFunction(node.Value.Position, source.Position) <= radius)
                 {
                     neightbours.Add(node.Value);
                 }
