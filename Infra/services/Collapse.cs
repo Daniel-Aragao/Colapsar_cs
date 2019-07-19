@@ -24,7 +24,7 @@ namespace Infra.services
                         var newEdge = graph.CreateEdge(edge.Source, superNode);
                         newEdge.PutAttribute("original_edge", edge);
 
-                        foreach(var attribute in newEdge.getAttributes())
+                        foreach(var attribute in newEdge.GetAttributes())
                         {
                             newEdge.PutAttribute(attribute, newEdge.GetAttribute(attribute));
                         }
@@ -40,7 +40,7 @@ namespace Infra.services
                         var newEdge = graph.CreateEdge(superNode, edge.Target);
                         newEdge.PutAttribute("original_edge", edge);
 
-                        foreach(var attribute in newEdge.getAttributes())
+                        foreach(var attribute in newEdge.GetAttributes())
                         {
                             newEdge.PutAttribute(attribute, newEdge.GetAttribute(attribute));
                         }

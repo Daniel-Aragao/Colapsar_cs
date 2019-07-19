@@ -40,7 +40,7 @@ namespace Core.models
             return this.OtherAttributes[attr];
         }
 
-        public IList<string> getAttributes()
+        public IList<string> GetAttributes()
         {
             return new List<string>(this.OtherAttributes.Keys);
         }

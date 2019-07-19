@@ -169,9 +169,9 @@ namespace Tests
 
             var superNodeEdgesOut = (from edge in superNode.EdgesOut()
                                     select edge.Target.Id).ToList();
-            
-            Assert.Equal(new long[] {8, 9, 13, 11, 12, 14, 15, 13, 13, 16, 18}, superNodeEdgesIn);
-            Assert.Equal(new long[] {8, 9, 13, 11, 12, 14, 15, 13, 13, 16, 18}, superNodeEdgesOut);
+            // 8 9 11 12 13 14 15 16 17 18
+            Assert.Equal(new long[] {7, 9, 12, 8, 10, 12, 10, 13, 8, 9, 13, 11, 12, 14, 15, 13, 13, 16, 18, 15, 17, 16, 15, 19}, superNodeEdgesIn);
+            Assert.Equal(new long[] {7, 9, 12, 8, 10, 12, 10, 13, 8, 9, 13, 11, 12, 14, 15, 13, 13, 16, 18, 15, 17, 16, 15, 19}, superNodeEdgesOut);
         }
 
         [Fact]
@@ -181,7 +181,7 @@ namespace Tests
 
             var p_4 = graph.Nodes[4];
 
-            var superNode = Collapse.collapse(graph, p_4, 100, -70, 7);
+            var superNode = Collapse.collapse(graph, p_4, 1.5, -70, 7);
             
             Assert.Equal(-70, superNode.Id);
             Assert.Equal(7, superNode.Weight);
@@ -192,8 +192,7 @@ namespace Tests
             var superNodeEdgesOut = (from edge in superNode.EdgesOut()
                                     select edge.Target.Id).ToList();
             
-            // superNodeEdgesIn.ForEach(Console.WriteLine);
-            Assert.Equal(new long[] {1, 2, 3, 4}, superNodeEdgesIn);
+            Assert.Equal(new long[] {1, 2, 4, 3}, superNodeEdgesIn);
             Assert.Equal(new long[] {1, 2, 4, 3}, superNodeEdgesOut);
         }
         // collapse tests

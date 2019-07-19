@@ -20,6 +20,7 @@ namespace Core.models
         
         public Node()
         {
+
         }
 
         public Node(long id)
@@ -98,13 +99,13 @@ namespace Core.models
             return Edges.Where(edge => edge.Source == this && edge.Target == target).ToList();
         }
 
-        public static PathRoute shortestPathBetweenNeihbours(Node source, Node target)
+        public static PathRoute ShortestPathBetweenNeihbours(Node source, Node target)
         {
-            return Node.shortestPathBetweenNeihbours(source, target, defaultShortestPath);
+            return Node.ShortestPathBetweenNeihbours(source, target, defaultShortestPath);
         }
 
 
-        public static PathRoute shortestPathBetweenNeihbours(Node source, Node target, Func<Edge, double> edgeWeightCalculation)
+        public static PathRoute ShortestPathBetweenNeihbours(Node source, Node target, Func<Edge, double> edgeWeightCalculation)
         {
             Edge shortestEdge = null;
             var shortest = 0d;

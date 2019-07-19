@@ -117,8 +117,6 @@ namespace Core.models
         {
             IList<Edge> edges = this.Edges.Where(edge => edge.Source == node || edge.Target == node).ToList();
 
-            Console.WriteLine(edges.Count);
-
             foreach(Edge edge in edges)
             {
                 this.RemoveEdge(edge);
@@ -237,7 +235,7 @@ namespace Core.models
                 
                 foreach (Node children in childrens)
                 {
-                    var bestRouteToChildren = Node.shortestPathBetweenNeihbours(current, children, edgeWeightCalculation);
+                    var bestRouteToChildren = Node.ShortestPathBetweenNeihbours(current, children, edgeWeightCalculation);
 
                     Edge edge = bestRouteToChildren.Edges[0];
                     var weight = bestRouteToChildren.Distance;
@@ -344,7 +342,6 @@ namespace Core.models
                             if(diameterPath == null || pathRoute.Distance > diameterPath.Distance)
                             {
                                 diameterPath = pathRoute;
-                                // Console.WriteLine(source.Id + " " + target.Id);
                             }
                         }
                     }
