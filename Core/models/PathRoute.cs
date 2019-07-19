@@ -77,7 +77,8 @@ namespace Core.models
         NotFound=1,
         FailOnRouteBuilding=2,
         SourceOrTargetDoNotExist=3,
-        SourceAndTargetAreToCloseToCollapse=4
+        SourceAndTargetAreToCloseToCollapse=4,
+        SourceAndTargetAreEqual=5
     }
 
 }
