@@ -118,7 +118,7 @@ namespace Core.models
                     returnString += "Source and target should should exist in the given Graph and must not be null";
                     break;
 
-                case EPathStatus.UnknowException:
+                case EPathStatus.UnexpectedException:
                     returnString += "An Unexpected error happened" + PathRoute.SEPARATOR + this.Exception.Message.Replace('\n', '\t') + PathRoute.SEPARATOR + this.Exception.TargetSite;
                     break;                
             }
@@ -152,7 +152,7 @@ namespace Core.models
         SourceOrTargetDoNotExist = 3,
         SourceAndTargetAreToCloseToCollapse = 4,
         SourceAndTargetAreEqual = 5,
-        UnknowException = 6
+        UnexpectedException = 6
     }
 
 }

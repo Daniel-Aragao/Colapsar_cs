@@ -59,7 +59,7 @@ namespace Infra.services
                 Collapse.Expand(this.Graph, -1);
                 Collapse.Expand(this.Graph, -2);
 
-                return new PathRoute(EPathStatus.UnknowException, e);
+                return new PathRoute(EPathStatus.UnexpectedException, e);
             }
         }
 

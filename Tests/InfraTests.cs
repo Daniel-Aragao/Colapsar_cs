@@ -195,6 +195,36 @@ namespace Tests
             Assert.Equal(new long[] {1, 2, 4, 3}, superNodeEdgesIn);
             Assert.Equal(new long[] {1, 2, 4, 3}, superNodeEdgesOut);
         }
+
+        [Fact]
+        public void CollapseBucharestFromNorvigGraphCorrectlyWithRadius200AndReturnTheCorrectGraph()
+        {
+            Graph graphCollapsed = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+            Graph graphOriginal = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+
+            var bucharest = graphCollapsed.GetNodeByLabel("Bucharest");
+
+            var superNode = Collapse.collapse(graphCollapsed, bucharest, 200, -2, 3);
+
+            Assert.Equal(graphOriginal.NodesSize + 1, graphCollapsed.NodesSize);
+            Assert.Equal(graphOriginal.EdgesSize + 48, graphCollapsed.EdgesSize);
+        }
+
+        [Fact]
+        public void CollapseBucharestFromNorvigGraphCorrectlyWithRadius200ExpandAndReturnTheCorrectGraph()
+        {
+            Graph graphCollapsed = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+            Graph graphOriginal = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+
+            var bucharest = graphCollapsed.GetNodeByLabel("Bucharest");
+
+            var superNode = Collapse.collapse(graphCollapsed, bucharest, 200, -2, 3);
+
+            Collapse.Expand(graphCollapsed, superNode);
+
+            Assert.Equal(graphOriginal, graphCollapsed);
+        }
+
         // collapse tests
 
     }
