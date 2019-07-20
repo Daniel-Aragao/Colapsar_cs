@@ -14,7 +14,7 @@ namespace Infra.services
 
         public override PathRoute Search(Node source, Node target, double radius)
         {
-            if (source == null || target == null || !this.Graph.Nodes.ContainsKey(source.Id) || !this.Graph.Nodes.ContainsKey(target.Id))
+            if (source == null || target == null || !this.Graph.ExistNode(source.Id) || !this.Graph.ExistNode(target.Id))
             {
                 return new PathRoute(EPathStatus.SourceOrTargetDoNotExist);
             }
@@ -65,7 +65,7 @@ namespace Infra.services
 
         public static Node collapse(Graph graph, Node source, double radius, long id = -1, double weight = 0)
         {
-            IList<Node> nodes = Collapse.GetNodesInRadius(graph.Nodes, source, radius);
+            IList<Node> nodes = graph.GetNodesByRadius(source, radius);
 
             var superNode = graph.CreateNode(id, "super_" + id, weight);
 
@@ -109,27 +109,12 @@ namespace Infra.services
 
         public static void Expand(Graph graph, long superNodeId)
         {
-            Expand(graph, graph.Nodes[superNodeId]);
+            Expand(graph, graph.GetNodeById(superNodeId));
         }
 
         public static void Expand(Graph graph, Node superNode)
         {
             var removed = graph.RemoveNode(superNode);
-        }
-
-        public static IList<Node> GetNodesInRadius(IDictionary<long, Node> nodes, Node source, double radius)
-        {
-            IList<Node> neightbours = new List<Node>();
-
-            foreach (var node in nodes)
-            {
-                if (source.Position.DistanceFunction(node.Value.Position, source.Position) <= radius)
-                {
-                    neightbours.Add(node.Value);
-                }
-            }
-
-            return neightbours;
         }
     }
 }

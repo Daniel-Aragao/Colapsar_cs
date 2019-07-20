@@ -9,10 +9,14 @@ namespace Core.models
     public class Graph
     {
         public string Name { get; set; }
-        public Dictionary<long, Node> Nodes { get; private set; } = new Dictionary<long, Node>();
-        public IList<Edge> Edges { get; private set; } = new List<Edge>();
-        public int Size { get { return this.Nodes.Count; } }
-        public Node Hub { get { return this.Nodes.OrderByDescending(k => k.Value.Degree).First().Value; } }
+        private Dictionary<long, Node> _nodes = new Dictionary<long, Node>();
+        public int NodesSize { get {return this._nodes.Count;} }
+
+        // public IList<Node> Nodes { get { return this._nodes.Values.ToList();} }
+        private IList<Edge> _edges = new List<Edge>();
+        public int EdgesSize { get {return this._edges.Count;} }
+        public int Size { get { return this._nodes.Count; } }
+        public Node Hub { get { return this._nodes.OrderByDescending(k => k.Value.Degree).First().Value; } }
         public bool Directed { get { return true; } }
 
         public Graph()
@@ -27,14 +31,14 @@ namespace Core.models
 
         public Node CreateNode(long id, string label, double weight = 0)
         {
-            if (Nodes.ContainsKey(id))
+            if (_nodes.ContainsKey(id))
             {
                 return null;
             }
 
             var node = new Node(id, label, weight);
 
-            this.Nodes.Add(id, node);
+            this._nodes.Add(id, node);
 
             return node;
         }
@@ -53,30 +57,30 @@ namespace Core.models
             if (source != target)
                 target.Edges.Add(edge);
 
-            this.Edges.Add(edge);
+            this._edges.Add(edge);
 
             return edge;
         }
 
         public Edge CreateEdge(long idSource, long idTarget, double weight = 0)
         {
-            if (!this.Nodes.ContainsKey(idSource) || !this.Nodes.ContainsKey(idTarget))
+            if (!this._nodes.ContainsKey(idSource) || !this._nodes.ContainsKey(idTarget))
             {
                 throw new ArgumentNullException("Source or Target id does not exist");
             }
 
-            return this.CreateEdge(this.Nodes[idSource], this.Nodes[idTarget], weight);
+            return this.CreateEdge(this._nodes[idSource], this._nodes[idTarget], weight);
         }
 
         public Node RemoveNode(long id)
         {
-            if (this.Nodes.ContainsKey(id))
+            if (this._nodes.ContainsKey(id))
             {
-                Node node = this.Nodes[id];
+                Node node = this._nodes[id];
 
                 this.RemoveEdges(node);
 
-                if (this.Nodes.Remove(id))
+                if (this._nodes.Remove(id))
                 {
                     return node;
                 }
@@ -92,7 +96,7 @@ namespace Core.models
 
         public Edge RemoveEdge(Edge edge)
         {
-            if (this.Edges.Remove(edge))
+            if (this._edges.Remove(edge))
             {
                 edge.Source.Edges.Remove(edge);
                 edge.Target.Edges.Remove(edge);
@@ -105,7 +109,7 @@ namespace Core.models
 
         public IList<Edge> RemoveEdges(Node source, Node target)
         {
-            IList<Edge> edges = this.Edges.Where(edge => edge.Source == source && edge.Target == target).ToList();
+            IList<Edge> edges = this._edges.Where(edge => edge.Source == source && edge.Target == target).ToList();
 
             foreach (Edge edge in edges)
             {
@@ -117,7 +121,7 @@ namespace Core.models
 
         public IList<Edge> RemoveEdges(Node node)
         {
-            IList<Edge> edges = this.Edges.Where(edge => edge.Source == node || edge.Target == node).ToList();
+            IList<Edge> edges = this._edges.Where(edge => edge.Source == node || edge.Target == node).ToList();
 
             foreach (Edge edge in edges)
             {
@@ -127,23 +131,58 @@ namespace Core.models
             return edges;
         }
 
-        public Node getNodeByLabel(string label)
+        public bool ExistNode(long id)
         {
-            return this.Nodes.First(keypair => label.Equals(keypair.Value.Label)).Value;
+            return this._nodes.ContainsKey(id);
         }
 
-        public Edge getEdgeByLabel(string label)
+        public Node GetNodeById(long id)
         {
-            return this.Edges.First(edge => label.Equals(edge.Label));
+            if(this._nodes.ContainsKey(id))
+            {
+                return this._nodes[id];
+            }
+
+            return null;
+        }
+
+        public Node GetNodeByLabel(string label)
+        {
+            return this._nodes.First(keypair => label.Equals(keypair.Value.Label)).Value;
+        }
+
+        public IList<Node> GetNodesByRadius(Node source, double radius)
+        {
+            IList<Node> neightbours = new List<Node>();
+
+            foreach (var node in this._nodes)
+            {
+                if (source.Position.DistanceFunction(node.Value.Position, source.Position) <= radius)
+                {
+                    neightbours.Add(node.Value);
+                }
+            }
+
+            return neightbours;
+        }
+
+        public Edge GetEdgeByLabel(string label)
+        {
+            return this._edges.First(edge => label.Equals(edge.Label));
+        }
+
+        public Edge GetEdgeByIndex(int index)
+        {
+            return this._edges[index];
         }
 
         public double GetClusteringCoefficient()
         {
             double coefficient = 0d;
 
-            float N = this.Nodes.Count;
+            float N = this._nodes.Count;
 
-            foreach (var pair in this.Nodes)
+            foreach (var pair in this._nodes)
             {
                 double coef = pair.Value.GetLocalClusteringCoefficient();
 
@@ -158,8 +197,8 @@ namespace Core.models
 
         public double Density()
         {
-            float edgesSize = this.Edges.Count;
-            float nodesSize = this.Nodes.Count;
+            float edgesSize = this._edges.Count;
+            float nodesSize = this._nodes.Count;
 
             // if(!directed)
             // {
@@ -170,10 +209,10 @@ namespace Core.models
 
         public double Entropy()
         {
-            float nodesSize = this.Nodes.Count;
+            float nodesSize = this._nodes.Count;
             double summ = 0f;
 
-            var probabilities = from node in this.Nodes
+            var probabilities = from node in this._nodes
                                 group node by node.Value.Degree into degrees
                                 select new { Key = degrees.Key, Value = degrees.Count() / nodesSize };
 
@@ -325,7 +364,7 @@ namespace Core.models
         {
             double avg = 0;
 
-            var nodes = this.Nodes.Values;
+            var nodes = this._nodes.Values;
 
             int nodesSize = nodes.Count;
             int possibleEdges = nodesSize * (nodesSize - 1);
@@ -355,7 +394,7 @@ namespace Core.models
         {
             PathRoute diameterPath = null;
 
-            var nodes = this.Nodes.Values;
+            var nodes = this._nodes.Values;
 
             foreach (var source in nodes)
             {
@@ -403,29 +442,29 @@ namespace Core.models
 
             var graph = (Graph)obj;
 
-            if (this.Nodes.Count != graph.Nodes.Count || this.Edges.Count != graph.Edges.Count)
+            if (this._nodes.Count != graph._nodes.Count || this._edges.Count != graph._edges.Count)
             {
                 return false;
             }
 
-            foreach (var node in this.Nodes)
+            foreach (var node in this._nodes)
             {
-                if (!graph.Nodes.ContainsKey(node.Key))
+                if (!graph._nodes.ContainsKey(node.Key))
                 {
                     return false;
                 }
 
-                if (!graph.Nodes[node.Key].Equals(node.Value))
+                if (!graph._nodes[node.Key].Equals(node.Value))
                 {
                     return false;
                 }
             }
 
-            foreach (var edge1 in this.Edges)
+            foreach (var edge1 in this._edges)
             {
                 var haveEqual = false;
 
-                foreach (var edge2 in graph.Edges)
+                foreach (var edge2 in graph._edges)
                 {
                     if (edge1.Equals(edge2))
                     {

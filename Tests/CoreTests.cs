@@ -108,7 +108,7 @@ namespace Tests
         [InlineData(3,4)]
         public void TheGivenGraphMustHaveTheGivenNodes(int gId, int nodeSize)
         {
-            Assert.Equal(nodeSize, getGraph(gId).Nodes.Count);
+            Assert.Equal(nodeSize, getGraph(gId).NodesSize);
         }
 
         [Theory]
@@ -118,7 +118,7 @@ namespace Tests
         [InlineData(3,12)]
         public void TheGivenGraphMustHaveTheGivenEdges(int gId, int edgesSize)
         {
-            Assert.Equal(edgesSize, getGraph(gId).Edges.Count);
+            Assert.Equal(edgesSize, getGraph(gId).EdgesSize);
         }
 
         [Fact]
@@ -137,7 +137,7 @@ namespace Tests
             g0_modified.CreateEdge(3, 4);
 
             var g0 = this.G0();
-            var edge = g0.Edges[1];
+            var edge = g0.GetEdgeByIndex(1);
 
             g0.RemoveEdge(edge);
             
@@ -161,8 +161,8 @@ namespace Tests
             g0_modified.CreateEdge(3, 4);
 
             var g0 = this.G0();
-            var n2 = g0.Nodes[2];
-            var n3 = g0.Nodes[3];
+            var n2 = g0.GetNodeById(2);
+            var n3 = g0.GetNodeById(3);
 
             g0.RemoveEdges(n2, n3);
 
@@ -185,12 +185,12 @@ namespace Tests
             g3_modified.CreateEdge(4, 2);
             
             var g3 = this.G3();
-            var n3 = g3.Nodes[3];
+            var n3 = g3.GetNodeById(3);
 
             g3.RemoveNode(n3);
 
-            Assert.Equal(g3_modified.Nodes.Count, g3.Nodes.Count);
-            Assert.Equal(g3_modified.Edges.Count, g3.Edges.Count);
+            Assert.Equal(g3_modified.NodesSize, g3.NodesSize);
+            Assert.Equal(g3_modified.EdgesSize, g3.EdgesSize);
             Assert.True(g3_modified.Equals(g3));
         }
 
@@ -199,11 +199,11 @@ namespace Tests
         {
             Graph g = this.G0();
             IList<Node> correctNodes = new List<Node>();
-            correctNodes.Add(g.Nodes[1]);
-            correctNodes.Add(g.Nodes[3]);
-            correctNodes.Add(g.Nodes[4]);
+            correctNodes.Add(g.GetNodeById(1));
+            correctNodes.Add(g.GetNodeById(3));
+            correctNodes.Add(g.GetNodeById(4));
 
-            var nodes = g.Nodes[2].Neighbors();
+            var nodes = g.GetNodeById(2).Neighbors();
 
             Assert.Equal(correctNodes, nodes, nodeEqualityComparer);
         }
@@ -213,10 +213,10 @@ namespace Tests
         {
             Graph g = this.G1();
             IList<Node> correctNodes = new List<Node>();
-            correctNodes.Add(g.Nodes[1]);
-            correctNodes.Add(g.Nodes[4]);
+            correctNodes.Add(g.GetNodeById(1));
+            correctNodes.Add(g.GetNodeById(4));
 
-            var nodes = g.Nodes[3].Neighbors();
+            var nodes = g.GetNodeById(3).Neighbors();
 
             Assert.Equal(correctNodes, nodes, nodeEqualityComparer);
         }
@@ -226,10 +226,10 @@ namespace Tests
         {
             Graph g = this.G1();
             IList<Node> correctNodes = new List<Node>();
-            correctNodes.Add(g.Nodes[1]);
-            correctNodes.Add(g.Nodes[3]);
+            correctNodes.Add(g.GetNodeById(1));
+            correctNodes.Add(g.GetNodeById(3));
 
-            var nodes = g.Nodes[4].Neighbors();
+            var nodes = g.GetNodeById(4).Neighbors();
 
             Assert.Equal(correctNodes, nodes, nodeEqualityComparer);
             Assert.Equal(2, nodes.Count);
@@ -239,14 +239,14 @@ namespace Tests
         public void InGraph0TheNode1MustReturnTheCorrectEdgeNumberIn_EdgesWhenSourceOfTarget()
         {
             Graph g = G0();
-            var target = g.Nodes[2];
-            var edges = g.Nodes[1].EdgesWhenSourceOf(target);
+            var target = g.GetNodeById(2);
+            var edges =  g.GetNodeById(1).EdgesWhenSourceOf(target);
 
             Assert.Equal(1, edges.Count);
 
             foreach(Edge edge in edges)
             {
-                Assert.Equal(edge.Source, g.Nodes[1]);
+                Assert.Equal(edge.Source, g.GetNodeById(1));
                 Assert.Equal(edge.Target, target);
             }
         }
@@ -270,7 +270,7 @@ namespace Tests
         [InlineData(3, 4, 3)]
         public void ReturnTheCorrectAmountOfNeihboursForTheGivenGraphAndGivenNode(int gId, int nId, double result)
         {
-            Assert.Equal(result, getGraph(gId).Nodes[nId].Neighbors().Count);
+            Assert.Equal(result, getGraph(gId).GetNodeById(nId).Neighbors().Count);
         }
 
         [Theory]
@@ -280,7 +280,7 @@ namespace Tests
         [InlineData(3, 1)]
         public void ReturnTheCorrectLocalClusterCoefficientGivenTheGraphAndNodeN1AndDirectedGraph(int gId, double result)
         {
-            var coef = getGraph(gId).Nodes[1].GetLocalClusteringCoefficient();
+            var coef = getGraph(gId).GetNodeById(1).GetLocalClusteringCoefficient();
             
             Assert.Equal(result, Math.Round(coef, CoreTests.ROUND_FIXED));
         }
@@ -314,11 +314,11 @@ namespace Tests
             var g = G0();
             
             Edge[] edges = new Edge[3];
-            edges[0] = g.Nodes[1].EdgesWhenSourceOf(g.Nodes[2])[0];
-            edges[1] = g.Nodes[2].EdgesWhenSourceOf(g.Nodes[3])[0];
-            edges[2] = g.Nodes[3].EdgesWhenSourceOf(g.Nodes[4])[0];
+            edges[0] = g.GetNodeById(1).EdgesWhenSourceOf(g.GetNodeById(2))[0];
+            edges[1] = g.GetNodeById(2).EdgesWhenSourceOf(g.GetNodeById(3))[0];
+            edges[2] = g.GetNodeById(3).EdgesWhenSourceOf(g.GetNodeById(4))[0];
 
-            Node[] nodes = new Node[] { g.Nodes[1], g.Nodes[2], g.Nodes[3], g.Nodes[4]};
+            Node[] nodes = new Node[] { g.GetNodeById(1), g.GetNodeById(2), g.GetNodeById(3), g.GetNodeById(4)};
 
             PathRoute pr = new PathRoute(edges, 4, EPathStatus.Found);
 
@@ -381,11 +381,11 @@ namespace Tests
 
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
             
-            var arad = graph.getNodeByLabel("Arad");
-            var sibiu = graph.getNodeByLabel("Sibiu");
-            var rimnicuVilcea = graph.getNodeByLabel("Rimnicu Vilcea");
-            var pitesti = graph.getNodeByLabel("Pitesti");
-            var bucharest = graph.getNodeByLabel("Bucharest");
+            var arad = graph.GetNodeByLabel("Arad");
+            var sibiu = graph.GetNodeByLabel("Sibiu");
+            var rimnicuVilcea = graph.GetNodeByLabel("Rimnicu Vilcea");
+            var pitesti = graph.GetNodeByLabel("Pitesti");
+            var bucharest = graph.GetNodeByLabel("Bucharest");
 
             var route = Graph.ShortestPathHeuristic(arad, bucharest);
 
@@ -401,8 +401,8 @@ namespace Tests
 
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_4.bus-network.txt");
             
-            var p_5729 = graph.Nodes[5729];
-            var p_2500 = graph.Nodes[2500];
+            var p_5729 = graph.GetNodeById(5729);
+            var p_2500 = graph.GetNodeById(2500);
 
             var route = Graph.ShortestPathHeuristic(p_5729, p_2500);
 
@@ -422,8 +422,8 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "SmallWorldGraph_5_5_0.05_2019_7_12_17_35_12.txt");
             
-            var p_4 = graph.Nodes[4];
-            var p_21 = graph.Nodes[21];
+            var p_4 =  graph.GetNodeById(4);
+            var p_21 = graph.GetNodeById(21);
 
             var route = Graph.ShortestPathHeuristic(p_4, p_21);
 
@@ -443,8 +443,8 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "SmallWorldGraph_5_5_0.05_2019_7_12_17_35_12.txt");
             
-            var p_4 = graph.Nodes[4];
-            var p_21 = graph.Nodes[21];
+            var p_4 =  graph.GetNodeById(4);
+            var p_21 = graph.GetNodeById(21);
 
             var route = Graph.ShortestPathHeuristic(p_21, p_4);
 
@@ -464,8 +464,8 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "RegularGraph_5_5_2019_7_12_17_34_57.txt");
             
-            var p_8 = graph.Nodes[8];
-            var p_20 = graph.Nodes[20];
+            var p_8 =  graph.GetNodeById(8);
+            var p_20 = graph.GetNodeById(20);
 
             var route = Graph.ShortestPathHeuristic(p_8, p_20);
 
@@ -486,8 +486,8 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "RegularGraph_5_5_2019_7_12_17_34_57.txt");
             
-            var p_8 = graph.Nodes[8];
-            var p_20 = graph.Nodes[20];
+            var p_8 =  graph.GetNodeById(8);
+            var p_20 = graph.GetNodeById(20);
 
             var route = Graph.ShortestPathHeuristic(p_20, p_8);
 
@@ -563,7 +563,7 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
 
-            var bucharest = graph.getNodeByLabel("Bucharest");
+            var bucharest = graph.GetNodeByLabel("Bucharest");
 
             var edgesIn = (from edge in bucharest.EdgesIn()
                                     select edge.Source.Id).ToList();
@@ -576,7 +576,7 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
 
-            var bucharest = graph.getNodeByLabel("Sibiu");
+            var bucharest = graph.GetNodeByLabel("Sibiu");
 
             var edgesIn = (from edge in bucharest.EdgesIn()
                                     select edge.Source.Id).ToList();
@@ -589,7 +589,7 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
 
-            var bucharest = graph.getNodeByLabel("Bucharest");
+            var bucharest = graph.GetNodeByLabel("Bucharest");
 
             var edgesIn = (from edge in bucharest.EdgesOut()
                                     select edge.Target.Id).ToList();
@@ -602,7 +602,7 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
 
-            var bucharest = graph.getNodeByLabel("Sibiu");
+            var bucharest = graph.GetNodeByLabel("Sibiu");
 
             var edgesIn = (from edge in bucharest.EdgesOut()
                                     select edge.Target.Id).ToList();
@@ -614,7 +614,7 @@ namespace Tests
         public void GetTheCorrectNeighborsInForBucharestInNorvigGraph()
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_4.bus-network.txt");
-            var p2163 = graph.Nodes[2163];
+            var p2163 = graph.GetNodeById(2163);
 
             p2163.NeighborsIn();
             var edgesIn = (from edge in p2163.EdgesIn()
@@ -627,7 +627,7 @@ namespace Tests
         public void GetTheCorrectNeighborsOutForBucharestInNorvigGraph()
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_4.bus-network.txt");
-            var p2162 = graph.Nodes[2162];
+            var p2162 = graph.GetNodeById(2162);
 
             p2162.NeighborsIn();
             var edgesIn = (from edge in p2162.EdgesOut()
@@ -642,14 +642,14 @@ namespace Tests
         {
             Graph g = getGraph(3);
 
-            var p_1 = g.Nodes[1];
-            var p_3 = g.Nodes[3];
-            var p_2 = g.Nodes[2];
-            var p_4 = g.Nodes[4];
+            var p_1 = g.GetNodeById(1);
+            var p_3 = g.GetNodeById(3);
+            var p_2 = g.GetNodeById(2);
+            var p_4 = g.GetNodeById(4);
 
-            var e_1_3 = g.getEdgeByLabel("1_3");
-            var e_3_2 = g.getEdgeByLabel("3_2");
-            var e_2_4 = g.getEdgeByLabel("2_4");
+            var e_1_3 = g.GetEdgeByLabel("1_3");
+            var e_3_2 = g.GetEdgeByLabel("3_2");
+            var e_2_4 = g.GetEdgeByLabel("2_4");
 
             var edges = new Edge[] {e_1_3, e_3_2, e_2_4};
 
@@ -666,10 +666,10 @@ namespace Tests
         {
             Graph g = getGraph(3);
 
-            var p_1 = g.Nodes[1];
-            var p_3 = g.Nodes[3];
+            var p_1 = g.GetNodeById(1);
+            var p_3 = g.GetNodeById(3);
 
-            var e_1_3 = g.getEdgeByLabel("1_3");
+            var e_1_3 = g.GetEdgeByLabel("1_3");
 
             var edges = new Edge[] {e_1_3};
 
@@ -687,16 +687,16 @@ namespace Tests
 
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
             
-            var arad = graph.getNodeByLabel("Arad");
-            var sibiu = graph.getNodeByLabel("Sibiu");
-            var rimnicuVilcea = graph.getNodeByLabel("Rimnicu Vilcea");
-            var pitesti = graph.getNodeByLabel("Pitesti");
-            var bucharest = graph.getNodeByLabel("Bucharest");
+            var arad = graph.GetNodeByLabel("Arad");
+            var sibiu = graph.GetNodeByLabel("Sibiu");
+            var rimnicuVilcea = graph.GetNodeByLabel("Rimnicu Vilcea");
+            var pitesti = graph.GetNodeByLabel("Pitesti");
+            var bucharest = graph.GetNodeByLabel("Bucharest");
 
-            var edge_arad_sibiu = graph.getEdgeByLabel("arad_sibiu");
-            var edge_sibiu_rimnicu_vilcea = graph.getEdgeByLabel("sibiu_rimnicu_vilcea");
-            var edge_rimnicu_vilcea_pitesti = graph.getEdgeByLabel("rimnicu_vilcea_pitesti");
-            var edge_pitesti_bucharest = graph.getEdgeByLabel("pitesti_bucharest");
+            var edge_arad_sibiu = graph.GetEdgeByLabel("arad_sibiu");
+            var edge_sibiu_rimnicu_vilcea = graph.GetEdgeByLabel("sibiu_rimnicu_vilcea");
+            var edge_rimnicu_vilcea_pitesti = graph.GetEdgeByLabel("rimnicu_vilcea_pitesti");
+            var edge_pitesti_bucharest = graph.GetEdgeByLabel("pitesti_bucharest");
 
 
             var edges = new Edge[] {edge_arad_sibiu, edge_sibiu_rimnicu_vilcea, edge_rimnicu_vilcea_pitesti, edge_pitesti_bucharest};

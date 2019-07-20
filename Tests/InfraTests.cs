@@ -80,7 +80,7 @@ namespace Tests
             Graph graphImported = Import.LoadCityFromText(file_path + "test_graph_1.txt");
             var g = getGraph(0);
 
-            g.Edges[2].PutAttribute("type_route", 14);
+            g.GetEdgeByIndex(2).PutAttribute("type_route", 14);
 
             Assert.False(g.Equals(graphImported));
         }
@@ -99,7 +99,7 @@ namespace Tests
             Graph graphImported = Import.LoadCityFromText(file_path + "test_graph_2.txt");
             var g = getGraph(1);
 
-            g.Edges[2].PutAttribute("type_route", 14);
+            g.GetEdgeByIndex(2).PutAttribute("type_route", 14);
 
             Assert.False(g.Equals(graphImported));
         }
@@ -108,9 +108,9 @@ namespace Tests
         public void GetNeightboursInRadius100ForNorvigGraph()
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
-            var bucharest = graph.getNodeByLabel("Bucharest");
+            var bucharest = graph.GetNodeByLabel("Bucharest");
 
-            var nodes = Collapse.GetNodesInRadius(graph.Nodes, bucharest, 100);
+            var nodes = graph.GetNodesByRadius(bucharest, 100);
 
             var nodesIds = from node in nodes select node.Id;
 
@@ -121,9 +121,9 @@ namespace Tests
         public void GetNeightboursInRadius200ForNorvigGraph()
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
-            var bucharest = graph.getNodeByLabel("Bucharest");
+            var bucharest = graph.GetNodeByLabel("Bucharest");
 
-            var nodes = Collapse.GetNodesInRadius(graph.Nodes, bucharest, 200);
+            var nodes = graph.GetNodesByRadius(bucharest, 200);
 
             var nodesIds = from node in nodes select node.Id;
 
@@ -135,7 +135,7 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
 
-            var bucharest = graph.getNodeByLabel("Bucharest");
+            var bucharest = graph.GetNodeByLabel("Bucharest");
 
             var superNode = Collapse.collapse(graph, bucharest, 100, -2, 3);
             
@@ -157,7 +157,7 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
 
-            var bucharest = graph.getNodeByLabel("Bucharest");
+            var bucharest = graph.GetNodeByLabel("Bucharest");
 
             var superNode = Collapse.collapse(graph, bucharest, 200, -2, 3);
             
@@ -179,7 +179,7 @@ namespace Tests
         {
             Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_5.avgplength.txt");
 
-            var p_4 = graph.Nodes[4];
+            var p_4 = graph.GetNodeById(4);
 
             var superNode = Collapse.collapse(graph, p_4, 1.5, -70, 7);
             
