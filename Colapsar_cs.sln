@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Infra\Infra.csproj", "{08F0682E-A953-4037-8A4E-6D60665C91D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchConsoleApp", "SearchConsoleApp\SearchConsoleApp.csproj", "{9AB9652B-258F-4DEC-B517-58F9C5492194}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{08F0682E-A953-4037-8A4E-6D60665C91D3}.Release|x64.Build.0 = Release|Any CPU
 		{08F0682E-A953-4037-8A4E-6D60665C91D3}.Release|x86.ActiveCfg = Release|Any CPU
 		{08F0682E-A953-4037-8A4E-6D60665C91D3}.Release|x86.Build.0 = Release|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Debug|x64.Build.0 = Debug|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Debug|x86.Build.0 = Debug|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Release|x64.ActiveCfg = Release|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Release|x64.Build.0 = Release|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Release|x86.ActiveCfg = Release|Any CPU
+		{9AB9652B-258F-4DEC-B517-58F9C5492194}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

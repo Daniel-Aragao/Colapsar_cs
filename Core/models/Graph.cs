@@ -9,12 +9,12 @@ namespace Core.models
     public class Graph
     {
         public string Name { get; set; }
-        public Dictionary<long, Node> Nodes { get; private set; } = new Dictionary<long,Node>();
+        public Dictionary<long, Node> Nodes { get; private set; } = new Dictionary<long, Node>();
         public IList<Edge> Edges { get; private set; } = new List<Edge>();
-        public int Size { get { return this.Nodes.Count;} }
-        public Node Hub { get { return this.Nodes.OrderByDescending(k => k.Value.Degree).First().Value;}  }
-        public bool Directed { get { return true; }  }
-        
+        public int Size { get { return this.Nodes.Count; } }
+        public Node Hub { get { return this.Nodes.OrderByDescending(k => k.Value.Degree).First().Value; } }
+        public bool Directed { get { return true; } }
+
         public Graph()
         {
 
@@ -25,9 +25,9 @@ namespace Core.models
             this.Name = name;
         }
 
-        public Node CreateNode(long id, string label, double weight=0)
+        public Node CreateNode(long id, string label, double weight = 0)
         {
-            if(Nodes.ContainsKey(id))
+            if (Nodes.ContainsKey(id))
             {
                 return null;
             }
@@ -39,9 +39,9 @@ namespace Core.models
             return node;
         }
 
-        public Edge CreateEdge(Node source, Node target, double weight=0)
+        public Edge CreateEdge(Node source, Node target, double weight = 0)
         {
-            if(source == null || target == null)
+            if (source == null || target == null)
             {
                 throw new ArgumentNullException("Neither Source or Target can be null");
             }
@@ -50,17 +50,17 @@ namespace Core.models
 
             source.Edges.Add(edge);
 
-            if(source != target)
+            if (source != target)
                 target.Edges.Add(edge);
-            
+
             this.Edges.Add(edge);
 
             return edge;
         }
 
-        public Edge CreateEdge(long idSource, long idTarget, double weight=0)
+        public Edge CreateEdge(long idSource, long idTarget, double weight = 0)
         {
-            if(!this.Nodes.ContainsKey(idSource) || !this.Nodes.ContainsKey(idTarget))
+            if (!this.Nodes.ContainsKey(idSource) || !this.Nodes.ContainsKey(idTarget))
             {
                 throw new ArgumentNullException("Source or Target id does not exist");
             }
@@ -70,12 +70,14 @@ namespace Core.models
 
         public Node RemoveNode(long id)
         {
-            if(this.Nodes.ContainsKey(id)){
+            if (this.Nodes.ContainsKey(id))
+            {
                 Node node = this.Nodes[id];
 
-                this.RemoveEdges(node);                
+                this.RemoveEdges(node);
 
-                if(this.Nodes.Remove(id)){
+                if (this.Nodes.Remove(id))
+                {
                     return node;
                 }
             }
@@ -90,7 +92,7 @@ namespace Core.models
 
         public Edge RemoveEdge(Edge edge)
         {
-            if(this.Edges.Remove(edge))
+            if (this.Edges.Remove(edge))
             {
                 edge.Source.Edges.Remove(edge);
                 edge.Target.Edges.Remove(edge);
@@ -105,11 +107,11 @@ namespace Core.models
         {
             IList<Edge> edges = this.Edges.Where(edge => edge.Source == source && edge.Target == target).ToList();
 
-            foreach(Edge edge in edges)
+            foreach (Edge edge in edges)
             {
                 this.RemoveEdge(edge);
             }
- 
+
             return edges;
         }
 
@@ -117,7 +119,7 @@ namespace Core.models
         {
             IList<Edge> edges = this.Edges.Where(edge => edge.Source == node || edge.Target == node).ToList();
 
-            foreach(Edge edge in edges)
+            foreach (Edge edge in edges)
             {
                 this.RemoveEdge(edge);
             }
@@ -127,33 +129,35 @@ namespace Core.models
 
         public Node getNodeByLabel(string label)
         {
-            return this.Nodes.First(keypair => keypair.Value.Label.Equals(label)).Value;
+            return this.Nodes.First(keypair => label.Equals(keypair.Value.Label)).Value;
         }
 
         public Edge getEdgeByLabel(string label)
         {
-            return this.Edges.First(edge => edge.Label.Equals(label));
+            return this.Edges.First(edge => label.Equals(edge.Label));
         }
 
         public double GetClusteringCoefficient()
-        {		
+        {
             double coefficient = 0d;
-            
+
             float N = this.Nodes.Count;
-            
-            foreach (var pair in this.Nodes) {
+
+            foreach (var pair in this.Nodes)
+            {
                 double coef = pair.Value.GetLocalClusteringCoefficient();
 
-                if(!Double.IsNaN(coef)){
+                if (!Double.IsNaN(coef))
+                {
                     coefficient += coef;
                 }
             }
-            
-            return coefficient / N ;
+
+            return coefficient / N;
         }
 
         public double Density()
-        { 
+        {
             float edgesSize = this.Edges.Count;
             float nodesSize = this.Nodes.Count;
 
@@ -170,17 +174,17 @@ namespace Core.models
             double summ = 0f;
 
             var probabilities = from node in this.Nodes
-            group node by node.Value.Degree into degrees
-            select new { Key = degrees.Key, Value = degrees.Count()/nodesSize };
+                                group node by node.Value.Degree into degrees
+                                select new { Key = degrees.Key, Value = degrees.Count() / nodesSize };
 
             foreach (var degreeProb in probabilities)
             {
-                summ += degreeProb.Value * ( Math.Log(degreeProb.Value, 2) );
+                summ += degreeProb.Value * (Math.Log(degreeProb.Value, 2));
             }
 
-            return - summ;
+            return -summ;
         }
-        
+
         public static PathRoute ShortestPathHeuristic(Node source, Node target)
         {
             Func<Node, Node, double> heuristic = (src, tgt) => src.Position.DistanceFunction(src.Position, tgt.Position);
@@ -193,14 +197,14 @@ namespace Core.models
         }
 
         public static PathRoute ShortestPathHeuristic(Node source, Node target, Func<Edge, double> edgeWeightCalculation, Func<Node, Node, double> distanceHeuristic)
-        {   
+        {
             // f(n) = g(n) + h(n)
-            if(source == null || target == null || edgeWeightCalculation == null || distanceHeuristic == null)
+            if (source == null || target == null || edgeWeightCalculation == null || distanceHeuristic == null)
             {
                 throw new ArgumentNullException("No parameter can be null");
             }
 
-            if(source == target || source.Id == target.Id)
+            if (source == target || source.Id == target.Id)
             {
                 throw new ArgumentException("Source and target must be different");
             }
@@ -208,7 +212,7 @@ namespace Core.models
             IList<Node> border = new List<Node>();
             IDictionary<long, double> weightToNode = new Dictionary<long, double>();
             IDictionary<long, double> totalCostForNode = new Dictionary<long, double>();
-            IDictionary<long, Node> parents = new Dictionary<long, Node>();
+            IDictionary<long, Edge> parents = new Dictionary<long, Edge>();
             int quantityOfExpansions = 0;
 
             IList<long> searched = new List<long>();
@@ -219,78 +223,102 @@ namespace Core.models
 
             Node current = null;
 
-            while(border.Count != 0)
+            while (border.Count != 0)
             {
                 current = border[0];
                 border.RemoveAt(0);
                 quantityOfExpansions++;
 
-                if(current == target) break;
+                if (current == target) break;
 
                 var currentWeight = weightToNode[current.Id];
-                
+
                 IList<Node> childrens = null;
 
                 childrens = current.NeighborsOut();
-                
+
                 foreach (Node children in childrens)
                 {
-                    var bestRouteToChildren = Node.ShortestPathBetweenNeihbours(current, children, edgeWeightCalculation);
+                    var bestRouteToChildren = Node.ShortestPathBetweenNeihbors(current, children, edgeWeightCalculation);
+
+                    if (bestRouteToChildren.Status == EPathStatus.NotFound)
+                    {
+                        throw new Exception("Expanded node lost reference to children");
+                    }
 
                     Edge edge = bestRouteToChildren.Edges[0];
                     var weight = bestRouteToChildren.Distance;
 
-                    double weightToChildren = currentWeight + weight ;
+                    double weightToChildren = currentWeight + weight;
                     double costToTarget = distanceHeuristic(children, target);
                     double costFunction = weightToChildren + costToTarget;
 
-                    if(weightToNode.ContainsKey(children.Id))
+                    if (weightToNode.ContainsKey(children.Id))
                     {
-                        if(weightToNode[children.Id] <= weightToChildren)
+                        if (weightToNode[children.Id] <= weightToChildren)
                         {
                             continue;
                         }
-                    }else
+                    }
+                    else
                     {
                         border.Remove(children);
                     }
 
                     weightToNode[children.Id] = weightToChildren;
                     totalCostForNode[children.Id] = costFunction;
-                    parents[children.Id] = current;
+                    parents[children.Id] = edge;
 
                     var index = border.FindIndex(node => totalCostForNode[node.Id] > costFunction);
-                    
+
                     border.Insert(index >= 0 ? index : border.Count, children);
 
+                    // if (!weightToNode.ContainsKey(children.Id) || weightToNode[children.Id] > weightToChildren)
+                    // {
+                    //     border.Remove(children);
+
+                    //     weightToNode[children.Id] = weightToChildren;
+                    //     totalCostForNode[children.Id] = costFunction;
+                    //     parents[children.Id] = edge;
+
+                    //     var index = border.FindIndex(node => totalCostForNode[node.Id] > costFunction);
+
+                    //     border.Insert(index >= 0 ? index : border.Count, children);
+                    // }
                 }
             }
 
-            if(current == target)
+            if (current == target)
             {
-                IList<Node> nodes = new List<Node>();
-                nodes.Add(target);
+                IList<Edge> edges = new List<Edge>();
+                EPathStatus status = EPathStatus.Found;
 
-                Node parent = target;
+                var edge = parents[target.Id];
+                edges.Add(edge);
 
-                while(parent != source)
+                Node parent = edge.Source;
+
+                while (parent != source)
                 {
-                    parent = parents[parent.Id];
-                    nodes.Add(parent);
+                    edge = parents[parent.Id];
+                    edges.Add(edge);
 
-                    if(parent == null)
+                    if (edge == null || edge.Source == null)
                     {
-                        new PathRoute(nodes.Reverse().ToArray(), weightToNode[target.Id], EPathStatus.FailOnRouteBuilding);
+                        status = EPathStatus.FailOnRouteBuilding;
+                        break;
                     }
+
+                    parent = edge.Source;
                 }
 
-                var pathRoute = new PathRoute(nodes.Reverse().ToArray(), weightToNode[target.Id], EPathStatus.Found);
+                var pathRoute = new PathRoute(edges.Reverse().ToArray(), weightToNode[target.Id], status);
                 pathRoute.QuantityOfExpansions = quantityOfExpansions;
 
                 return pathRoute;
             }
 
-            return new PathRoute(EPathStatus.NotFound);            
+            return new PathRoute(EPathStatus.NotFound);
         }
 
         public double AveragePathLenght()
@@ -302,15 +330,15 @@ namespace Core.models
             int nodesSize = nodes.Count;
             int possibleEdges = nodesSize * (nodesSize - 1);
 
-            foreach(var source in nodes)
+            foreach (var source in nodes)
             {
-                foreach(var target in nodes)
+                foreach (var target in nodes)
                 {
-                    if(source != target)
+                    if (source != target)
                     {
                         var pathRoute = Graph.ShortestPathHeuristic(source, target);
 
-                        if(pathRoute.Status == EPathStatus.Found)
+                        if (pathRoute.Status == EPathStatus.Found)
                         {
                             avg += pathRoute.Distance;
                         }
@@ -329,17 +357,17 @@ namespace Core.models
 
             var nodes = this.Nodes.Values;
 
-            foreach(var source in nodes)
+            foreach (var source in nodes)
             {
-                foreach(var target in nodes)
+                foreach (var target in nodes)
                 {
-                    if(source != target)
+                    if (source != target)
                     {
                         var pathRoute = Graph.ShortestPathHeuristic(source, target);
 
-                        if(pathRoute.Status == EPathStatus.Found)
+                        if (pathRoute.Status == EPathStatus.Found)
                         {
-                            if(diameterPath == null || pathRoute.Distance > diameterPath.Distance)
+                            if (diameterPath == null || pathRoute.Distance > diameterPath.Distance)
                             {
                                 diameterPath = pathRoute;
                             }
@@ -372,26 +400,26 @@ namespace Core.models
             {
                 return false;
             }
-            
-            var graph = (Graph) obj;
-            
-            if(this.Nodes.Count != graph.Nodes.Count || this.Edges.Count != graph.Edges.Count)
+
+            var graph = (Graph)obj;
+
+            if (this.Nodes.Count != graph.Nodes.Count || this.Edges.Count != graph.Edges.Count)
             {
                 return false;
             }
-            
+
             foreach (var node in this.Nodes)
             {
-                if(!graph.Nodes.ContainsKey(node.Key))
+                if (!graph.Nodes.ContainsKey(node.Key))
                 {
                     return false;
                 }
 
-                if(!graph.Nodes[node.Key].Equals(node.Value))
+                if (!graph.Nodes[node.Key].Equals(node.Value))
                 {
                     return false;
                 }
-            }            
+            }
 
             foreach (var edge1 in this.Edges)
             {
@@ -399,14 +427,14 @@ namespace Core.models
 
                 foreach (var edge2 in graph.Edges)
                 {
-                    if(edge1.Equals(edge2))
+                    if (edge1.Equals(edge2))
                     {
                         haveEqual = true;
                         break;
                     }
                 }
 
-                if(!haveEqual)
+                if (!haveEqual)
                 {
                     return false;
                 }

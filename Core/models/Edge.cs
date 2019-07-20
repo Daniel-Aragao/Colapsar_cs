@@ -5,19 +5,14 @@ namespace Core.models
 {
     public class Edge
     {
-        public Node Source { get; set; }
-        public Node Target { get; set; }
+        public Node Source { get;  }
+        public Node Target { get;  }
         public double Weight { get; set; }
         public string Label { get; set; }
         const int ROUND_FIXED = 5;
 
         private Dictionary<string, object> OtherAttributes { get; } = new Dictionary<string, object>();
-        
-        public Edge()
-        {
-            
-        }
-        
+                
         public Edge(Node source, Node target, double weight=0)
         {
             if(source == null || target == null)
@@ -48,6 +43,11 @@ namespace Core.models
         public int CompareTo(Edge e1, Edge e2)
         {
             return e1.Weight.CompareTo(e2.Weight);
+        }
+
+        public override string ToString()
+        {
+            return this.Label + "_" + this.Weight.ToString();
         }
 
         public override bool Equals(object obj)

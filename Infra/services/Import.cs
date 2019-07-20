@@ -119,7 +119,12 @@ namespace Infra.services
                         
                         var edge = graph.CreateEdge(long.Parse(identityData[0], CultureInfo.InvariantCulture), long.Parse(identityData[2], CultureInfo.InvariantCulture), weight);
 
-                        if(properties.ContainsKey("name-street"))
+                        if(properties.ContainsKey("label"))
+                        {
+                            edge.Label = properties["label"];
+                            properties.Remove("label");
+                        }
+                        else if(properties.ContainsKey("name-street"))
                         {
                             edge.Label = properties["name-street"];
                             properties.Remove("name-street");

@@ -101,27 +101,34 @@ namespace Core.models
 
         public static PathRoute ShortestPathBetweenNeihbours(Node source, Node target)
         {
-            return Node.ShortestPathBetweenNeihbours(source, target, defaultShortestPath);
+            return Node.ShortestPathBetweenNeihbors(source, target, defaultShortestPath);
         }
 
 
-        public static PathRoute ShortestPathBetweenNeihbours(Node source, Node target, Func<Edge, double> edgeWeightCalculation)
+        public static PathRoute ShortestPathBetweenNeihbors(Node source, Node target, Func<Edge, double> edgeWeightCalculation)
         {
-            Edge shortestEdge = null;
-            var shortest = 0d;
-
-            foreach(Edge edge in source.EdgesWhenSourceOf(target))
+            var edges = source.EdgesWhenSourceOf(target);
+            
+            if(edges.Count > 0)
             {
-                var calc = edgeWeightCalculation(edge);
+                Edge shortestEdge = null;
+                var shortest = 0d;
 
-                if(shortestEdge == null || calc < shortest)
+                foreach(Edge edge in edges)
                 {
-                    shortestEdge = edge;
-                    shortest = calc;
+                    var calc = edgeWeightCalculation(edge);
+
+                    if(shortestEdge == null || calc < shortest)
+                    {
+                        shortestEdge = edge;
+                        shortest = calc;
+                    }
                 }
+
+                return new PathRoute(new Edge[] { shortestEdge }, shortest, EPathStatus.Found);
             }
 
-            return new PathRoute(new Edge[] { shortestEdge }, shortest, EPathStatus.Found);
+            return new PathRoute(EPathStatus.NotFound);
         }
 
         public void PutAttribute(string attr, Object value)
@@ -136,7 +143,7 @@ namespace Core.models
 
         public override string ToString()
         {
-            return this.Id.ToString();
+            return this.Id.ToString() + "_" + this.Label;
         }
         
         public override bool Equals(object obj)

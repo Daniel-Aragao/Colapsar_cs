@@ -81,18 +81,18 @@ namespace Tests
             g.CreateNode(2, "n2");
             g.CreateNode(3, "n3");
             g.CreateNode(4, "n4");
-            g.CreateEdge(1, 2);
-            g.CreateEdge(1, 3);
-            g.CreateEdge(1, 4);
-            g.CreateEdge(2, 1);
-            g.CreateEdge(2, 3);
-            g.CreateEdge(2, 4);
-            g.CreateEdge(3, 1);
-            g.CreateEdge(3, 2);
-            g.CreateEdge(3, 4);
-            g.CreateEdge(4, 1);
-            g.CreateEdge(4, 2);
-            g.CreateEdge(4, 3);
+            g.CreateEdge(1, 2).Label = "1_2";
+            g.CreateEdge(1, 3).Label = "1_3";
+            g.CreateEdge(1, 4).Label = "1_4";
+            g.CreateEdge(2, 1).Label = "2_1";
+            g.CreateEdge(2, 3).Label = "2_3";
+            g.CreateEdge(2, 4).Label = "2_4";
+            g.CreateEdge(3, 1).Label = "3_1";
+            g.CreateEdge(3, 2).Label = "3_2";
+            g.CreateEdge(3, 4).Label = "3_4";
+            g.CreateEdge(4, 1).Label = "4_1";
+            g.CreateEdge(4, 2).Label = "4_2";
+            g.CreateEdge(4, 3).Label = "4_3";
 
             return g;
         }
@@ -389,9 +389,9 @@ namespace Tests
 
             var route = Graph.ShortestPathHeuristic(arad, bucharest);
 
-            Assert.Equal(418, route.Distance);
-            Assert.Equal(new Node[] {arad, sibiu, rimnicuVilcea, pitesti, bucharest}, route.Nodes);
             Assert.Equal(EPathStatus.Found, route.Status);
+            Assert.Equal(new Node[] {arad, sibiu, rimnicuVilcea, pitesti, bucharest}, route.Nodes);
+            Assert.Equal(418, route.Distance);
         }
 
         [Fact]
@@ -413,9 +413,9 @@ namespace Tests
 
             var resultLong = from r in result select r.Id;
 
-            Assert.Equal(15056.65, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
-            Assert.Equal(expected, resultLong);
             Assert.Equal(EPathStatus.Found, route.Status);
+            Assert.Equal(expected, resultLong);
+            Assert.Equal(15056.65, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
         }
         [Fact]
         public void ShortestPathBetwenSmallWorld5x5From4And21MustBe5()
@@ -434,8 +434,8 @@ namespace Tests
             var resultLong = from r in result select r.Id;
 
             Assert.Equal(EPathStatus.Found, route.Status);
-            Assert.Equal(5, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
             Assert.Equal(expected, resultLong);
+            Assert.Equal(5, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
         }
 
         [Fact]
@@ -455,8 +455,8 @@ namespace Tests
             var resultLong = from r in result select r.Id;
 
             Assert.Equal(EPathStatus.Found, route.Status);
-            Assert.Equal(5, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
             Assert.Equal(expected, resultLong);
+            Assert.Equal(5, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
         }
 
         [Fact]
@@ -473,8 +473,9 @@ namespace Tests
 
             var result = new List<Node>(route.Nodes);
 
-            var resultLong = from r in result select r.Id;
+            var resultLong = (from r in result select r.Id).ToList();
 
+            
             Assert.Equal(EPathStatus.Found, route.Status);
             Assert.Equal(6, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
             Assert.Equal(expected, resultLong);
@@ -495,7 +496,7 @@ namespace Tests
             var result = new List<Node>(route.Nodes);
 
             var resultLong = from r in result select r.Id;
-
+            
             Assert.Equal(EPathStatus.Found, route.Status);
             Assert.Equal(6, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
             Assert.Equal(expected, resultLong);
@@ -533,8 +534,8 @@ namespace Tests
             var resultLong = from r in result select r.Id;
             
             Assert.Equal(EPathStatus.Found, route.Status);
-            Assert.Equal(7, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
             Assert.Equal(expected, resultLong);
+            Assert.Equal(7, Math.Round(route.Distance, ROUND_FIXED_FOR_DISTANCE));
         }
 
         [Fact]
@@ -634,6 +635,81 @@ namespace Tests
 
             Assert.Equal(new long[] {2529, 6236}, edgesIn);
         }
+
+        [Fact]
+
+        public void  CorrectlyBuildPathRouteFromEdges_1To3_3To2_2To4()
+        {
+            Graph g = getGraph(3);
+
+            var p_1 = g.Nodes[1];
+            var p_3 = g.Nodes[3];
+            var p_2 = g.Nodes[2];
+            var p_4 = g.Nodes[4];
+
+            var e_1_3 = g.getEdgeByLabel("1_3");
+            var e_3_2 = g.getEdgeByLabel("3_2");
+            var e_2_4 = g.getEdgeByLabel("2_4");
+
+            var edges = new Edge[] {e_1_3, e_3_2, e_2_4};
+
+            var pathRoute = new PathRoute(edges, 3, EPathStatus.Found);
+
+            Assert.Equal(new Node[]{p_1, p_3, p_2, p_4}, pathRoute.Nodes);
+            Assert.Equal(3, pathRoute.Jumps);
+            Assert.Equal(EPathStatus.Found, pathRoute.Status);
+        }
+
+        [Fact]
+
+        public void  CorrectlyBuildPathRouteFromEdges_1To3()
+        {
+            Graph g = getGraph(3);
+
+            var p_1 = g.Nodes[1];
+            var p_3 = g.Nodes[3];
+
+            var e_1_3 = g.getEdgeByLabel("1_3");
+
+            var edges = new Edge[] {e_1_3};
+
+            var pathRoute = new PathRoute(edges, 1, EPathStatus.Found);
+
+            Assert.Equal(new Node[]{p_1, p_3}, pathRoute.Nodes);
+            Assert.Equal(1, pathRoute.Jumps);
+            Assert.Equal(EPathStatus.Found, pathRoute.Status);
+        }
+
+        [Fact]
+        public void CorrectlyBuildPathRouteFromEdges_AradToSibiu()
+        {
+            // to bucharest from arad running 418km (arad > sibiu > rimnicu vilcea > pitesti > bucharest)
+
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "test_graph_3.norvig.txt");
+            
+            var arad = graph.getNodeByLabel("Arad");
+            var sibiu = graph.getNodeByLabel("Sibiu");
+            var rimnicuVilcea = graph.getNodeByLabel("Rimnicu Vilcea");
+            var pitesti = graph.getNodeByLabel("Pitesti");
+            var bucharest = graph.getNodeByLabel("Bucharest");
+
+            var edge_arad_sibiu = graph.getEdgeByLabel("arad_sibiu");
+            var edge_sibiu_rimnicu_vilcea = graph.getEdgeByLabel("sibiu_rimnicu_vilcea");
+            var edge_rimnicu_vilcea_pitesti = graph.getEdgeByLabel("rimnicu_vilcea_pitesti");
+            var edge_pitesti_bucharest = graph.getEdgeByLabel("pitesti_bucharest");
+
+
+            var edges = new Edge[] {edge_arad_sibiu, edge_sibiu_rimnicu_vilcea, edge_rimnicu_vilcea_pitesti, edge_pitesti_bucharest};
+
+            var pathRoute = new PathRoute(edges, 1, EPathStatus.Found);
+
+            // pathRoute.Nodes.ToList().ForEach(Console.WriteLine);
+
+            Assert.Equal(EPathStatus.Found, pathRoute.Status);
+            Assert.Equal(new Node[]{arad, sibiu, rimnicuVilcea, pitesti, bucharest}, pathRoute.Nodes);
+            Assert.Equal(4, pathRoute.Jumps);
+        }
+
         // Graph.cs TESTS TO BE IMPLEMENTED
 
         // public void connectedComponent()
