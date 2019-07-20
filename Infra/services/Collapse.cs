@@ -114,8 +114,7 @@ namespace Infra.services
 
         public static void Expand(Graph graph, Node superNode)
         {
-
-            throw new NotImplementedException();
+            var removed = graph.RemoveNode(superNode);
         }
 
         public static IList<Node> GetNodesInRadius(IDictionary<long, Node> nodes, Node source, double radius)
