@@ -1,5 +1,6 @@
 using Core.models;
 using Infra.services;
+using Infra.services.regions;
 
 using System;
 using System.Collections.Generic;
@@ -226,6 +227,7 @@ namespace Tests
         }
 
         // collapse tests
+        // test search strategies
 
     }
 }

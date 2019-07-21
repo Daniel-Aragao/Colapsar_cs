@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.models;
 
-namespace Infra.services
+namespace Infra.services.regions
 {
-    public class Collapse : SearchThread
+    public class Collapse : SearchStrategy
     {
         public Collapse(Graph graph) : base(graph)
         {
@@ -14,45 +14,37 @@ namespace Infra.services
 
         public override PathRoute Search(Node source, Node target, double radius)
         {
-            if (source == null || target == null || !this.Graph.ExistNode(source.Id) || !this.Graph.ExistNode(target.Id))
+            PathRoute pathRoute = this.SearchParametersEvaluation(source, target, radius);
+
+            if(pathRoute != null)
             {
-                return new PathRoute(EPathStatus.SourceOrTargetDoNotExist);
-            }
-            else if (source == target)
-            {
-                return new PathRoute(EPathStatus.SourceAndTargetAreEqual);
-            }
-            else if (source.Position.DistanceFunction(source.Position, target.Position) <= radius)
-            {
-                return new PathRoute(EPathStatus.SourceAndTargetAreToCloseToCollapse);
+                return pathRoute;
             }
 
             var superSource = Collapse.collapse(this.Graph, source, radius, -1, 0);
             var superTarget = Collapse.collapse(this.Graph, target, radius, -2, 0);
 
-            PathRoute pathroute = null;
-
             try
             {
-                pathroute = Graph.ShortestPathHeuristic(superSource, superTarget);
+                pathRoute = Graph.ShortestPathHeuristic(superSource, superTarget);
 
-                if (pathroute.Status == EPathStatus.Found)
+                if (pathRoute.Status == EPathStatus.Found)
                 {
-                    if (pathroute.Jumps > 1)
+                    if (pathRoute.Jumps > 1)
                     {
-                        var edgeSource = Node.ShortestPathBetweenNeihbours(pathroute.Nodes[0], pathroute.Nodes[1]).Edges[0];
-                        var edgeTarget = Node.ShortestPathBetweenNeihbours(pathroute.Nodes[pathroute.Nodes.Count() - 2], pathroute.Nodes[pathroute.Nodes.Count() - 1]).Edges[0];
+                        var edgeSource = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[0], pathRoute.Nodes[1]).Edges[0];
+                        var edgeTarget = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[pathRoute.Nodes.Count() - 2], pathRoute.Nodes[pathRoute.Nodes.Count() - 1]).Edges[0];
 
-                        pathroute.Nodes[0] = ((Edge)edgeSource.GetAttribute("original_edge")).Source;
-                        pathroute.Nodes[pathroute.Nodes.Count() - 1] = ((Edge)edgeTarget.GetAttribute("original_edge")).Target;
+                        pathRoute.Nodes[0] = ((Edge)edgeSource.GetAttribute("original_edge")).Source;
+                        pathRoute.Nodes[pathRoute.Nodes.Count() - 1] = ((Edge)edgeTarget.GetAttribute("original_edge")).Target;
                     }
                     else
                     {
-                        pathroute.Nodes[0] = source;
+                        pathRoute.Nodes[0] = source;
                     }
                 }
                 
-                return pathroute;
+                return pathRoute;
             }
             catch (Exception e)
             {
@@ -115,6 +107,22 @@ namespace Infra.services
         public static void Expand(Graph graph, Node superNode)
         {
             var removed = graph.RemoveNode(superNode);
+        }
+
+        protected override PathRoute SearchParametersEvaluation(Node source, Node target, double radius)
+        {
+            var pathRoute = base.SearchParametersEvaluation(source, target, radius);
+
+            if(pathRoute != null)
+            {
+                return pathRoute;
+            }
+            else if (source.Position.DistanceFunction(source.Position, target.Position) <= radius)
+            {
+                return new PathRoute(EPathStatus.SourceAndTargetAreToCloseToCollapse);
+            }
+            
+            return null;
         }
     }
 }
