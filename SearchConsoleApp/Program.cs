@@ -1,7 +1,9 @@
 ﻿using System;
+
 using Core;
 using Core.models;
-using Infra.services.regions;
+using Infra.services;
+using Infra.services.multithread;
 
 namespace SearchConsoleApp
 {
@@ -29,8 +31,8 @@ namespace SearchConsoleApp
             helpMessage += "\n==========> Arguments <==========\n";
             helpMessage += "\t(*) <Strategy> : string (<C> to Collapse, <BF> to BruteForce)\n";
             helpMessage += "\t(*) <File path> : string\n";
-            helpMessage += "\t(*) <Distance 1>,<Distance 2> :[double] (list of radius to search) \n";
-            helpMessage += "\t(*) <OD size>,<OD size> :[int] (number of Origin and Destination to run)\n";
+            helpMessage += "\t(*) <Distance> :double (radius to search) \n";
+            helpMessage += "\t(*) <OD size> :int (number of Origin and Destination to run)\n";
             helpMessage += "\t(#) <Number of threads to use> :int #"+ defaultThreadNumber +" (The number of logical processors in this machine)\n";
             helpMessage += "\t( ) <don't use default paths> :bool(<y> to true) (to use the path on the argument when searching for graph and OD pairs\n";
 
@@ -48,8 +50,8 @@ namespace SearchConsoleApp
             var argument = 0;
             string strategy = args[argument++];
             var path = args[argument++];
-            var distances = args[argument++].Split(",");
-            var ODs = args[argument++].Split(",");
+            var distance = double.Parse(args[argument++]);
+            var OD = Int32.Parse(args[argument++]);
             var file_path = Constants.PATH_GRAPH;
             var ods_path = Constants.PATH_ODs;
 
@@ -64,7 +66,11 @@ namespace SearchConsoleApp
                 ods_path = "";
             }
 
-            // ThreadBuilder
+            Graph graph = Import.LoadCityFromText(file_path+path);
+
+            
+
+            // new ThreadBuilder(graph, )
         }
     }
 }
