@@ -32,12 +32,18 @@ namespace Infra.services.regions
                 {
                     if (pathRoute.Jumps > 1)
                     {
-                        var edgeSource = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[0], pathRoute.Nodes[1]).Edges[0];
-                        var edgeTarget = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[pathRoute.Nodes.Count() - 2], pathRoute.Nodes[pathRoute.Nodes.Count() - 1]).Edges[0];
+                        var fakeSource = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[0], pathRoute.Nodes[1]).Edges[0];
+                        var fakeTarget = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[pathRoute.Nodes.Count() - 2], pathRoute.Nodes[pathRoute.Nodes.Count() - 1]).Edges[0];
 
-                        //TODO: update the pathroute distance too
-                        pathRoute.Nodes[0] = ((Edge)edgeSource.GetAttribute("original_edge")).Source;
-                        pathRoute.Nodes[pathRoute.Nodes.Count() - 1] = ((Edge)edgeTarget.GetAttribute("original_edge")).Target;
+                        var originalSource = (Edge)fakeSource.GetAttribute("original_edge");
+                        var originalTarget = (Edge)fakeTarget.GetAttribute("original_edge");
+                        //TODO: update the pathroute distance too?
+                        
+                        pathRoute.Nodes[0] = originalSource.Source;
+                        pathRoute.Nodes[pathRoute.Nodes.Count() - 1] = originalTarget.Target;
+
+                        pathRoute.Edges[0] = originalSource;
+                        pathRoute.Edges[pathRoute.Edges.Count() - 1] = originalTarget;
                     }
                     else
                     {
@@ -64,6 +70,7 @@ namespace Infra.services.regions
             IList<Node> nodes = graph.GetNodesByRadius(source, radius);
 
             var superNode = graph.CreateNode(id, "super_" + id, weight);
+            superNode.Position = new Position(source.Position.X, source.Position.Y, source.Position.DistanceFunction);
 
             foreach (var node in nodes)
             {
@@ -73,7 +80,7 @@ namespace Infra.services.regions
                 {
                     if (edge.Source != superNode)
                     {
-                        var newEdge = graph.CreateEdge(edge.Source, superNode);
+                        var newEdge = graph.CreateEdge(edge.Source, superNode, edge.Weight);
                         newEdge.PutAttribute("original_edge", edge);
 
                         foreach (var attribute in newEdge.GetAttributes())
@@ -89,7 +96,7 @@ namespace Infra.services.regions
                 {
                     if (edge.Target != superNode)
                     {
-                        var newEdge = graph.CreateEdge(superNode, edge.Target);
+                        var newEdge = graph.CreateEdge(superNode, edge.Target, edge.Weight);
                         newEdge.PutAttribute("original_edge", edge);
 
                         foreach (var attribute in newEdge.GetAttributes())

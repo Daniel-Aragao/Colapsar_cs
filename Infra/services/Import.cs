@@ -142,6 +142,23 @@ namespace Infra.services
 
             return graph;
         }
+
+        public static IList<string> LoadODsFromTxt(string path)
+        {
+            IList<string> returnList = new List<string>();
+
+            using(StreamReader sr = File.OpenText(path))
+            {
+                string line;
+
+                while((line = sr.ReadLine()) != null)
+                {
+                    returnList.Add(line.Trim());
+                }
+            }
+
+            return returnList;
+        }
     }
 }
 

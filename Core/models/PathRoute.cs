@@ -15,7 +15,7 @@ namespace Core.models
         public Node[] Nodes { get; }
         public Node Source { get; }
         public Node Target { get; }
-        public double Distance { get; }
+        public double Distance { get; set; }
         public int Jumps { get { return Edges.Length; } }
         public EPathStatus Status { get; }
         public Exception Exception { get; }
