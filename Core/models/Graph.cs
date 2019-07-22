@@ -242,8 +242,7 @@ namespace Core.models
             {
                 throw new ArgumentNullException("No parameter can be null");
             }
-
-            if (source == target || source.Id == target.Id)
+            else if (source == target || source.Id == target.Id)
             {
                 throw new ArgumentException("Source and target must be different");
             }

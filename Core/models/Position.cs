@@ -69,7 +69,7 @@ namespace Core.models
             var sourceGeo = GenerateGeoCoodinateFromPosition(source);
             var targetGeo = GenerateGeoCoodinateFromPosition(target);
 
-            return sourceGeo.GetDistanceTo(targetGeo) / 1000;
+            return sourceGeo.GetDistanceTo(targetGeo);
         }
 
         public static double Mapped(Position source, Position target)

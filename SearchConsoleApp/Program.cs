@@ -8,6 +8,7 @@ namespace SearchConsoleApp
         static void Main(string[] args)
         {
             Console.WriteLine(EPathStatus.SourceAndTargetAreToCloseToCollapse.ToString());
+            Console.WriteLine("Number Of Logical Processors: {0}", Environment.ProcessorCount);
         }
     }
 }

@@ -72,7 +72,7 @@ namespace Core.models
         public string Path()
         {
             return String.Join(PathRoute.PATH_SEPARATOR, from node in this.Nodes select node.Id);
-        } 
+        }
 
         public override string ToString()
         {

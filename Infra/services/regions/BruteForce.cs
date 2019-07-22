@@ -28,11 +28,17 @@ namespace Infra.services.regions
             {
                 foreach (var destination in targets)
                 {
-                    PathRoute pathRoute = Graph.ShortestPathHeuristic(origin, destination);
-
-                    if(betterPathRoute == null || betterPathRoute.Distance > pathRoute.Distance)
+                    if(origin != destination)
                     {
-                        betterPathRoute = pathRoute;
+                        PathRoute pathRoute = Graph.ShortestPathHeuristic(origin, destination);
+
+                        if(betterPathRoute == null || betterPathRoute.Status != EPathStatus.Found || 
+                            (betterPathRoute.Status == EPathStatus.Found && 
+                                pathRoute.Status == EPathStatus.Found && 
+                                betterPathRoute.Distance > pathRoute.Distance))
+                        {
+                            betterPathRoute = pathRoute;
+                        }
                     }
                 }
             }

@@ -16,7 +16,7 @@ namespace Infra.services.regions
         {
             PathRoute pathRoute = this.SearchParametersEvaluation(source, target, radius);
 
-            if(pathRoute != null)
+            if (pathRoute != null)
             {
                 return pathRoute;
             }
@@ -35,6 +35,7 @@ namespace Infra.services.regions
                         var edgeSource = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[0], pathRoute.Nodes[1]).Edges[0];
                         var edgeTarget = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[pathRoute.Nodes.Count() - 2], pathRoute.Nodes[pathRoute.Nodes.Count() - 1]).Edges[0];
 
+                        //TODO: update the pathroute distance too
                         pathRoute.Nodes[0] = ((Edge)edgeSource.GetAttribute("original_edge")).Source;
                         pathRoute.Nodes[pathRoute.Nodes.Count() - 1] = ((Edge)edgeTarget.GetAttribute("original_edge")).Target;
                     }
@@ -43,16 +44,19 @@ namespace Infra.services.regions
                         pathRoute.Nodes[0] = source;
                     }
                 }
-                
-                return pathRoute;
+
             }
             catch (Exception e)
             {
+                pathRoute = new PathRoute(EPathStatus.UnexpectedException, e);
+            }
+            finally
+            {
                 Collapse.Expand(this.Graph, -1);
                 Collapse.Expand(this.Graph, -2);
-
-                return new PathRoute(EPathStatus.UnexpectedException, e);
             }
+
+            return pathRoute;
         }
 
         public static Node collapse(Graph graph, Node source, double radius, long id = -1, double weight = 0)
@@ -101,19 +105,19 @@ namespace Infra.services.regions
 
         public static void Expand(Graph graph, long superNodeId)
         {
-            Expand(graph, graph.GetNodeById(superNodeId));
+            graph.RemoveNode(superNodeId);
         }
 
         public static void Expand(Graph graph, Node superNode)
         {
-            var removed = graph.RemoveNode(superNode);
+            Expand(graph, superNode.Id);
         }
 
         protected override PathRoute SearchParametersEvaluation(Node source, Node target, double radius)
         {
             var pathRoute = base.SearchParametersEvaluation(source, target, radius);
 
-            if(pathRoute != null)
+            if (pathRoute != null)
             {
                 return pathRoute;
             }
@@ -121,7 +125,7 @@ namespace Infra.services.regions
             {
                 return new PathRoute(EPathStatus.SourceAndTargetAreToCloseToCollapse);
             }
-            
+
             return null;
         }
     }
