@@ -11,7 +11,9 @@ namespace SearchConsoleApp
     {
         static void Main(string[] args)
         {
-            var defaultThreadNumber = Environment.ProcessorCount;
+            var defaultThreadNumber = Environment.ProcessorCount;            
+            var file_path = Constants.PATH_GRAPH;
+            var ods_path = Constants.PATH_ODs;
 
             string helpMessage = "====================> Region search program <====================\n";
             helpMessage += "\n==========> Description <==========\n";
@@ -34,7 +36,7 @@ namespace SearchConsoleApp
             helpMessage += "\t(*) <Distance> :double (radius to search) \n";
             helpMessage += "\t(*) <OD size> :int (number of Origin and Destination to run)\n";
             helpMessage += "\t(#) <Number of threads to use> :int #"+ defaultThreadNumber +" (The number of logical processors in this machine)\n";
-            helpMessage += "\t( ) <don't use default paths> :bool(<y> to true) (to use the path on the argument when searching for graph and OD pairs\n";
+            helpMessage += "\t( ) <don't use default paths> :bool(<t> to true) (to use the path on the argument when searching for graph and OD pairs\n";
 
 
             if(args.Length == 1 && (args[0] == "-h" || args[0] == "--help"))
@@ -52,21 +54,20 @@ namespace SearchConsoleApp
             var path = args[argument++];
             var distance = double.Parse(args[argument++]);
             var OD = Int32.Parse(args[argument++]);
-            var file_path = Constants.PATH_GRAPH;
-            var ods_path = Constants.PATH_ODs;
 
             if(args.Length >= argument + 1)
             {
                 defaultThreadNumber = args[argument++] == "#"? defaultThreadNumber : Int32.Parse(args[3]);
             }
 
-            if(args.Length >= argument + 1 && args[argument] == "1")
+            if(args.Length >= argument + 1 && args[argument] == "t")
             {
                 file_path = "";
                 ods_path = "";
             }
 
-            Graph graph = Import.LoadCityFromText(file_path+path);
+            Graph graph = Import.LoadCityFromText(file_path + path);
+            Import.LoadODsFromTxt(ods_path, OD);
 
             
 

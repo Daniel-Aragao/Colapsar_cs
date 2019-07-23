@@ -11,25 +11,25 @@ namespace Infra.services.multithread
     {
         private Graph _graph; 
         private SearchStrategy Strategy; 
-        private IList<string> ODs;
+        private List<Tuple<long,long>> ODs;
         private double Radius;
+        private ThreadManager ThreadManager;
 
-        public ThreadSearch(Graph graph, SearchStrategy strategy, IList<string> ODs, double radius)
+        public ThreadSearch(Graph graph, SearchStrategy strategy, List<Tuple<long,long>> ODs, double radius, ThreadManager threadManager)
         {
             this._graph = graph;
             this.Strategy = strategy;
             this.ODs = ODs;
             this.Radius = radius;
+            this.ThreadManager = threadManager;
         }
 
         public void Search()
         {
-            foreach(string od in ODs)
+            foreach(var od in this.ODs)
             {
-                var splitedODs = od.Split(Constants.SEPARATOR_ODs);
-
-                var sourceId = long.Parse(splitedODs[0]);
-                var targetId = long.Parse(splitedODs[1]);
+                var sourceId = od.Item1;
+                var targetId = od.Item2;
 
                 // time start
                 var pathRoute = this.Strategy.Search(this._graph.GetNodeById(sourceId), this._graph.GetNodeById(targetId), this.Radius);                

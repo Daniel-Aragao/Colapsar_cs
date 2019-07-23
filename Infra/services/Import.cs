@@ -143,7 +143,7 @@ namespace Infra.services
             return graph;
         }
 
-        public static IList<string> LoadODsFromTxt(string path)
+        public static IList<string> LoadODsFromTxt(string path, int ODSize)
         {
             IList<string> returnList = new List<string>();
 

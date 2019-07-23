@@ -1,14 +1,60 @@
 using Core.models;
+using Infra.services.regions;
+
+using System;
 using System.Threading;
+using System.Collections.Generic;
 
 
 namespace Infra.services.multithread
 {
     public class ThreadBuilder
     {
-        public ThreadBuilder(Graph g)
+        private Graph _graph;
+        private SearchStrategyFactory StrategyFactory;
+        private List<Tuple<long, long>> ODs;
+        private double Radius;
+        private int ThreadsQuantity;
+
+        public ThreadBuilder(Graph g, SearchStrategyFactory strategyFactory, List<Tuple<long, long>> ODs, double radius, int threads)
         {
+            this._graph = g;
+            this.StrategyFactory = strategyFactory;
+            this.ODs = ODs;
+            this.Radius = radius;
+            this.ThreadsQuantity = Math.Min(Math.Min(ODs.Count, threads), Environment.ProcessorCount);
+
             // new Thread(new ThreadStart(ThreadManager))
+        }
+
+        public void Begin()
+        {
+            int interval = this.ODs.Count / this.ThreadsQuantity;
+            int rest = this.ODs.Count % this.ThreadsQuantity;
+
+            ThreadManager manager = new ThreadManager(this.ThreadsQuantity, this.ODs.Count, this.Radius);
+
+            for (int i = 0; i < this.ThreadsQuantity; i++)
+            {
+                int begin = i * interval;
+                int end = i * interval + interval;
+
+                if (i + 1 == this.ThreadsQuantity)
+                {
+                    end += rest;
+                }
+
+                List<Tuple<long, long>> portion = this.ODs.GetRange(begin, end);
+
+                Graph graphClone = this._graph.Clone();
+                SearchStrategy searhcStrategy = this.StrategyFactory.GetStrategy(graphClone);
+
+                var ts = new ThreadSearch(graphClone, searhcStrategy, portion, this.Radius, manager);
+                var thread = new Thread(new ThreadStart(ts.Search));
+                thread.Name = "T" + (i + 1);
+
+                thread.Start();
+            }
         }
     }
 }
