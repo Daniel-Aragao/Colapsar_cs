@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
+using Core;
 using Core.models;
 using Core.extensions;
 
@@ -143,9 +144,9 @@ namespace Infra.services
             return graph;
         }
 
-        public static IList<string> LoadODsFromTxt(string path, int ODSize)
+        public static List<Tuple<long,long>> LoadODsFromTxt(string path, int ODSize)
         {
-            IList<string> returnList = new List<string>();
+            List<Tuple<long,long>> returnList = new List<Tuple<long,long>>();
 
             using(StreamReader sr = File.OpenText(path))
             {
@@ -153,7 +154,9 @@ namespace Infra.services
 
                 while((line = sr.ReadLine()) != null)
                 {
-                    returnList.Add(line.Trim());
+                    var lineSplited = line.Split(Constants.SEPARATOR_ODs);
+                    var tuple = new Tuple<long,long>(long.Parse(lineSplited[0]), long.Parse(lineSplited[1]));
+                    returnList.Add(tuple);
                 }
             }
 

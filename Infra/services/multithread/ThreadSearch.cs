@@ -31,10 +31,13 @@ namespace Infra.services.multithread
                 var sourceId = od.Item1;
                 var targetId = od.Item2;
 
-                // time start
-                var pathRoute = this.Strategy.Search(this._graph.GetNodeById(sourceId), this._graph.GetNodeById(targetId), this.Radius);                
-                // time end
+                var timeStart = DateTime.Now;
 
+                var pathRoute = this.Strategy.Search(this._graph.GetNodeById(sourceId), this._graph.GetNodeById(targetId), this.Radius);                
+
+                var timeEnd = DateTime.Now;
+                var time = timeEnd - timeStart;
+                // time.
                 // pathRoute.DeltaTime = timeEnd - timeStart; 
                 // update output after 10%+ ODs concluded
             }

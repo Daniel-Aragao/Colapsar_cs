@@ -20,7 +20,7 @@ namespace Core.models
         public EPathStatus Status { get; }
         public Exception Exception { get; }
         public int QuantityOfExpansions { get; set; }
-        public long DeltaTime { get; set; }
+        public DateTime DeltaTime { get; set; }
 
         public PathRoute(Edge[] edges, double distance, EPathStatus status)
         {

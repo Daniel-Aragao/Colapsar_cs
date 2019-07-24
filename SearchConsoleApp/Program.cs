@@ -3,6 +3,7 @@
 using Core;
 using Core.models;
 using Infra.services;
+using Infra.services.regions;
 using Infra.services.multithread;
 
 namespace SearchConsoleApp
@@ -44,15 +45,16 @@ namespace SearchConsoleApp
                 Console.WriteLine(helpMessage);
                 return;
             }            
-            else if (args.Length < 3 || args.Length > 5)
+            else if (args.Length < 4 || args.Length > 6)
             {
-                throw new ArgumentException("Must inform 3~5 argument must be passed\n" + helpMessage);
+                throw new ArgumentException("Must inform 4~6 argument must be passed\n" + helpMessage);
             }
 
             var argument = 0;
+
             string strategy = args[argument++];
             var path = args[argument++];
-            var distance = double.Parse(args[argument++]);
+            var radius = double.Parse(args[argument++]);
             var OD = Int32.Parse(args[argument++]);
 
             if(args.Length >= argument + 1)
@@ -67,11 +69,13 @@ namespace SearchConsoleApp
             }
 
             Graph graph = Import.LoadCityFromText(file_path + path);
-            Import.LoadODsFromTxt(ods_path, OD);
+            var ods = Import.LoadODsFromTxt(ods_path, OD);
 
+            SearchStrategyFactory strategyFactory = null;
+
+            var threadBuilder = new ThreadBuilder(graph, strategyFactory, ods, radius, defaultThreadNumber);
             
-
-            // new ThreadBuilder(graph, )
+            threadBuilder.Begin();
         }
     }
 }
