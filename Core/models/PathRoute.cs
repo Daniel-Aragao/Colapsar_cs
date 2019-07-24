@@ -20,7 +20,7 @@ namespace Core.models
         public EPathStatus Status { get; }
         public Exception Exception { get; }
         public int QuantityOfExpansions { get; set; }
-        public DateTime DeltaTime { get; set; }
+        public TimeSpan DeltaTime { get; set; }
 
         public PathRoute(Edge[] edges, double distance, EPathStatus status)
         {
@@ -90,9 +90,9 @@ namespace Core.models
 
                     returnString += PathRoute.SEPARATOR;
 
-                    if(this.DeltaTime != 0)
+                    if(this.DeltaTime != null)
                     {
-                        returnString += PathRoute.SEPARATOR + this.DeltaTime;
+                        returnString += PathRoute.SEPARATOR + this.DeltaTime.TotalMinutes;
                     }
 
                     returnString += this.Path();

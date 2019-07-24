@@ -14,6 +14,7 @@ namespace Infra.services.multithread
         private List<Tuple<long,long>> ODs;
         private double Radius;
         private ThreadManager ThreadManager;
+        public int ODSize { get {return this.ODs.Count;} }
 
         public ThreadSearch(Graph graph, SearchStrategy strategy, List<Tuple<long,long>> ODs, double radius, ThreadManager threadManager)
         {
@@ -26,8 +27,15 @@ namespace Infra.services.multithread
 
         public void Search()
         {
-            foreach(var od in this.ODs)
+            var percent = (this.ODSize * 10)/100;
+            var pathRoutes = new List<PathRoute>();
+            var threadTimeStart = DateTime.Now;
+            TimeSpan threadTimeDelta = threadTimeStart - threadTimeStart;
+
+            for(int i = 1, j = 0; i <= this.ODs.Count; i++)
             {
+                var od = this.ODs[i];
+
                 var sourceId = od.Item1;
                 var targetId = od.Item2;
 
@@ -36,11 +44,23 @@ namespace Infra.services.multithread
                 var pathRoute = this.Strategy.Search(this._graph.GetNodeById(sourceId), this._graph.GetNodeById(targetId), this.Radius);                
 
                 var timeEnd = DateTime.Now;
-                var time = timeEnd - timeStart;
-                // time.
-                // pathRoute.DeltaTime = timeEnd - timeStart; 
-                // update output after 10%+ ODs concluded
+
+                pathRoute.DeltaTime = timeEnd - timeStart;
+                threadTimeDelta += pathRoute.DeltaTime;
+
+                pathRoutes.Add(pathRoute);
+
+                if(percent <= i - j || i == this.ODSize)
+                {
+                    var progress = i/this.ODSize;
+                    this.ThreadManager.addProgress(progress, pathRoutes);
+
+                    j = i;
+                    pathRoutes = new List<PathRoute>();
+                }
             }
+
+            this.ThreadManager.endThread(threadTimeDelta);
         }
     }
 }
