@@ -10,6 +10,7 @@ namespace Core
         public const string PATH_OUTPUTS = "outputs/";
 
         public const char SEPARATOR_ODs = ',';
+        public const char SEPARATOR_FILE_NAMES = '-';
 
     }
 }

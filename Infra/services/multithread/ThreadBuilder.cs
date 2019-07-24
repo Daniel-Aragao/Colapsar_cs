@@ -32,7 +32,7 @@ namespace Infra.services.multithread
             int interval = this.ODs.Count / this.ThreadsQuantity;
             int rest = this.ODs.Count % this.ThreadsQuantity;
 
-            ThreadManager manager = new ThreadManager(this.ThreadsQuantity, this.ODs.Count, this.Radius);
+            ThreadManager manager = new ThreadManager(this._graph, this.ThreadsQuantity, this.ODs.Count, this.Radius);
 
             for (int i = 0; i < this.ThreadsQuantity; i++)
             {
