@@ -22,7 +22,7 @@ namespace Infra.services
                 throw new ArgumentException("The path informed do not exist " + path);
             }
             
-            Graph graph = new Graph(Path.GetFileName(path));
+            Graph graph = new Graph(Path.GetFileName(path).Replace(Path.GetExtension(path), ""));
 
             using(StreamReader sr = File.OpenText(path))
             {
@@ -144,11 +144,11 @@ namespace Infra.services
             return graph;
         }
 
-        public static List<Tuple<long,long>> LoadODsFromTxt(string path, int ODSize)
+        public static List<Tuple<long,long>> LoadODsFromTxt(string path, string graphName, int ODSize)
         {
             List<Tuple<long,long>> returnList = new List<Tuple<long,long>>();
 
-            using(StreamReader sr = File.OpenText(path))
+            using(StreamReader sr = File.OpenText(path + graphName + Constants.SEPARATOR_FILE_NAMES + ODSize + Constants.OD_FILE_NAMES + ".txt"))
             {
                 string line;
 

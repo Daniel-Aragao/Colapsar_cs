@@ -25,6 +25,11 @@ namespace Infra.services
                 return writers[filePath];
             }
 
+            if(!File.Exists(filePath))
+            {
+                File.Create(path);
+            }
+
             var writer = new StreamWriter(filePath);
 
             Export.writers[filePath] = writer;

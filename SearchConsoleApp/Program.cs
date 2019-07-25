@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using Core;
 using Core.models;
@@ -32,10 +33,10 @@ namespace SearchConsoleApp
             helpMessage += "\t\t( ) <optional arguments>\n";
             helpMessage += "\t\t    <any kind of argument> :type\n";
             helpMessage += "\t\t    <any kind of argument> (description)\n";
-            helpMessage += "\t3. The order of the parameters must be followed (you can use # to avoid change default values or to ignore optional arguments)\n";
+            helpMessage += "\t3. The order of the parameters must be followed (you can \n\tuse i to avoid change default values or to ignore optional arguments)\n";
             helpMessage += "\n==========> Arguments <==========\n";
             helpMessage += "\t(*) <Strategy> : string (<C> to Collapse, <BF> to BruteForce)\n";
-            helpMessage += "\t(*) <File path> : string\n";
+            helpMessage += "\t(*) <File name> : string\n";
             helpMessage += "\t(*) <Distance> :double (radius to search) \n";
             helpMessage += "\t(*) <OD size> :int (number of Origin and Destination to run)\n";
             helpMessage += "\t(#) <Number of threads to use> :int #"+ defaultThreadNumber +" (The number of logical processors in this machine)\n";
@@ -53,6 +54,9 @@ namespace SearchConsoleApp
                 throw new ArgumentException("Must inform 4~7 argument must be passed\n" + helpMessage);
             }
 
+            // Console.WriteLine(args);
+            // args.ToList().ForEach(Console.WriteLine);
+
             var argument = 0;
 
             string strategy = args[argument++];
@@ -62,7 +66,7 @@ namespace SearchConsoleApp
 
             if(args.Length >= argument + 1)
             {
-                defaultThreadNumber = args[argument++] == "#"? defaultThreadNumber : Int32.Parse(args[argument - 1]);
+                defaultThreadNumber = args[argument++] == "i"? defaultThreadNumber : Int32.Parse(args[argument - 1]);
             }
 
             if(args.Length >= argument + 1)
@@ -73,12 +77,11 @@ namespace SearchConsoleApp
             if(args.Length >= argument + 1 && args[argument++] == "t")
             {
                 file_path = "";
-                ods_path = "";
             }
 
             Graph graph = Import.LoadCityFromText(file_path + path);
-            var ods = Import.LoadODsFromTxt(ods_path, OD);
-
+            var ods = Import.LoadODsFromTxt(ods_path, graph.Name, OD);
+//sudo dotnet run C /home/danielaragao/Documents/Git/Colapsar/caracterizacao-dados-reviews/graphs/giantscomponentes/Mumbai-network-osm-2018-1.txt 50 300 i i t
             SearchStrategyFactory strategyFactory = SearchStrategyFactory.GetFactory(strategy);            
 
             LoggerFactory.Define(logToFile, "MultithreadSearch-" + strategyFactory.SearchName);
