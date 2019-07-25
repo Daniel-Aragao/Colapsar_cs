@@ -3,12 +3,12 @@ using Core.models;
 
 namespace Infra.services.regions
 {
-    public abstract class SearchStrategy
+    public abstract class @string
     {
         public string Name {get; private set;}
         protected Graph Graph {get;}
 
-        public SearchStrategy(Graph graph, string name)
+        public @string(Graph graph, string name)
         {
             this.Graph = graph;
             this.Name = name;

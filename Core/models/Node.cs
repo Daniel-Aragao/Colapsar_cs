@@ -141,6 +141,19 @@ namespace Core.models
             return this.OtherAttributes[attr];
         }
 
+        public Node Clone()
+        {
+            Node new_node = new Node(this.Id, this.Label, this.Weight);
+            new_node.Position = this.Position;
+
+            foreach (var item in this.OtherAttributes)
+            {
+                new_node.PutAttribute(item.Key, item.Value);
+            }
+
+            return new_node;
+        }
+
         public override string ToString()
         {
             return this.Id.ToString() + "_" + this.Label;

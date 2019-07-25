@@ -22,16 +22,18 @@ namespace Infra.services.multithread
         private TimeSpan TotalTime;
         private Dictionary<EPathStatus, int> StatusCount;
         Graph graph;
-        SearchStrategy strategy;
+        string StrategyName;
         
-        public ThreadManager(Graph graph, int threadsQuantity, int ODsSize, double radius, SearchStrategy strategy)
+        public ThreadManager(Graph graph, int threadsQuantity, int ODsSize, double radius, string strategyName)
         {
             this.graph = graph;
-            this.strategy =strategy;
+            this.StrategyName = strategyName;
             this.ThreadsQuantity = threadsQuantity;
             this.ODsSize = ODsSize; 
             this.Radius = radius;
             this.ODsRunned = 0;
+
+            this.StatusCount = new Dictionary<EPathStatus, int>();
 
             var now = DateTime.Now;
 
@@ -44,7 +46,7 @@ namespace Infra.services.multithread
 
             this._logger = LoggerFactory.GetLogger();
 
-            this._logger.WriteLine("Iniciando "+ strategy.Name +":{\n\tGrafo:" + graph.Name + "\n\tThreads: " + this.ThreadsQuantity +
+            this._logger.WriteLine("Iniciando "+ StrategyName +":{\n\tGrafo:" + graph.Name + "\n\tThreads: " + this.ThreadsQuantity +
 				"\n\tRaio: " + this.Radius + "\n\tODs: " + this.ODsSize + "\n}");
         }
 
@@ -94,7 +96,7 @@ namespace Infra.services.multithread
                         // keypair.Key keypair.value
                         this._logger.WriteLine("Status: " + keypair.Key + " Qtd.: " + keypair.Value);
                     }
-                    this._logger.WriteLine("Tempo decorrido para "+ strategy.Name +" para " + this.Radius
+                    this._logger.WriteLine("Tempo decorrido para "+ StrategyName +" para " + this.Radius
 					+ " metros = " + this.TotalTime.TotalMinutes + "\n"
 					+ "para o arquivo: " + this.graph.Name + "\n");
                     

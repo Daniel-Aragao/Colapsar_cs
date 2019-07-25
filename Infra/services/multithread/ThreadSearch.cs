@@ -10,13 +10,13 @@ namespace Infra.services.multithread
     public class ThreadSearch
     {
         private Graph _graph; 
-        private SearchStrategy Strategy; 
+        private @string Strategy; 
         private List<Tuple<long,long>> ODs;
         private double Radius;
         private ThreadManager ThreadManager;
         public int ODSize { get {return this.ODs.Count;} }
 
-        public ThreadSearch(Graph graph, SearchStrategy strategy, List<Tuple<long,long>> ODs, double radius, ThreadManager threadManager)
+        public ThreadSearch(Graph graph, @string strategy, List<Tuple<long,long>> ODs, double radius, ThreadManager threadManager)
         {
             this._graph = graph;
             this.Strategy = strategy;

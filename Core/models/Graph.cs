@@ -33,7 +33,7 @@ namespace Core.models
         {
             if (_nodes.ContainsKey(id))
             {
-                return null;
+                throw new ArgumentException("Id already exists");
             }
 
             var node = new Node(id, label, weight);
@@ -41,6 +41,19 @@ namespace Core.models
             this._nodes.Add(id, node);
 
             return node;
+        }
+
+        public Node CreateNode(Node node)
+        {
+            if (_nodes.ContainsKey(node.Id))
+            {
+                throw new ArgumentException("Id already exists");
+            }
+            
+            var new_node = node.Clone();
+            this._nodes.Add(node.Id, new_node);
+
+            return new_node;
         }
 
         public Edge CreateEdge(Node source, Node target, double weight = 0)
@@ -66,10 +79,31 @@ namespace Core.models
         {
             if (!this._nodes.ContainsKey(idSource) || !this._nodes.ContainsKey(idTarget))
             {
-                throw new ArgumentNullException("Source or Target id does not exist");
+                throw new ArgumentException("Source or Target id does not exist");
             }
 
             return this.CreateEdge(this._nodes[idSource], this._nodes[idTarget], weight);
+        }
+
+        public Edge CreateEdge(Edge edge)
+        {
+            if(edge == null)
+            {
+                throw new ArgumentNullException("Edge can't be null");
+            }
+
+            if (!this._nodes.ContainsKey(edge.Source.Id) || !this._nodes.ContainsKey(edge.Target.Id))
+            {
+                throw new ArgumentException("Source or Target id does not exist");
+            }
+
+            Edge new_edge = new Edge(this._nodes[edge.Source.Id], this._nodes[edge.Target.Id], edge.Weight);
+            new_edge.Label = edge.Label;
+            
+            edge.CloneAttributes(new_edge);
+            this._edges.Add(new_edge);
+
+            return new_edge;
         }
 
         public Node RemoveNode(long id)
@@ -429,7 +463,19 @@ namespace Core.models
 
         public Graph Clone()
         {
-            throw new NotImplementedException();
+            Graph new_graph = new Graph(this.Name);
+
+            foreach (var keypair in this._nodes)
+            {
+                new_graph.CreateNode(keypair.Value);
+            }
+
+            foreach (var edge in this._edges)
+            {
+                new_graph.CreateEdge(edge);
+            }
+
+            return new_graph;
         }
 
         public override bool Equals(object obj)

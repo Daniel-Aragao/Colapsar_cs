@@ -32,7 +32,7 @@ namespace Infra.services.multithread
             int interval = this.ODs.Count / this.ThreadsQuantity;
             int rest = this.ODs.Count % this.ThreadsQuantity;
 
-            ThreadManager manager = new ThreadManager(this._graph, this.ThreadsQuantity, this.ODs.Count, this.Radius);
+            ThreadManager manager = new ThreadManager(this._graph, this.ThreadsQuantity, this.ODs.Count, this.Radius, this.StrategyFactory.SearchName);
 
             for (int i = 0; i < this.ThreadsQuantity; i++)
             {
@@ -47,7 +47,7 @@ namespace Infra.services.multithread
                 List<Tuple<long, long>> portion = this.ODs.GetRange(begin, end);
 
                 Graph graphClone = this._graph.Clone();
-                SearchStrategy searhcStrategy = this.StrategyFactory.GetStrategy(graphClone);
+                @string searhcStrategy = this.StrategyFactory.GetStrategy(graphClone);
 
                 var ts = new ThreadSearch(graphClone, searhcStrategy, portion, this.Radius, manager);
                 var thread = new Thread(new ThreadStart(ts.Search));

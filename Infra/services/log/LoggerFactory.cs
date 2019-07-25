@@ -21,10 +21,14 @@ namespace Infra.services.log
 
                 logFileName = Constants.PATH_LOGS + logFileName;
 
-                return new ConsoleAndFileLogger(Export.GetWriter(logFileName));
+                _logger = new ConsoleAndFileLogger(Export.GetWriter(logFileName));
+            }
+            else
+            {
+                _logger = new ConsoleLogger();
             }
 
-            return new ConsoleLogger();
+            return _logger;
         }
 
         public static ILogger GetLogger()

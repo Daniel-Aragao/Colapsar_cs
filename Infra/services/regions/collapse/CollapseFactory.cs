@@ -11,7 +11,7 @@ namespace Infra.services.regions
             
         }
         
-        public override SearchStrategy GetStrategy(Graph g)
+        public override @string GetStrategy(Graph g)
         {
             return new Collapse(g);
         }

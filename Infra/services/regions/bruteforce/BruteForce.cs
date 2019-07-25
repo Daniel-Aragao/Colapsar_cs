@@ -6,7 +6,7 @@ using Core.models;
 
 namespace Infra.services.regions
 {
-    public class BruteForce : SearchStrategy
+    public class BruteForce : @string
     {
         public BruteForce(Graph graph): base(graph, Constants.ALGORITHMN_NAME_BRUTE_FORCE)
         {

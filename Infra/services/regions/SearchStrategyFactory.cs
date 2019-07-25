@@ -14,7 +14,7 @@ namespace Infra.services.regions
             this.searchName = searchName;
         }
 
-        public abstract SearchStrategy GetStrategy(Graph g);
+        public abstract @string GetStrategy(Graph g);
 
         public static SearchStrategyFactory GetFactory(string strategy)
         {

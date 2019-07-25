@@ -754,6 +754,19 @@ namespace Tests
             Assert.Equal(4, pathRoute.Jumps);
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void GivenTheGraphCloneItCorrectly(int gId)
+        {
+            Graph g = this.getGraph(gId);
+            Graph new_graph = g.Clone();
+
+            Assert.Equal(g, new_graph);
+        }
+
         // Graph.cs TESTS TO BE IMPLEMENTED
 
         // public void connectedComponent()

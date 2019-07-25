@@ -7,7 +7,7 @@ using Core.models;
 
 namespace Infra.services.regions
 {
-    public class Collapse : SearchStrategy
+    public class Collapse : @string
     {
         public Collapse(Graph graph) : base(graph, Constants.ALGORITHMN_NAME_COLLAPSE)
         {

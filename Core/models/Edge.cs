@@ -9,7 +9,7 @@ namespace Core.models
         public Node Target { get;  }
         public double Weight { get; set; }
         public string Label { get; set; }
-        const int ROUND_FIXED = 5;
+        public const int ROUND_FIXED = 5;
 
         private Dictionary<string, object> OtherAttributes { get; } = new Dictionary<string, object>();
                 
@@ -38,6 +38,14 @@ namespace Core.models
         public IList<string> GetAttributes()
         {
             return new List<string>(this.OtherAttributes.Keys);
+        }
+
+        public void CloneAttributes(Edge new_edge)
+        {
+            foreach (var item in this.OtherAttributes)
+            {
+                new_edge.PutAttribute(item.Key, item.Value);
+            }
         }
 
         public int CompareTo(Edge e1, Edge e2)
