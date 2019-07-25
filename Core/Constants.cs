@@ -12,5 +12,7 @@ namespace Core
         public const char SEPARATOR_ODs = ',';
         public const char SEPARATOR_FILE_NAMES = '-';
 
+        public const bool LOG_TO_FILE = true; 
+
     }
 }

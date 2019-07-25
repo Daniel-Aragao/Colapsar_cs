@@ -3,6 +3,7 @@
 using Core;
 using Core.models;
 using Infra.services;
+using Infra.services.log;
 using Infra.services.regions;
 using Infra.services.multithread;
 
@@ -15,6 +16,7 @@ namespace SearchConsoleApp
             var defaultThreadNumber = Environment.ProcessorCount;            
             var file_path = Constants.PATH_GRAPH;
             var ods_path = Constants.PATH_ODs;
+            var logToFile = Constants.LOG_TO_FILE;
 
             string helpMessage = "====================> Region search program <====================\n";
             helpMessage += "\n==========> Description <==========\n";
@@ -37,7 +39,8 @@ namespace SearchConsoleApp
             helpMessage += "\t(*) <Distance> :double (radius to search) \n";
             helpMessage += "\t(*) <OD size> :int (number of Origin and Destination to run)\n";
             helpMessage += "\t(#) <Number of threads to use> :int #"+ defaultThreadNumber +" (The number of logical processors in this machine)\n";
-            helpMessage += "\t( ) <don't use default paths> :bool(<t> to true) (to use the path on the argument when searching for graph and OD pairs\n";
+            helpMessage += "\t(#) <Log to file> :bool #"+ logToFile +" (<!> to negate the default value) (Whether the log should be written only to the console or to a file as well)\n";
+            helpMessage += "\t( ) <don't use default paths> :bool(<t> to true) (to use just the path on the <File path> argument when searching for graphs)\n";
 
 
             if(args.Length == 1 && (args[0] == "-h" || args[0] == "--help"))
@@ -45,9 +48,9 @@ namespace SearchConsoleApp
                 Console.WriteLine(helpMessage);
                 return;
             }            
-            else if (args.Length < 4 || args.Length > 6)
+            else if (args.Length < 4 || args.Length > 7)
             {
-                throw new ArgumentException("Must inform 4~6 argument must be passed\n" + helpMessage);
+                throw new ArgumentException("Must inform 4~7 argument must be passed\n" + helpMessage);
             }
 
             var argument = 0;
@@ -59,10 +62,15 @@ namespace SearchConsoleApp
 
             if(args.Length >= argument + 1)
             {
-                defaultThreadNumber = args[argument++] == "#"? defaultThreadNumber : Int32.Parse(args[3]);
+                defaultThreadNumber = args[argument++] == "#"? defaultThreadNumber : Int32.Parse(args[argument - 1]);
             }
 
-            if(args.Length >= argument + 1 && args[argument] == "t")
+            if(args.Length >= argument + 1)
+            {
+                logToFile = args[argument++] == "!"? !logToFile: logToFile;
+            }
+
+            if(args.Length >= argument + 1 && args[argument++] == "t")
             {
                 file_path = "";
                 ods_path = "";
@@ -71,7 +79,9 @@ namespace SearchConsoleApp
             Graph graph = Import.LoadCityFromText(file_path + path);
             var ods = Import.LoadODsFromTxt(ods_path, OD);
 
-            SearchStrategyFactory strategyFactory = null;
+            SearchStrategyFactory strategyFactory = SearchStrategyFactory.GetFactory(strategy);            
+
+            LoggerFactory.Define(logToFile, "MultithreadSearch-" + strategyFactory.SearchName);
 
             var threadBuilder = new ThreadBuilder(graph, strategyFactory, ods, radius, defaultThreadNumber);
             
