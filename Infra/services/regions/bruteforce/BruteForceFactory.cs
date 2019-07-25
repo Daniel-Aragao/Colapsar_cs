@@ -1,3 +1,4 @@
+using Core;
 using Core.models;
 
 
@@ -5,7 +6,7 @@ namespace Infra.services.regions
 {
     public class BruteForceFactory: SearchStrategyFactory
     {
-        public BruteForceFactory() : base("BruteForce")
+        public BruteForceFactory() : base(Constants.ALGORITHMN_NAME_BRUTE_FORCE)
         {
             
         }

@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Core;
 using Core.models;
 
 namespace Infra.services.regions
 {
     public class Collapse : SearchStrategy
     {
-        public Collapse(Graph graph) : base(graph)
+        public Collapse(Graph graph) : base(graph, Constants.ALGORITHMN_NAME_COLLAPSE)
         {
 
         }

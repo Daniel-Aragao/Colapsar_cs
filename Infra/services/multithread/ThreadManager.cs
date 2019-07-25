@@ -5,21 +5,29 @@ using Core;
 using Core.models;
 using Infra.services;
 using Infra.services.log;
+using Infra.services.regions;
 
 namespace Infra.services.multithread
 {
     public class ThreadManager
     {
         private int ThreadsQuantity;
+        private int FinishedThreads;
         private readonly object progressLock = new object();
         private int ODsSize;
         private int ODsRunned;
         private double Radius;
         private string OutputFileName;
         private ILogger _logger;
-
-        public ThreadManager(Graph graph, int threadsQuantity, int ODsSize, double radius)
+        private TimeSpan TotalTime;
+        private Dictionary<EPathStatus, int> StatusCount;
+        Graph graph;
+        SearchStrategy strategy;
+        
+        public ThreadManager(Graph graph, int threadsQuantity, int ODsSize, double radius, SearchStrategy strategy)
         {
+            this.graph = graph;
+            this.strategy =strategy;
             this.ThreadsQuantity = threadsQuantity;
             this.ODsSize = ODsSize; 
             this.Radius = radius;
@@ -34,9 +42,9 @@ namespace Infra.services.multithread
             // this.FileName += Constants.SEPARATOR_FILE_NAMES + now.Year + "_" + now.Month + "_" + now.Day;
             // this.FileName += "_" + now.Hour + "_" + now.Minute + "_" + now.Second;
 
-            this._logger =LoggerFactory.GetLogger();
+            this._logger = LoggerFactory.GetLogger();
 
-            this._logger.WriteLine("Iniciando Força Bruta:{\n\tGrafo:" + graph.Name + "\n\tThreads: " + this.ThreadsQuantity +
+            this._logger.WriteLine("Iniciando "+ strategy.Name +":{\n\tGrafo:" + graph.Name + "\n\tThreads: " + this.ThreadsQuantity +
 				"\n\tRaio: " + this.Radius + "\n\tODs: " + this.ODsSize + "\n}");
         }
 
@@ -48,6 +56,13 @@ namespace Infra.services.multithread
                 
                 foreach (var pathRoute in pathRoutes)
                 {
+                    if(!this.StatusCount.ContainsKey(pathRoute.Status))
+                    {
+                        this.StatusCount.Add(pathRoute.Status, 0);
+                    }
+
+                    this.StatusCount[pathRoute.Status] = this.StatusCount[pathRoute.Status] + 1;
+
                     outputWriter.WriteLine(pathRoute.ToString());
                 }
 
@@ -64,7 +79,28 @@ namespace Infra.services.multithread
         {
             lock (progressLock)
             {
-                throw new NotImplementedException();
+                this.TotalTime += totalTime;
+                this.FinishedThreads += 1;
+
+                this._logger.WriteLine("\t\tFim: " + "threadname");
+
+                if(this.FinishedThreads == this.ThreadsQuantity)
+                {
+
+                    this._logger.WriteLine("\nQuantidade de rotas: " + this.ODsSize);
+
+                    foreach(var keypair in this.StatusCount)
+                    {
+                        // keypair.Key keypair.value
+                        this._logger.WriteLine("Status: " + keypair.Key + " Qtd.: " + keypair.Value);
+                    }
+                    this._logger.WriteLine("Tempo decorrido para "+ strategy.Name +" para " + this.Radius
+					+ " metros = " + this.TotalTime.TotalMinutes + "\n"
+					+ "para o arquivo: " + this.graph.Name + "\n");
+                    
+                    var outputWriter = Export.GetWriter(this.OutputFileName);
+                    outputWriter.Close();
+                }
             }
         }
     }

@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Core.models;
 
 namespace Infra.services.regions
 {
     public class BruteForce : SearchStrategy
     {
-        public BruteForce(Graph graph): base(graph)
+        public BruteForce(Graph graph): base(graph, Constants.ALGORITHMN_NAME_BRUTE_FORCE)
         {
             
         }

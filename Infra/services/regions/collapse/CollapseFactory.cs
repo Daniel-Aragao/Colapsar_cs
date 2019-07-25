@@ -1,3 +1,4 @@
+using Core;
 using Core.models;
 
 
@@ -5,7 +6,7 @@ namespace Infra.services.regions
 {
     public class CollapseFactory: SearchStrategyFactory
     {
-        public CollapseFactory() : base("Collapse")
+        public CollapseFactory() : base(Constants.ALGORITHMN_NAME_COLLAPSE)
         {
             
         }

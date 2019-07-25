@@ -5,11 +5,13 @@ namespace Infra.services.regions
 {
     public abstract class SearchStrategy
     {
+        public string Name {get; private set;}
         protected Graph Graph {get;}
 
-        public SearchStrategy(Graph graph)
+        public SearchStrategy(Graph graph, string name)
         {
             this.Graph = graph;
+            this.Name = name;
         }
 
         public abstract PathRoute Search(Node source, Node target, double radius);
