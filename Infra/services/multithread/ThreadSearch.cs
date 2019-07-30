@@ -53,7 +53,7 @@ namespace Infra.services.multithread
                 if(percent <= i - j || i == this.ODSize)
                 {
                     var progress = i/this.ODSize;
-                    this.ThreadManager.addProgress(progress, pathRoutes);
+                    this.ThreadManager.addProgress(progress, pathRoutes, threadTimeDelta);
 
                     j = i;
                     pathRoutes = new List<PathRoute>();

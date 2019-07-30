@@ -37,7 +37,7 @@ namespace Infra.services.multithread
             for (int i = 0; i < this.ThreadsQuantity; i++)
             {
                 int begin = i * interval;
-                int end = i * interval + interval;
+                int end = interval;//i * interval + interval;
 
                 if (i + 1 == this.ThreadsQuantity)
                 {

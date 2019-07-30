@@ -16,12 +16,10 @@ namespace Infra.services.log
             {
                 var now = DateTime.Now;
 
-                var logFileName = "LOG-(" + Constants.SEPARATOR_FILE_NAMES + now.Year + "_" + now.Month + "_" + now.Day;
-                logFileName += "_" + now.Hour + "_" + now.Minute + "_" + now.Second + ")-"+ programName +"-.txt";
+                var logFileName = "LOG-(" + now.Year + "_" + now.Month + "_" + now.Day;
+                logFileName += "_" + now.Hour + "_" + now.Minute + "_" + now.Second + ")-"+ programName +".txt";
 
-                logFileName = Constants.PATH_LOGS + logFileName;
-
-                _logger = new ConsoleAndFileLogger(Export.GetWriter(logFileName));
+                _logger = new ConsoleAndFileLogger(Export.GetWriter(logFileName, Constants.PATH_LOGS));
             }
             else
             {

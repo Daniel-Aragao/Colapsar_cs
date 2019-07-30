@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Collections.Generic;
 
 using Core;
@@ -50,7 +51,7 @@ namespace Infra.services.multithread
 				"\n\tRaio: " + this.Radius + "\n\tODs: " + this.ODsSize + "\n}");
         }
 
-        public void addProgress(double progress, IList<PathRoute> pathRoutes)
+        public void addProgress(double progress, IList<PathRoute> pathRoutes, TimeSpan threadTimeDelta)
         {
             lock (progressLock)
             {
@@ -72,7 +73,7 @@ namespace Infra.services.multithread
 
                 this.ODsRunned += pathRoutes.Count;
                 
-                var logMessage = String.Format("Progresso ({0}): {1:0.00}%\tODs:{2}/{3}\tTempo: {4}", "threadname", progress, this.ODsRunned, this.ODsSize);
+                var logMessage = String.Format("Progresso ({0}): {1:0.00}%\tODs: {2}/{3}\tTempo: {4}", Thread.CurrentThread.Name, progress, this.ODsRunned, this.ODsSize, threadTimeDelta.TotalMinutes);
                 this._logger.WriteLine(logMessage);
             }
         }

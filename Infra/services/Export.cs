@@ -25,10 +25,10 @@ namespace Infra.services
                 return writers[filePath];
             }
 
-            if(!File.Exists(filePath))
-            {
-                File.Create(path);
-            }
+            // if(!File.Exists(filePath))
+            // {
+            //     File.Create(filePath);
+            // }
 
             var writer = new StreamWriter(filePath);
 
