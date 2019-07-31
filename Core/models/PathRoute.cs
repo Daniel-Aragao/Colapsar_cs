@@ -112,8 +112,10 @@ namespace Core.models
 
                     if(this.DeltaTime != null)
                     {
-                        returnString += PathRoute.SEPARATOR + this.DeltaTime.TotalMinutes;
+                        returnString += this.DeltaTime.TotalMinutes;
                     }
+                    
+                    returnString += PathRoute.SEPARATOR;
 
                     returnString += this.Path();
                     break;

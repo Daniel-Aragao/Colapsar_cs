@@ -506,6 +506,20 @@ namespace Tests
             Assert.Equal(expectedIds, resultIds);
         }
         
+        [Fact]
+        public void CollapseShouldReturnPathFoundFrom245673058To1179261823()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "Mumbai-network-osm-2019-1_2.txt");
+
+            SearchStrategy CollapseStrategy = new Collapse(graph);
+            var p_245673058 = graph.GetNodeById(245673058);
+            var p_1179261823 = graph.GetNodeById(1179261823);
+
+            PathRoute pathRoute = CollapseStrategy.Search(p_245673058, p_1179261823, 50);
+
+            Assert.Equal(EPathStatus.Found, pathRoute.Status);
+        }
+        
         // collapse tests
     }
 }

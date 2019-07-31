@@ -41,9 +41,11 @@ namespace Infra.services.regions
                     
                     pathRoute.Nodes[0] = originalSource.Source;
                     pathRoute.Nodes[pathRoute.Nodes.Count() - 1] = originalTarget.Target;
+                    pathRoute.Source = source;
 
                     pathRoute.Edges[0] = originalSource;
                     pathRoute.Edges[pathRoute.Edges.Count() - 1] = originalTarget;
+                    pathRoute.Target = target;
                 }
                 else
                 {

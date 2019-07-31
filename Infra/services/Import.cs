@@ -17,9 +17,8 @@ namespace Infra.services
         {
             if(!File.Exists(path))
             {
-                Console.WriteLine("------------ Current directory: " + Directory.GetCurrentDirectory() + "------------");
-                
-                throw new ArgumentException("The path informed do not exist " + path);
+                var thisPath = Directory.GetCurrentDirectory();
+                throw new ArgumentException("The path informed do not exist: " + path + "\n on the currenct directory:" + thisPath);
             }
             
             Graph graph = new Graph(Path.GetFileName(path).Replace(Path.GetExtension(path), ""));

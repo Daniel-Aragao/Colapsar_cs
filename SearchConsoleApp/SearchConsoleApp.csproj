@@ -10,4 +10,11 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="$(ProjectDir)graphs\**" LinkBase="graphs\"  CopyToOutputDirectory="Always"/>
+    <None Include="$(ProjectDir)logs\**" LinkBase="logs\"  CopyToOutputDirectory="Always"/>
+    <None Include="$(ProjectDir)ODs\**" LinkBase="ODs\"  CopyToOutputDirectory="Always"/>
+    <None Include="$(ProjectDir)outputs\**" LinkBase="outputs\"  CopyToOutputDirectory="Always"/>
+  </ItemGroup>
+
 </Project>

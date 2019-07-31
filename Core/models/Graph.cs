@@ -97,7 +97,7 @@ namespace Core.models
                 throw new ArgumentException("Source or Target id does not exist");
             }
 
-            Edge new_edge = new Edge(this._nodes[edge.Source.Id], this._nodes[edge.Target.Id], edge.Weight);
+            Edge new_edge = CreateEdge(this._nodes[edge.Source.Id], this._nodes[edge.Target.Id], edge.Weight);
             new_edge.Label = edge.Label;
             
             edge.CloneAttributes(new_edge);

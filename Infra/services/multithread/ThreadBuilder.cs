@@ -22,7 +22,7 @@ namespace Infra.services.multithread
             this.StrategyFactory = strategyFactory;
             this.ODs = ODs;
             this.Radius = radius;
-            this.ThreadsQuantity = Math.Min(Math.Min(ODs.Count, threads), Environment.ProcessorCount);
+            this.ThreadsQuantity = Math.Max(Math.Min(Math.Min(ODs.Count, threads), Environment.ProcessorCount), 1);
 
             // new Thread(new ThreadStart(ThreadManager))
         }
