@@ -148,7 +148,7 @@ namespace Infra.services
         {
             List<Tuple<long,long>> returnList = new List<Tuple<long,long>>();
 
-            using(StreamReader sr = File.OpenText(path + graphName + Constants.SEPARATOR_FILE_NAMES + ODSize + Constants.OD_FILE_NAMES + ".txt"))
+            using(StreamReader sr = File.OpenText(path + graphName + Constants.SEPARATOR_FILE_NAMES + ODSize + Constants.FILE_NAMES_OD + ".txt"))
             {
                 string line;
 

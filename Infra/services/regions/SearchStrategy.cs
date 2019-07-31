@@ -3,12 +3,12 @@ using Core.models;
 
 namespace Infra.services.regions
 {
-    public abstract class @string
+    public abstract class SearchStrategy
     {
         public string Name {get; private set;}
         protected Graph Graph {get;}
 
-        public @string(Graph graph, string name)
+        public SearchStrategy(Graph graph, string name)
         {
             this.Graph = graph;
             this.Name = name;
@@ -20,11 +20,11 @@ namespace Infra.services.regions
         {
             if (source == null || target == null || !this.Graph.ExistNode(source.Id) || !this.Graph.ExistNode(target.Id))
             {
-                return new PathRoute(EPathStatus.SourceOrTargetDoNotExist);
+                return new PathRoute(EPathStatus.SourceOrTargetDoNotExist, source, target);
             }
             else if (source == target)
             {
-                return new PathRoute(EPathStatus.SourceAndTargetAreEqual);
+                return new PathRoute(EPathStatus.SourceAndTargetAreEqual, source, target);
             }
 
             return null;

@@ -384,13 +384,13 @@ namespace Core.models
                     parent = edge.Source;
                 }
 
-                var pathRoute = new PathRoute(edges.Reverse().ToArray(), weightToNode[target.Id], status);
+                var pathRoute = new PathRoute(status, source, target, edges.Reverse().ToArray(), weightToNode[target.Id]);
                 pathRoute.QuantityOfExpansions = quantityOfExpansions;
 
                 return pathRoute;
             }
 
-            return new PathRoute(EPathStatus.NotFound);
+            return new PathRoute(EPathStatus.NotFound, source, target);
         }
 
         public double AveragePathLenght()

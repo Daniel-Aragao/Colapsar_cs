@@ -47,7 +47,7 @@ namespace Infra.services.multithread
                 List<Tuple<long, long>> portion = this.ODs.GetRange(begin, end);
 
                 Graph graphClone = this._graph.Clone();
-                @string searhcStrategy = this.StrategyFactory.GetStrategy(graphClone);
+                SearchStrategy searhcStrategy = this.StrategyFactory.GetStrategy(graphClone);
 
                 var ts = new ThreadSearch(graphClone, searhcStrategy, portion, this.Radius, manager);
                 var thread = new Thread(new ThreadStart(ts.Search));

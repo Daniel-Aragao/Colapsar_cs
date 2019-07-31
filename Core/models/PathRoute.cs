@@ -13,8 +13,8 @@ namespace Core.models
 
         public Edge[] Edges { get; }
         public Node[] Nodes { get; }
-        public Node Source { get; }
-        public Node Target { get; }
+        public Node Source { get; set;}
+        public Node Target { get; set;}
         public double Distance { get; set; }
         public int Jumps { get { return Edges.Length; } }
         public EPathStatus Status { get; }
@@ -22,11 +22,13 @@ namespace Core.models
         public int QuantityOfExpansions { get; set; }
         public TimeSpan DeltaTime { get; set; }
 
-        public PathRoute(Edge[] edges, double distance, EPathStatus status)
+        public PathRoute(EPathStatus status, Node source, Node target, Edge[] edges, double distance)
         {
-            if (edges == null)
+            ValidateCtor(source, target);
+
+            if (edges == null || edges.Length == 0)
             {
-                throw new ArgumentNullException("Edges can't be null");
+                throw new ArgumentNullException("Edges can't be null or empty");
             }
 
             this.Edges = edges;
@@ -42,8 +44,8 @@ namespace Core.models
                 this.Nodes[i + 1] = edge.Target;
             }
 
-            this.Source = this.Nodes[0];
-            this.Target = this.Nodes[this.Nodes.Length - 1];
+            this.Source = source;
+            this.Target = target;
         }
 
         // public PathRoute(Node[] nodes, double distance, EPathStatus status)
@@ -58,15 +60,33 @@ namespace Core.models
         //     this.Status = status;
         // }
 
-        public PathRoute(EPathStatus status)
+        public PathRoute(EPathStatus status, Node source, Node target)
         {
+            ValidateCtor(source, target);
+
             this.Status = status;
+
+            this.Source = source;
+            this.Target = target;
         }
 
-        public PathRoute(EPathStatus status, Exception e)
+        public PathRoute(EPathStatus status, Node source, Node target, Exception e)
         {
+            ValidateCtor(source, target);
+
             this.Status = status;
             this.Exception = e;
+
+            this.Source = source;
+            this.Target = target;
+        }
+
+        private void ValidateCtor(Node source, Node target)
+        {
+            if(source == null || target == null)
+            {
+                throw new ArgumentNullException("Neither Source or Target can be null");
+            }
         }
 
         public string Path()
@@ -76,7 +96,7 @@ namespace Core.models
 
         public override string ToString()
         {
-            var returnString = this.Source + PathRoute.SEPARATOR + this.Target + PathRoute.SEPARATOR + this.Status.ToString() + PathRoute.SEPARATOR;
+            var returnString = this.Source.Id + PathRoute.SEPARATOR + this.Target.Id + PathRoute.SEPARATOR + this.Status.ToString() + PathRoute.SEPARATOR;
 
             switch (this.Status)
             {

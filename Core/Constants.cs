@@ -13,8 +13,9 @@ namespace Core
         // FILE NAMES AND EXTENSIONS
         public const char SEPARATOR_ODs = ',';
         public const char SEPARATOR_FILE_NAMES = '-';
-        public const string OD_FILE_NAMES = "-ODs-";
-        public const string OD_FILE_EXTENSION = ".txt";
+        public const string FILE_NAMES_OD = "-ODs-";
+        public const string FILE_EXTENSION_OD = ".txt";
+        public const string FILE_EXTENSION_OUTPUT = ".txt";
 
         // VALUES
         public const bool LOG_TO_FILE = true;

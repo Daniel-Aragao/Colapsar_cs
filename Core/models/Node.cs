@@ -125,10 +125,10 @@ namespace Core.models
                     }
                 }
 
-                return new PathRoute(new Edge[] { shortestEdge }, shortest, EPathStatus.Found);
+                return new PathRoute(EPathStatus.Found, source, target, new Edge[] { shortestEdge }, shortest);
             }
 
-            return new PathRoute(EPathStatus.NotFound);
+            return new PathRoute(EPathStatus.NotFound, source, target);
         }
 
         public void PutAttribute(string attr, Object value)

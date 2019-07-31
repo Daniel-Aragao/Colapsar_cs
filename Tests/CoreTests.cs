@@ -320,7 +320,7 @@ namespace Tests
 
             Node[] nodes = new Node[] { g.GetNodeById(1), g.GetNodeById(2), g.GetNodeById(3), g.GetNodeById(4)};
 
-            PathRoute pr = new PathRoute(edges, 4, EPathStatus.Found);
+            PathRoute pr = new PathRoute(EPathStatus.Found, g.GetNodeById(1), g.GetNodeById(3), edges, 4);
 
             Assert.Equal(nodes, pr.Nodes);
         }
@@ -697,7 +697,7 @@ namespace Tests
 
             var edges = new Edge[] {e_1_3, e_3_2, e_2_4};
 
-            var pathRoute = new PathRoute(edges, 3, EPathStatus.Found);
+            var pathRoute = new PathRoute(EPathStatus.Found, p_1, p_4, edges, 3);
 
             Assert.Equal(new Node[]{p_1, p_3, p_2, p_4}, pathRoute.Nodes);
             Assert.Equal(3, pathRoute.Jumps);
@@ -717,7 +717,7 @@ namespace Tests
 
             var edges = new Edge[] {e_1_3};
 
-            var pathRoute = new PathRoute(edges, 1, EPathStatus.Found);
+            var pathRoute = new PathRoute(EPathStatus.Found, p_1, p_3, edges, 1);
 
             Assert.Equal(new Node[]{p_1, p_3}, pathRoute.Nodes);
             Assert.Equal(1, pathRoute.Jumps);
@@ -745,7 +745,7 @@ namespace Tests
 
             var edges = new Edge[] {edge_arad_sibiu, edge_sibiu_rimnicu_vilcea, edge_rimnicu_vilcea_pitesti, edge_pitesti_bucharest};
 
-            var pathRoute = new PathRoute(edges, 1, EPathStatus.Found);
+            var pathRoute = new PathRoute(EPathStatus.Found, arad, sibiu, edges, 1);
 
             // pathRoute.Nodes.ToList().ForEach(Console.WriteLine);
 

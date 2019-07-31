@@ -10,13 +10,13 @@ namespace Infra.services.multithread
     public class ThreadSearch
     {
         private Graph _graph; 
-        private @string Strategy; 
+        private SearchStrategy Strategy; 
         private List<Tuple<long,long>> ODs;
         private double Radius;
         private ThreadManager ThreadManager;
         public int ODSize { get {return this.ODs.Count;} }
 
-        public ThreadSearch(Graph graph, @string strategy, List<Tuple<long,long>> ODs, double radius, ThreadManager threadManager)
+        public ThreadSearch(Graph graph, SearchStrategy strategy, List<Tuple<long,long>> ODs, double radius, ThreadManager threadManager)
         {
             this._graph = graph;
             this.Strategy = strategy;
@@ -34,7 +34,7 @@ namespace Infra.services.multithread
 
             for(int i = 1, j = 0; i <= this.ODs.Count; i++)
             {
-                var od = this.ODs[i];
+                var od = this.ODs[i - 1];
 
                 var sourceId = od.Item1;
                 var targetId = od.Item2;
@@ -52,7 +52,7 @@ namespace Infra.services.multithread
 
                 if(percent <= i - j || i == this.ODSize)
                 {
-                    var progress = i/this.ODSize;
+                    float progress = (((float)i)/this.ODSize) * 100;
                     this.ThreadManager.addProgress(progress, pathRoutes, threadTimeDelta);
 
                     j = i;

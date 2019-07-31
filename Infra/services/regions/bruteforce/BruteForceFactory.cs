@@ -11,7 +11,7 @@ namespace Infra.services.regions
             
         }
 
-        public override @string GetStrategy(Graph g)
+        public override SearchStrategy GetStrategy(Graph g)
         {
             return new BruteForce(g);
         }

@@ -39,9 +39,12 @@ namespace Infra.services.multithread
             var now = DateTime.Now;
 
             this.OutputFileName = graph.Name;
+            this.OutputFileName += Constants.SEPARATOR_FILE_NAMES + strategyName;
             this.OutputFileName += Constants.SEPARATOR_FILE_NAMES + this.ODsSize.ToString();
             this.OutputFileName += Constants.SEPARATOR_FILE_NAMES + this.Radius.ToString();
             this.OutputFileName += Constants.SEPARATOR_FILE_NAMES + this.ThreadsQuantity;
+            this.OutputFileName += Constants.FILE_EXTENSION_OUTPUT;
+            
             // this.FileName += Constants.SEPARATOR_FILE_NAMES + now.Year + "_" + now.Month + "_" + now.Day;
             // this.FileName += "_" + now.Hour + "_" + now.Minute + "_" + now.Second;
 
@@ -51,7 +54,7 @@ namespace Infra.services.multithread
 				"\n\tRaio: " + this.Radius + "\n\tODs: " + this.ODsSize + "\n}");
         }
 
-        public void addProgress(double progress, IList<PathRoute> pathRoutes, TimeSpan threadTimeDelta)
+        public void addProgress(float progress, IList<PathRoute> pathRoutes, TimeSpan threadTimeDelta)
         {
             lock (progressLock)
             {
@@ -73,7 +76,7 @@ namespace Infra.services.multithread
 
                 this.ODsRunned += pathRoutes.Count;
                 
-                var logMessage = String.Format("Progresso ({0}): {1:0.00}%\tODs: {2}/{3}\tTempo: {4}", Thread.CurrentThread.Name, progress, this.ODsRunned, this.ODsSize, threadTimeDelta.TotalMinutes);
+                var logMessage = String.Format("Progresso ({0}): {1:0.00}%\tODs: {2}/{3}\tTempo: {4:0.00000}", Thread.CurrentThread.Name, progress, this.ODsRunned, this.ODsSize, threadTimeDelta.TotalMinutes);
                 this._logger.WriteLine(logMessage);
             }
         }
@@ -85,7 +88,7 @@ namespace Infra.services.multithread
                 this.TotalTime += totalTime;
                 this.FinishedThreads += 1;
 
-                this._logger.WriteLine("\t\tFim: " + "threadname");
+                this._logger.WriteLine("\t\tFim: " + Thread.CurrentThread.Name);
 
                 if(this.FinishedThreads == this.ThreadsQuantity)
                 {

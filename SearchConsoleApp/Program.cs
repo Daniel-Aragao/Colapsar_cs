@@ -36,9 +36,9 @@ namespace SearchConsoleApp
             helpMessage += "\t3. The order of the parameters must be followed (you can \n\tuse i to avoid change default values or to ignore optional arguments)\n";
             helpMessage += "\n==========> Arguments <==========\n";
             helpMessage += "\t(*) <Strategy> : string (<C> to Collapse, <BF> to BruteForce)\n";
-            helpMessage += "\t(*) <File name> : string\n";
+            helpMessage += "\t(*) <File name> : string #"+Constants.PATH_GRAPH+"<File name>\n";
             helpMessage += "\t(*) <Distance> :double (radius to search) \n";
-            helpMessage += "\t(*) <OD size> :int (number of Origin and Destination to run)\n";
+            helpMessage += "\t(*) <OD size> :int (number of Origin and Destination to run) #"+Constants.PATH_ODs+"<OD size>\n";
             helpMessage += "\t(#) <Number of threads to use> :int #"+ defaultThreadNumber +" (The number of logical processors in this machine)\n";
             helpMessage += "\t(#) <Log to file> :bool #"+ logToFile +" (<!> to negate the default value) (Whether the log should be written only to the console or to a file as well)\n";
             helpMessage += "\t( ) <don't use default paths> :bool(<t> to true) (to use just the path on the <File path> argument when searching for graphs)\n";
@@ -92,7 +92,3 @@ namespace SearchConsoleApp
         }
     }
 }
-//   <ItemGroup>
-//     <ProjectReference Include="..\Core\Core.csproj" />
-//     <ProjectReference Include="..\Infra\Infra.csproj" />
-//   </ItemGroup>

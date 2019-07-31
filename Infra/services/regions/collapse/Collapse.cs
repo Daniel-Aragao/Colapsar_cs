@@ -7,7 +7,7 @@ using Core.models;
 
 namespace Infra.services.regions
 {
-    public class Collapse : @string
+    public class Collapse : SearchStrategy
     {
         public Collapse(Graph graph) : base(graph, Constants.ALGORITHMN_NAME_COLLAPSE)
         {
@@ -32,31 +32,29 @@ namespace Infra.services.regions
 
                 if (pathRoute.Status == EPathStatus.Found)
                 {
-                    if (pathRoute.Jumps > 1)
-                    {
-                        var fakeSource = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[0], pathRoute.Nodes[1]).Edges[0];
-                        var fakeTarget = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[pathRoute.Nodes.Count() - 2], pathRoute.Nodes[pathRoute.Nodes.Count() - 1]).Edges[0];
+                    var fakeSource = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[0], pathRoute.Nodes[1]).Edges[0];
+                    var fakeTarget = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[pathRoute.Nodes.Count() - 2], pathRoute.Nodes[pathRoute.Nodes.Count() - 1]).Edges[0];
 
-                        var originalSource = (Edge)fakeSource.GetAttribute("original_edge");
-                        var originalTarget = (Edge)fakeTarget.GetAttribute("original_edge");
-                        //TODO: update the pathroute distance too?
-                        
-                        pathRoute.Nodes[0] = originalSource.Source;
-                        pathRoute.Nodes[pathRoute.Nodes.Count() - 1] = originalTarget.Target;
+                    var originalSource = (Edge)fakeSource.GetAttribute("original_edge");
+                    var originalTarget = (Edge)fakeTarget.GetAttribute("original_edge");
+                    //TODO: update the pathroute distance too?
+                    
+                    pathRoute.Nodes[0] = originalSource.Source;
+                    pathRoute.Nodes[pathRoute.Nodes.Count() - 1] = originalTarget.Target;
 
-                        pathRoute.Edges[0] = originalSource;
-                        pathRoute.Edges[pathRoute.Edges.Count() - 1] = originalTarget;
-                    }
-                    else
-                    {
-                        pathRoute.Nodes[0] = source;
-                    }
+                    pathRoute.Edges[0] = originalSource;
+                    pathRoute.Edges[pathRoute.Edges.Count() - 1] = originalTarget;
+                }
+                else
+                {
+                    pathRoute.Source = source;
+                    pathRoute.Target = target;
                 }
 
             }
             catch (Exception e)
             {
-                pathRoute = new PathRoute(EPathStatus.UnexpectedException, e);
+                pathRoute = new PathRoute(EPathStatus.UnexpectedException, source, target, e);
             }
             finally
             {
@@ -132,7 +130,7 @@ namespace Infra.services.regions
             }
             else if (source.Position.DistanceFunction(source.Position, target.Position) <= radius)
             {
-                return new PathRoute(EPathStatus.SourceAndTargetAreToCloseToCollapse);
+                return new PathRoute(EPathStatus.SourceAndTargetAreToCloseToCollapse, source, target);
             }
 
             return null;

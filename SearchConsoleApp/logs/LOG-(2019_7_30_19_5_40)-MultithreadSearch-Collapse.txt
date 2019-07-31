@@ -1,6 +1,0 @@
-Iniciando Collapse:{
-	Grafo:Mumbai-network-osm-2018-1
-	Threads: 4
-	Raio: 50
-	ODs: 300
-}

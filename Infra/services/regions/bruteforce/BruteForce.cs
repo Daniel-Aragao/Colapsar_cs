@@ -6,7 +6,7 @@ using Core.models;
 
 namespace Infra.services.regions
 {
-    public class BruteForce : @string
+    public class BruteForce : SearchStrategy
     {
         public BruteForce(Graph graph): base(graph, Constants.ALGORITHMN_NAME_BRUTE_FORCE)
         {
@@ -42,6 +42,12 @@ namespace Infra.services.regions
                         }
                     }
                 }
+            }
+
+            if(betterPathRoute != null && betterPathRoute.Status != EPathStatus.Found)
+            {
+                betterPathRoute.Source = source;
+                betterPathRoute.Target = target;
             }
 
             return betterPathRoute;
