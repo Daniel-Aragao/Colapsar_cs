@@ -1,0 +1,60 @@
+Iniciando Collapse:{
+	Grafo:Mumbai-network-osm-2019-1_2
+	Threads: 4
+	Raio: 50
+	ODs: 1100
+}
+Progresso (T3): 9.82%	ODs: 27/1100(002%)	Tempo: 0.55502
+Progresso (T1): 9.82%	ODs: 54/1100(005%)	Tempo: 0.58102
+Progresso (T2): 9.82%	ODs: 81/1100(007%)	Tempo: 0.59571
+Progresso (T4): 9.82%	ODs: 108/1100(010%)	Tempo: 0.72998
+Progresso (T3): 19.64%	ODs: 135/1100(012%)	Tempo: 1.11499
+Progresso (T1): 19.64%	ODs: 162/1100(015%)	Tempo: 1.16388
+Progresso (T2): 19.64%	ODs: 189/1100(017%)	Tempo: 1.17479
+Progresso (T4): 19.64%	ODs: 216/1100(020%)	Tempo: 1.30026
+Progresso (T2): 29.45%	ODs: 243/1100(022%)	Tempo: 1.67999
+Progresso (T3): 29.45%	ODs: 270/1100(025%)	Tempo: 1.68420
+Progresso (T1): 29.45%	ODs: 297/1100(027%)	Tempo: 1.79871
+Progresso (T4): 29.45%	ODs: 324/1100(029%)	Tempo: 1.91543
+Progresso (T3): 39.27%	ODs: 351/1100(032%)	Tempo: 2.26273
+Progresso (T2): 39.27%	ODs: 378/1100(034%)	Tempo: 2.28067
+Progresso (T1): 39.27%	ODs: 405/1100(037%)	Tempo: 2.30464
+Progresso (T4): 39.27%	ODs: 432/1100(039%)	Tempo: 2.43694
+Progresso (T2): 49.09%	ODs: 459/1100(042%)	Tempo: 2.75953
+Progresso (T3): 49.09%	ODs: 486/1100(044%)	Tempo: 2.81430
+Progresso (T1): 49.09%	ODs: 513/1100(047%)	Tempo: 2.96064
+Progresso (T4): 49.09%	ODs: 540/1100(049%)	Tempo: 3.00400
+Progresso (T2): 58.91%	ODs: 567/1100(052%)	Tempo: 3.34879
+Progresso (T3): 58.91%	ODs: 594/1100(054%)	Tempo: 3.39579
+Progresso (T1): 58.91%	ODs: 621/1100(056%)	Tempo: 3.49110
+Progresso (T4): 58.91%	ODs: 648/1100(059%)	Tempo: 3.51956
+Progresso (T3): 68.73%	ODs: 675/1100(061%)	Tempo: 3.93478
+Progresso (T2): 68.73%	ODs: 702/1100(064%)	Tempo: 4.05714
+Progresso (T4): 68.73%	ODs: 729/1100(066%)	Tempo: 4.07944
+Progresso (T1): 68.73%	ODs: 756/1100(069%)	Tempo: 4.14176
+Progresso (T3): 78.55%	ODs: 783/1100(071%)	Tempo: 4.56684
+Progresso (T4): 78.55%	ODs: 810/1100(074%)	Tempo: 4.58675
+Progresso (T2): 78.55%	ODs: 837/1100(076%)	Tempo: 4.65610
+Progresso (T1): 78.55%	ODs: 864/1100(079%)	Tempo: 4.74146
+Progresso (T3): 88.36%	ODs: 891/1100(081%)	Tempo: 5.10746
+Progresso (T4): 88.36%	ODs: 918/1100(083%)	Tempo: 5.10485
+Progresso (T2): 88.36%	ODs: 945/1100(086%)	Tempo: 5.19173
+Progresso (T1): 88.36%	ODs: 972/1100(088%)	Tempo: 5.36111
+Progresso (T3): 98.18%	ODs: 999/1100(091%)	Tempo: 5.64175
+Progresso (T4): 98.18%	ODs: 1026/1100(093%)	Tempo: 5.67152
+Progresso (T2): 98.18%	ODs: 1053/1100(096%)	Tempo: 5.72650
+Progresso (T3): 100.00%	ODs: 1058/1100(096%)	Tempo: 5.74401
+		Fim: T3
+Progresso (T4): 100.00%	ODs: 1063/1100(097%)	Tempo: 5.78526
+		Fim: T4
+Progresso (T2): 100.00%	ODs: 1068/1100(097%)	Tempo: 5.81594
+		Fim: T2
+Progresso (T1): 98.18%	ODs: 1095/1100(100%)	Tempo: 5.86414
+Progresso (T1): 100.00%	ODs: 1100/1100(100%)	Tempo: 5.90659
+		Fim: T1
+
+Quantidade de rotas: 1100
+Status: Found Qtd.: 1100
+Tempo decorrido para Collapse para 50 metros = 23.2517989116667
+para o arquivo: Mumbai-network-osm-2019-1_2
+
