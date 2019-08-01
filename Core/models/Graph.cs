@@ -101,7 +101,7 @@ namespace Core.models
             new_edge.Label = edge.Label;
             
             edge.CloneAttributes(new_edge);
-            this._edges.Add(new_edge);
+            // this._edges.Add(new_edge);
 
             return new_edge;
         }
