@@ -12,6 +12,7 @@ namespace Core
 
         // FILE NAMES AND EXTENSIONS
         public const char SEPARATOR_ODs = ',';
+        public const char SEPARATOR_PATH_IDS = ';';
         public const char SEPARATOR_FILE_NAMES = '-';
         public const string FILE_NAMES_OD = "-ODs-";
         public const string FILE_EXTENSION_OD = ".txt";
@@ -21,6 +22,7 @@ namespace Core
         public const bool LOG_TO_FILE = true;
         public const string ALGORITHMN_NAME_COLLAPSE = "Collapse";
         public const string ALGORITHMN_NAME_BRUTE_FORCE = "BruteForce";
+        public const float DISTANCE_DIFFERENCE_THRESHOLD = 0.001f;
 
     }
 }

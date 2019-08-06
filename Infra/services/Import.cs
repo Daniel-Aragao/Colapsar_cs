@@ -161,6 +161,43 @@ namespace Infra.services
 
             return returnList;
         }
+
+        public static Dictionary<string, RouteMeasures> LoadRouteMeasuresFromTxt(string path)
+        {
+            Dictionary<string, RouteMeasures> result = new Dictionary<string, RouteMeasures>();
+
+            using(StreamReader sr = File.OpenText(path))
+            {
+                string line;
+
+                while((line = sr.ReadLine()) != null)
+                {
+                    var lineSplited = line.Split(Constants.SEPARATOR_ODs);
+
+                    EPathStatus status = lineSplited[2].GetEnumFromString<EPathStatus>();
+
+                    var routeMeasures = new RouteMeasures(status);
+
+                    routeMeasures.SourceId = long.Parse(lineSplited[0]);
+                    routeMeasures.TargetId = long.Parse(lineSplited[1]);
+                    routeMeasures.Jumps = Int32.Parse(lineSplited[3]);
+                    
+                    if(!lineSplited[4].IsNullOrWhiteSpace())
+                    {
+                        routeMeasures.QuantityOfExpansions = Int32.Parse(lineSplited[4]);
+                    }
+                    
+                    if(!lineSplited[5].IsNullOrWhiteSpace())
+                    {
+                        routeMeasures.DeltaTime = TimeSpan.Parse(lineSplited[5]);
+                    }
+
+                    result.Add(lineSplited[0] + Constants.SEPARATOR_ODs + lineSplited[1], routeMeasures);
+                }
+            }
+
+            return result;
+        }
     }
 }
 
