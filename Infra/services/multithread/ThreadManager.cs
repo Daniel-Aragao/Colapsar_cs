@@ -45,6 +45,8 @@ namespace Infra.services.multithread
             this.OutputFileName += Constants.SEPARATOR_FILE_NAMES + this.ThreadsQuantity.ToString();
             this.OutputFileName += Constants.FILE_EXTENSION_OUTPUT;
             
+            var outputWriter = Export.GetWriter(this.OutputFileName);
+            outputWriter.WriteLine(Constants.FIELD_ORDERING_COLAPSAR_CS_LEGEND);
             // this.FileName += Constants.SEPARATOR_FILE_NAMES + now.Year + "_" + now.Month + "_" + now.Day;
             // this.FileName += "_" + now.Hour + "_" + now.Minute + "_" + now.Second;
 

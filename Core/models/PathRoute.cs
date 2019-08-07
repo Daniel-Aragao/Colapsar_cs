@@ -117,6 +117,10 @@ namespace Core.models
                     
                     returnString += PathRoute.SEPARATOR;
 
+                    returnString += this.Distance.ToString();
+
+                    returnString += PathRoute.SEPARATOR;
+
                     returnString += this.Path();
                     break;
                 

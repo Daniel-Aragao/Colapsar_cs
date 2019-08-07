@@ -19,15 +19,18 @@ namespace AuxiliarPrograms
 
             if (program == "compare_outputs" || program == "CO")
             {
-                if (args.Length < 3)
+                if (args.Length < 5)
                 {
-                    throw new ArgumentException("You must inform two output file names");
+                    throw new ArgumentException("You must inform two output file names and two file tipes");
                 }
 
-                var path = "";
+                // var path = "";
+                var path = Constants.PATH_OUTPUTS;
 
-                var measuresOrigin = Import.LoadRouteMeasuresFromTxt(path + args[1]);
-                var measuresTarget = Import.LoadRouteMeasuresFromTxt(path + args[2]);
+                var measuresOrigin = Import.LoadRouteMeasuresFromTxt(path + args[1], args[3] == "java" ? Constants.FIELD_ORDERING_COLAPSAR_JAVA : Constants.FIELD_ORDERING_COLAPSAR_CS);
+                var measuresTarget = Import.LoadRouteMeasuresFromTxt(path + args[2], args[4] == "java" ? Constants.FIELD_ORDERING_COLAPSAR_JAVA : Constants.FIELD_ORDERING_COLAPSAR_CS);
+                
+                Console.WriteLine("Outputs imported");
 
                 var countRight = 0;
                 var countDifference = 0;

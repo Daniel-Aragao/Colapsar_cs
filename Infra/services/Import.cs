@@ -162,37 +162,50 @@ namespace Infra.services
             return returnList;
         }
 
-        public static Dictionary<string, RouteMeasures> LoadRouteMeasuresFromTxt(string path)
+        public static Dictionary<string, RouteMeasures> LoadRouteMeasuresFromTxt(string path, Dictionary<string,int> fieldOrdering)
         {
             Dictionary<string, RouteMeasures> result = new Dictionary<string, RouteMeasures>();
 
             using(StreamReader sr = File.OpenText(path))
             {
                 string line;
+                bool firstLine = true;
 
                 while((line = sr.ReadLine()) != null)
                 {
+                    if(firstLine)
+                    {
+                        firstLine = false;
+                        continue;
+                    }
+
                     var lineSplited = line.Split(Constants.SEPARATOR_ODs);
 
-                    EPathStatus status = lineSplited[2].GetEnumFromString<EPathStatus>();
+                    EPathStatus status = lineSplited[fieldOrdering["status"]].GetEnumFromString<EPathStatus>();
 
                     var routeMeasures = new RouteMeasures(status);
 
-                    routeMeasures.SourceId = long.Parse(lineSplited[0]);
-                    routeMeasures.TargetId = long.Parse(lineSplited[1]);
-                    routeMeasures.Jumps = Int32.Parse(lineSplited[3]);
-                    
-                    if(!lineSplited[4].IsNullOrWhiteSpace())
+                    routeMeasures.SourceId = long.Parse(lineSplited[fieldOrdering["SourceId"]]);
+                    routeMeasures.TargetId = long.Parse(lineSplited[fieldOrdering["TargetId"]]);
+
+                    if(status == EPathStatus.Found)
                     {
-                        routeMeasures.QuantityOfExpansions = Int32.Parse(lineSplited[4]);
-                    }
-                    
-                    if(!lineSplited[5].IsNullOrWhiteSpace())
-                    {
-                        routeMeasures.DeltaTime = TimeSpan.Parse(lineSplited[5]);
+                        routeMeasures.Jumps = Int32.Parse(lineSplited[fieldOrdering["Jumps"]]);
+                        
+                        if(!lineSplited[4].IsNullOrWhiteSpace())
+                        {
+                            routeMeasures.QuantityOfExpansions = Int32.Parse(lineSplited[fieldOrdering["QuantityOfExpansions"]]);
+                        }
+                        
+                        if(!lineSplited[5].IsNullOrWhiteSpace())
+                        {
+                            routeMeasures.DeltaTime = TimeSpan.Parse(lineSplited[fieldOrdering["DeltaTime"]]);
+                        }
+
+                        routeMeasures.Distance = double.Parse(lineSplited[fieldOrdering["Distance"]]);
                     }
 
-                    result.Add(lineSplited[0] + Constants.SEPARATOR_ODs + lineSplited[1], routeMeasures);
+                    result.Add(lineSplited[fieldOrdering["SourceId"]] + Constants.SEPARATOR_ODs + lineSplited[fieldOrdering["TargetId"]], routeMeasures);
                 }
             }
 
