@@ -194,7 +194,8 @@ namespace Infra.services
                         
                         if(!lineSplited[4].IsNullOrWhiteSpace())
                         {
-                            routeMeasures.QuantityOfExpansions = Int32.Parse(lineSplited[fieldOrdering["QuantityOfExpansions"]]);
+                            // dotnet run CO Fortaleza-network-osm-2019-1_1-BruteForce-10000-50-8.txt BruteForce-10000-50.0-Fortaleza-network-osm-2018-1_1.txt cs java
+                            routeMeasures.QuantityOfExpansions = Int32.Parse(0, lineSplited[fieldOrdering["QuantityOfExpansions"]], 0);
                         }
                         
                         if(!lineSplited[5].IsNullOrWhiteSpace())
