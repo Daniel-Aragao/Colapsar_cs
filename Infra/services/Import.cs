@@ -162,7 +162,7 @@ namespace Infra.services
             return returnList;
         }
 
-        public static Dictionary<string, RouteMeasures> LoadRouteMeasuresFromTxt(string path, Dictionary<string,int> fieldOrdering)
+        public static Dictionary<string, RouteMeasures> LoadRouteMeasuresFromTxt(string path, ILineImporter lineReader)
         {
             Dictionary<string, RouteMeasures> result = new Dictionary<string, RouteMeasures>();
 
@@ -181,32 +181,9 @@ namespace Infra.services
 
                     var lineSplited = line.Split(Constants.SEPARATOR_ODs);
 
-                    EPathStatus status = lineSplited[fieldOrdering["status"]].GetEnumFromString<EPathStatus>();
+                    var routeMeasures = lineReader.GetMeasures(lineSplited);
 
-                    var routeMeasures = new RouteMeasures(status);
-
-                    routeMeasures.SourceId = long.Parse(lineSplited[fieldOrdering["SourceId"]]);
-                    routeMeasures.TargetId = long.Parse(lineSplited[fieldOrdering["TargetId"]]);
-
-                    if(status == EPathStatus.Found)
-                    {
-                        routeMeasures.Jumps = Int32.Parse(lineSplited[fieldOrdering["Jumps"]]);
-                        
-                        if(!lineSplited[4].IsNullOrWhiteSpace())
-                        {
-                            // dotnet run CO Fortaleza-network-osm-2019-1_1-BruteForce-10000-50-8.txt BruteForce-10000-50.0-Fortaleza-network-osm-2018-1_1.txt cs java
-                            routeMeasures.QuantityOfExpansions = Int32.Parse(0, lineSplited[fieldOrdering["QuantityOfExpansions"]], 0);
-                        }
-                        
-                        if(!lineSplited[5].IsNullOrWhiteSpace())
-                        {
-                            routeMeasures.DeltaTime = TimeSpan.Parse(lineSplited[fieldOrdering["DeltaTime"]]);
-                        }
-
-                        routeMeasures.Distance = double.Parse(lineSplited[fieldOrdering["Distance"]]);
-                    }
-
-                    result.Add(lineSplited[fieldOrdering["SourceId"]] + Constants.SEPARATOR_ODs + lineSplited[fieldOrdering["TargetId"]], routeMeasures);
+                    result.Add(routeMeasures.RouteKey, routeMeasures);
                 }
             }
 

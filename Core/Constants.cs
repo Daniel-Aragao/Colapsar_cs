@@ -27,7 +27,6 @@ namespace Core
 
         // DICTIONARY
         public const string FIELD_ORDERING_COLAPSAR_CS_LEGEND = "origem,destino,status,saltos,expansões,tempo,distancia,rota";
-        public const string FIELD_ORDERING_COLAPSAR_JAVA_LEGEND = "origem,destino,saltos,totalSaltos,tempo,distancia,rota";
         public static Dictionary<string,int> FIELD_ORDERING_COLAPSAR_CS = new Dictionary<string, int> ()
         {
             ["SourceId"] = 0,
@@ -39,6 +38,7 @@ namespace Core
             ["Distance"] = 6
         };
 
+        public const string FIELD_ORDERING_COLAPSAR_JAVA_LEGEND = "origem,destino,saltos,totalSaltos,tempo,distancia,rota";
         public static Dictionary<string,int> FIELD_ORDERING_COLAPSAR_JAVA = new Dictionary<string, int> ()
         {
             ["SourceId"] = 0,

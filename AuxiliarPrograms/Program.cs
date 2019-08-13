@@ -27,8 +27,11 @@ namespace AuxiliarPrograms
                 // var path = "";
                 var path = Constants.PATH_OUTPUTS;
 
-                var measuresOrigin = Import.LoadRouteMeasuresFromTxt(path + args[1], args[3] == "java" ? Constants.FIELD_ORDERING_COLAPSAR_JAVA : Constants.FIELD_ORDERING_COLAPSAR_CS);
-                var measuresTarget = Import.LoadRouteMeasuresFromTxt(path + args[2], args[4] == "java" ? Constants.FIELD_ORDERING_COLAPSAR_JAVA : Constants.FIELD_ORDERING_COLAPSAR_CS);
+                ILineImporter javaImporter = new JavaResultLineImporter();
+                ILineImporter csImporter = new CSResultLineImporter();
+
+                var measuresOrigin = Import.LoadRouteMeasuresFromTxt(path + args[1], args[3] == "java" ? javaImporter  : csImporter);
+                var measuresTarget = Import.LoadRouteMeasuresFromTxt(path + args[2], args[4] == "java" ? javaImporter  : csImporter);
                 
                 Console.WriteLine("Outputs imported");
 
