@@ -4,7 +4,7 @@ using Infra.services.regions;
 using System;
 using System.Threading;
 using System.Collections.Generic;
-
+using Infra.services.log;
 
 namespace Infra.services.multithread
 {
@@ -29,6 +29,8 @@ namespace Infra.services.multithread
 
         public void Begin()
         {
+            var logger = LoggerFactory.GetLogger();
+
             int interval = this.ODs.Count / this.ThreadsQuantity;
             int rest = this.ODs.Count % this.ThreadsQuantity;
 
@@ -52,6 +54,8 @@ namespace Infra.services.multithread
                 var ts = new ThreadSearch(graphClone, searhcStrategy, portion, this.Radius, manager);
                 var thread = new Thread(new ThreadStart(ts.Search));
                 thread.Name = "T" + (i + 1);
+                
+                logger.WriteLine(thread.Name + " ODs: " + portion.Count.ToString());
 
                 thread.Start();
             }

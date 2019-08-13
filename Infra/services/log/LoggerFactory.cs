@@ -33,7 +33,9 @@ namespace Infra.services.log
         {
             if(_logger == null)
             {
-                throw new InvalidOperationException("You must define (LoggerFactory.Define) logger first");
+                // throw new InvalidOperationException("You must define (LoggerFactory.Define) logger first");
+
+                LoggerFactory.Define(false, null);
             }
 
             return _logger;
