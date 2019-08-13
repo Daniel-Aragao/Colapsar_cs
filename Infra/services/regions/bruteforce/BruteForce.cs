@@ -19,6 +19,9 @@ namespace Infra.services.regions
 
             if(betterPathRoute != null)
             {
+                betterPathRoute.Source = source;
+                betterPathRoute.Target = target;
+                
                 return betterPathRoute;
             }
 
@@ -33,9 +36,9 @@ namespace Infra.services.regions
                     {
                         PathRoute pathRoute = Graph.ShortestPathHeuristic(origin, destination);
 
-                        if(betterPathRoute == null || betterPathRoute.Status != EPathStatus.Found || 
-                            (betterPathRoute.Status == EPathStatus.Found && 
-                                pathRoute.Status == EPathStatus.Found && 
+                        if(betterPathRoute == null || betterPathRoute.Status != EPathStatus.Found ||
+                            (betterPathRoute.Status == EPathStatus.Found &&
+                                pathRoute.Status == EPathStatus.Found &&
                                 betterPathRoute.Distance > pathRoute.Distance))
                         {
                             betterPathRoute = pathRoute;
@@ -44,7 +47,7 @@ namespace Infra.services.regions
                 }
             }
 
-            if(betterPathRoute != null && betterPathRoute.Status != EPathStatus.Found)
+            if(betterPathRoute != null)// && betterPathRoute.Status != EPathStatus.Found)
             {
                 betterPathRoute.Source = source;
                 betterPathRoute.Target = target;
