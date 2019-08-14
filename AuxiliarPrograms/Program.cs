@@ -55,12 +55,12 @@ namespace AuxiliarPrograms
                             }
                             else
                             {
-                                countDifference--;
+                                countDifference++;
                             }
                         }
                         else
                         {
-                            countDifference--;
+                            countDifference++;
                         }
                     }
                     else
