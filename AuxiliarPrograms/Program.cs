@@ -26,7 +26,9 @@ namespace AuxiliarPrograms
 
                 // var path = "";
                 var path = Constants.PATH_OUTPUTS;
-
+                
+                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+                
                 ILineImporter javaImporter = new JavaResultLineImporter();
                 ILineImporter csImporter = new CSResultLineImporter();
 
