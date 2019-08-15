@@ -50,8 +50,13 @@ namespace AuxiliarPrograms
                 List<Tuple<RouteMeasures, RouteMeasures>> differentRoutesStatus = new List<Tuple<RouteMeasures, RouteMeasures>>();
                 List<Tuple<RouteMeasures, RouteMeasures>> differentRoutesDistance = new List<Tuple<RouteMeasures, RouteMeasures>>();
 
-                double totalTimeDifference = 0;
-                double totalDistanceDifference = 0;
+                double totalTimeDifferenceForEqualPaths = 0;
+                double totalTimeDifferenceForDifferentPaths = 0;
+                double totalTimeDifferenceAllPaths = 0;
+
+                double totalDistanceDifferenceAllPaths = 0;
+                double totalDistanceDifferenceForEqualPaths = 0;
+                double totalDistanceDifferenceForDifferentPaths = 0;
 
                 foreach (var measureOrigin in measuresOrigin)
                 {
@@ -65,14 +70,19 @@ namespace AuxiliarPrograms
                             if(Math.Abs(routeMeasureOrigin.Distance - routeMeasureTarget.Distance) < Constants.DISTANCE_DIFFERENCE_THRESHOLD)
                             {
                                 countRight++;
+                                totalTimeDifferenceForEqualPaths += (routeMeasureOrigin.DeltaTime - routeMeasureTarget.DeltaTime).TotalMinutes;
+                                // totalDistanceDifference += (routeMeasureOrigin.Distance - routeMeasureTarget.Distance);
+                                totalDistanceDifferenceForEqualPaths += (routeMeasureOrigin.Distance - routeMeasureTarget.Distance);
                             }
                             else
                             {
+                                totalTimeDifferenceForDifferentPaths += (routeMeasureOrigin.DeltaTime - routeMeasureTarget.DeltaTime).TotalMinutes;
                                 differentRoutesDistance.Add(new Tuple<RouteMeasures, RouteMeasures>(routeMeasureOrigin, routeMeasureTarget));
+                                totalDistanceDifferenceForDifferentPaths += (routeMeasureOrigin.Distance - routeMeasureTarget.Distance);
                             }
 
-                            totalTimeDifference += (routeMeasureOrigin.DeltaTime - routeMeasureTarget.DeltaTime).TotalMinutes;
-                            totalDistanceDifference += (routeMeasureOrigin.Distance - routeMeasureTarget.Distance);
+                            totalTimeDifferenceAllPaths += (routeMeasureOrigin.DeltaTime - routeMeasureTarget.DeltaTime).TotalMinutes;
+                            totalDistanceDifferenceAllPaths += (routeMeasureOrigin.Distance - routeMeasureTarget.Distance);
                         }
                         else
                         {
@@ -109,12 +119,17 @@ namespace AuxiliarPrograms
 
                 Console.WriteLine();
 
-                Console.WriteLine("Resultados iguais    : " + countRight.ToString());
-                Console.WriteLine("Resultados diferentes: " + (differentRoutesDistance.Count + differentRoutesStatus.Count).ToString());
-                Console.WriteLine("\tStatus diferentes: " + differentRoutesStatus.Count.ToString());
-                Console.WriteLine("\tDistâncias diferentes: " + differentRoutesDistance.Count.ToString());
-                Console.WriteLine("Diferença de tempo   : " + totalTimeDifference.ToString());
-                Console.WriteLine("Diferença de distância   : " + totalDistanceDifference.ToString());
+                Console.WriteLine("Resultados negativos simbolizam que os valores para os resultados da direita são maiores");
+                Console.WriteLine("Resultados iguais       : " + countRight.ToString());
+                Console.WriteLine("Resultados diferentes   : " + (differentRoutesDistance.Count + differentRoutesStatus.Count).ToString());
+                Console.WriteLine("\tStatus diferentes     : " + differentRoutesStatus.Count.ToString());
+                Console.WriteLine("\tDistâncias diferentes : " + differentRoutesDistance.Count.ToString());
+                Console.WriteLine("Diferença de distância  : " + totalDistanceDifferenceAllPaths.ToString());
+                Console.WriteLine("\tCaminhos iguais       : " + totalDistanceDifferenceForEqualPaths.ToString());
+                Console.WriteLine("\tCaminhos diferentes   : " + totalDistanceDifferenceForDifferentPaths.ToString());
+                Console.WriteLine("Diferença de tempo      : " + totalTimeDifferenceAllPaths.ToString());
+                Console.WriteLine("\tCaminhos iguais       : " + totalTimeDifferenceForEqualPaths.ToString());
+                Console.WriteLine("\tCaminhos diferentes   : " + totalTimeDifferenceForDifferentPaths.ToString());
             }
         }
     }
