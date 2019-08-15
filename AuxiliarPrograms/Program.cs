@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Globalization;
 
 using Core;
 using Core.models;
@@ -33,7 +35,9 @@ namespace AuxiliarPrograms
 
                 // var path = "";
                 var path = Constants.PATH_OUTPUTS;
-
+                
+                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+                
                 ILineImporter javaImporter = new JavaResultLineImporter();
                 ILineImporter csImporter = new CSResultLineImporter();
 

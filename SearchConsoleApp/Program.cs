@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Globalization;
 using System.Linq;
 
 using Core;
@@ -85,6 +87,8 @@ namespace SearchConsoleApp
             SearchStrategyFactory strategyFactory = SearchStrategyFactory.GetFactory(strategy);            
 
             LoggerFactory.Define(logToFile, "MultithreadSearch-" + strategyFactory.SearchName);
+            
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
             var threadBuilder = new ThreadBuilder(graph, strategyFactory, ods, radius, defaultThreadNumber);
             
