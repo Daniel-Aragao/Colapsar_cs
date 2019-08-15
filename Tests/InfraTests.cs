@@ -519,7 +519,42 @@ namespace Tests
 
             Assert.Equal(EPathStatus.Found, pathRoute.Status);
         }
-        
-        // collapse tests
+
+        [Fact]
+        public void BruteforceShouldReturnPathFoundFrom629736181To2767057351()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "Fortaleza-network-osm-2019-1_1.txt");
+
+            SearchStrategy BruteforceStrategy = new BruteForce(graph);
+            // var p_629736215 = graph.GetNodeById(629736215);
+            var p_629736181 = graph.GetNodeById(629736181);
+            // var p_2767057352 = graph.GetNodeById(2767057352);
+            var p_2767057351 = graph.GetNodeById(2767057351);
+            // Assert.Equal(0, p_629736181.Position.Distance(p_629736215.Position));
+            // PathRoute pathRoute = Graph.ShortestPathHeuristic(p_629736215, p_2767057352);
+
+            PathRoute pathRoute = BruteforceStrategy.Search(p_629736181, p_2767057351, 50);
+
+            Assert.Equal(EPathStatus.Found, pathRoute.Status);
+            // Assert.Equal(Math.Round(12767.3327839374, InfraTests.ROUND_FIXED), Math.Round(pathRoute.Distance, InfraTests.ROUND_FIXED));
+            Assert.Equal(Math.Round(12911.0976988742, InfraTests.ROUND_FIXED), Math.Round(pathRoute.Distance, InfraTests.ROUND_FIXED));
+        }
+
+        [Fact]
+        public void BruteforceShouldReturnPathFoundFrom3338853805To571723594()
+        {
+            Graph graph = Import.LoadCityFromText(InfraTests.file_path + "Fortaleza-network-osm-2019-1_1.txt");
+
+            SearchStrategy BruteforceStrategy = new BruteForce(graph);
+            var p_3338853805 = graph.GetNodeById(3338853805);
+            var p_571723594 = graph.GetNodeById(571723594);
+
+            PathRoute pathRoute = BruteforceStrategy.Search(p_3338853805, p_571723594, 50);
+            // Assert.Equal(0, p_629736181.Position.Distance(p_629736215.Position));
+
+            Assert.Equal(EPathStatus.Found, pathRoute.Status);
+            // Assert.Equal(5979.52324019751, pathRoute.Distance);
+            Assert.Equal(5980.10491667755, pathRoute.Distance);
+        }
     }
 }

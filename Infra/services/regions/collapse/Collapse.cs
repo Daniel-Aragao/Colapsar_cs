@@ -32,8 +32,8 @@ namespace Infra.services.regions
 
                 if (pathRoute.Status == EPathStatus.Found)
                 {
-                    var fakeSource = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[0], pathRoute.Nodes[1]).Edges[0];
-                    var fakeTarget = Node.ShortestPathBetweenNeihbours(pathRoute.Nodes[pathRoute.Nodes.Count() - 2], pathRoute.Nodes[pathRoute.Nodes.Count() - 1]).Edges[0];
+                    var fakeSource = Node.ShortestPathBetweenNeihbors(pathRoute.Nodes[0], pathRoute.Nodes[1]).Edges[0];
+                    var fakeTarget = Node.ShortestPathBetweenNeihbors(pathRoute.Nodes[pathRoute.Nodes.Count() - 2], pathRoute.Nodes[pathRoute.Nodes.Count() - 1]).Edges[0];
 
                     var originalSource = (Edge)fakeSource.GetAttribute("original_edge");
                     var originalTarget = (Edge)fakeTarget.GetAttribute("original_edge");

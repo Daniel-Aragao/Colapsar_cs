@@ -99,7 +99,7 @@ namespace Core.models
             return Edges.Where(edge => edge.Source == this && edge.Target == target).ToList();
         }
 
-        public static PathRoute ShortestPathBetweenNeihbours(Node source, Node target)
+        public static PathRoute ShortestPathBetweenNeihbors(Node source, Node target)
         {
             return Node.ShortestPathBetweenNeihbors(source, target, defaultShortestPath);
         }

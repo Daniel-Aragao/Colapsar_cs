@@ -35,6 +35,9 @@ public class CSResultLineImporter : ILineImporter
             }
 
             routeMeasures.Distance = double.Parse(lineSplited[fieldOrdering["Distance"]], CultureInfo.InvariantCulture);
+            routeMeasures.NodeIDs = lineSplited[fieldOrdering["Path"]].Split(Constants.SEPARATOR_PATH_IDS);
+
+            
         }
 
         return routeMeasures;

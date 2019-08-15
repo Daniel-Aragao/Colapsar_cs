@@ -23,7 +23,7 @@ namespace Core
         public const bool LOG_TO_FILE = true;
         public const string ALGORITHMN_NAME_COLLAPSE = "Collapse";
         public const string ALGORITHMN_NAME_BRUTE_FORCE = "BruteForce";
-        public const float DISTANCE_DIFFERENCE_THRESHOLD = 0.001f;
+        public const float DISTANCE_DIFFERENCE_THRESHOLD = 0.00001f;
 
         // DICTIONARY
         public const string FIELD_ORDERING_COLAPSAR_CS_LEGEND = "origem,destino,status,saltos,expansões,tempo,distancia,rota";
@@ -35,7 +35,8 @@ namespace Core
             ["Jumps"] = 3,
             ["QuantityOfExpansions"] = 4,
             ["DeltaTime"] = 5,
-            ["Distance"] = 6
+            ["Distance"] = 6,
+            ["Path"] = 7
         };
 
         public const string FIELD_ORDERING_COLAPSAR_JAVA_LEGEND = "origem,destino,saltos,totalSaltos,tempo,distancia,rota";
@@ -47,7 +48,8 @@ namespace Core
             ["Jumps"] = 2,
             ["QuantityOfExpansions"] = 3,
             ["DeltaTime"] = 4,
-            ["Distance"] = 5
+            ["Distance"] = 5,
+            ["Path"] = 6
         };
     }
 }

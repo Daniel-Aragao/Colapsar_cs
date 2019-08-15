@@ -62,10 +62,11 @@ public class JavaResultLineImporter : ILineImporter
             
             if(!lineSplited[fieldOrdering["DeltaTime"]].IsNullOrWhiteSpace())
             {
-                routeMeasures.DeltaTime = TimeSpan.FromMinutes(double.Parse(lineSplited[fieldOrdering["DeltaTime"]], CultureInfo.InvariantCulture));
+                routeMeasures.DeltaTime = TimeSpan.FromMilliseconds(double.Parse(lineSplited[fieldOrdering["DeltaTime"]], CultureInfo.InvariantCulture));
             }
 
             routeMeasures.Distance = double.Parse(lineSplited[fieldOrdering["Distance"]], CultureInfo.InvariantCulture);
+            routeMeasures.NodeIDs = lineSplited[fieldOrdering["Path"]].Split(Constants.SEPARATOR_PATH_IDS);
         }
 
         return routeMeasures;
