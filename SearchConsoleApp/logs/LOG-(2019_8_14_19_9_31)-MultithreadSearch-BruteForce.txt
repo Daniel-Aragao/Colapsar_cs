@@ -1,0 +1,108 @@
+Iniciando BruteForce:{
+	Grafo:Fortaleza-network-osm-2019-1_1
+	Threads: 8
+	Raio: 100
+	ODs: 10000
+}
+T1 ODs: 1250
+T2 ODs: 1250
+T3 ODs: 1250
+T4 ODs: 1250
+T5 ODs: 1250
+T6 ODs: 1250
+T7 ODs: 1250
+T8 ODs: 1250
+Progresso (T3): 10.00%	ODs: 125/10000(001%)	Tempo: 31.54858
+Progresso (T7): 10.00%	ODs: 250/10000(003%)	Tempo: 33.48645
+Progresso (T1): 10.00%	ODs: 375/10000(004%)	Tempo: 36.45735
+Progresso (T5): 10.00%	ODs: 500/10000(005%)	Tempo: 41.80356
+Progresso (T4): 10.00%	ODs: 625/10000(006%)	Tempo: 44.55437
+Progresso (T6): 10.00%	ODs: 750/10000(008%)	Tempo: 47.50017
+Progresso (T8): 10.00%	ODs: 875/10000(009%)	Tempo: 48.96896
+Progresso (T2): 10.00%	ODs: 1000/10000(010%)	Tempo: 50.49894
+Progresso (T1): 20.00%	ODs: 1125/10000(011%)	Tempo: 71.54438
+Progresso (T5): 20.00%	ODs: 1250/10000(013%)	Tempo: 74.34014
+Progresso (T2): 20.00%	ODs: 1375/10000(014%)	Tempo: 77.30839
+Progresso (T3): 20.00%	ODs: 1500/10000(015%)	Tempo: 78.18320
+Progresso (T7): 20.00%	ODs: 1625/10000(016%)	Tempo: 81.98539
+Progresso (T6): 20.00%	ODs: 1750/10000(018%)	Tempo: 88.02247
+Progresso (T8): 20.00%	ODs: 1875/10000(019%)	Tempo: 88.95993
+Progresso (T4): 20.00%	ODs: 2000/10000(020%)	Tempo: 101.47189
+Progresso (T1): 30.00%	ODs: 2125/10000(021%)	Tempo: 102.89436
+Progresso (T3): 30.00%	ODs: 2250/10000(023%)	Tempo: 112.25062
+Progresso (T2): 30.00%	ODs: 2375/10000(024%)	Tempo: 114.92484
+Progresso (T5): 30.00%	ODs: 2500/10000(025%)	Tempo: 115.67878
+Progresso (T8): 30.00%	ODs: 2625/10000(026%)	Tempo: 122.08950
+Progresso (T6): 30.00%	ODs: 2750/10000(028%)	Tempo: 126.14215
+Progresso (T7): 30.00%	ODs: 2875/10000(029%)	Tempo: 127.98608
+Progresso (T4): 30.00%	ODs: 3000/10000(030%)	Tempo: 132.40054
+Progresso (T2): 40.00%	ODs: 3125/10000(031%)	Tempo: 144.85842
+Progresso (T1): 40.00%	ODs: 3250/10000(033%)	Tempo: 146.06228
+Progresso (T3): 40.00%	ODs: 3375/10000(034%)	Tempo: 150.06035
+Progresso (T5): 40.00%	ODs: 3500/10000(035%)	Tempo: 153.48539
+Progresso (T8): 40.00%	ODs: 3625/10000(036%)	Tempo: 165.03563
+Progresso (T6): 40.00%	ODs: 3750/10000(038%)	Tempo: 166.72457
+Progresso (T7): 40.00%	ODs: 3875/10000(039%)	Tempo: 167.70062
+Progresso (T1): 50.00%	ODs: 4000/10000(040%)	Tempo: 180.74499
+Progresso (T4): 40.00%	ODs: 4125/10000(041%)	Tempo: 182.09428
+Progresso (T3): 50.00%	ODs: 4250/10000(043%)	Tempo: 186.52630
+Progresso (T2): 50.00%	ODs: 4375/10000(044%)	Tempo: 190.52929
+Progresso (T6): 50.00%	ODs: 4500/10000(045%)	Tempo: 191.05326
+Progresso (T5): 50.00%	ODs: 4625/10000(046%)	Tempo: 194.22202
+Progresso (T7): 50.00%	ODs: 4750/10000(048%)	Tempo: 201.60106
+Progresso (T8): 50.00%	ODs: 4875/10000(049%)	Tempo: 203.93475
+Progresso (T1): 60.00%	ODs: 5000/10000(050%)	Tempo: 211.48939
+Progresso (T4): 50.00%	ODs: 5125/10000(051%)	Tempo: 216.89167
+Progresso (T2): 60.00%	ODs: 5250/10000(053%)	Tempo: 219.79678
+Progresso (T3): 60.00%	ODs: 5375/10000(054%)	Tempo: 224.92099
+Progresso (T6): 60.00%	ODs: 5500/10000(055%)	Tempo: 230.01487
+Progresso (T1): 70.00%	ODs: 5625/10000(056%)	Tempo: 240.29047
+Progresso (T8): 60.00%	ODs: 5750/10000(058%)	Tempo: 240.58471
+Progresso (T5): 60.00%	ODs: 5875/10000(059%)	Tempo: 240.93737
+Progresso (T7): 60.00%	ODs: 6000/10000(060%)	Tempo: 242.80312
+Progresso (T4): 60.00%	ODs: 6125/10000(061%)	Tempo: 253.91150
+Progresso (T3): 70.00%	ODs: 6250/10000(063%)	Tempo: 260.00618
+Progresso (T2): 70.00%	ODs: 6375/10000(064%)	Tempo: 262.32610
+Progresso (T6): 70.00%	ODs: 6500/10000(065%)	Tempo: 276.80484
+Progresso (T8): 70.00%	ODs: 6625/10000(066%)	Tempo: 280.70954
+Progresso (T5): 70.00%	ODs: 6750/10000(068%)	Tempo: 281.62311
+Progresso (T7): 70.00%	ODs: 6875/10000(069%)	Tempo: 282.30993
+Progresso (T1): 80.00%	ODs: 7000/10000(070%)	Tempo: 283.55912
+Progresso (T4): 70.00%	ODs: 7125/10000(071%)	Tempo: 288.59349
+Progresso (T3): 80.00%	ODs: 7250/10000(073%)	Tempo: 289.30754
+Progresso (T2): 80.00%	ODs: 7375/10000(074%)	Tempo: 304.98675
+Progresso (T6): 80.00%	ODs: 7500/10000(075%)	Tempo: 308.30300
+Progresso (T7): 80.00%	ODs: 7625/10000(076%)	Tempo: 319.05282
+Progresso (T8): 80.00%	ODs: 7750/10000(078%)	Tempo: 319.40593
+Progresso (T5): 80.00%	ODs: 7875/10000(079%)	Tempo: 319.87257
+Progresso (T1): 90.00%	ODs: 8000/10000(080%)	Tempo: 322.20726
+Progresso (T4): 80.00%	ODs: 8125/10000(081%)	Tempo: 327.49864
+Progresso (T3): 90.00%	ODs: 8250/10000(083%)	Tempo: 328.33396
+Progresso (T6): 90.00%	ODs: 8375/10000(084%)	Tempo: 331.52280
+Progresso (T2): 90.00%	ODs: 8500/10000(085%)	Tempo: 338.74109
+Progresso (T4): 90.00%	ODs: 8625/10000(086%)	Tempo: 356.31669
+Progresso (T5): 90.00%	ODs: 8750/10000(088%)	Tempo: 361.35256
+Progresso (T8): 90.00%	ODs: 8875/10000(089%)	Tempo: 364.67935
+Progresso (T3): 100.00%	ODs: 9000/10000(090%)	Tempo: 366.07280
+		Fim: T3
+Progresso (T1): 100.00%	ODs: 9125/10000(091%)	Tempo: 366.89072
+		Fim: T1
+Progresso (T7): 90.00%	ODs: 9250/10000(093%)	Tempo: 371.10448
+Progresso (T2): 100.00%	ODs: 9375/10000(094%)	Tempo: 372.97233
+		Fim: T2
+Progresso (T6): 100.00%	ODs: 9500/10000(095%)	Tempo: 375.96519
+		Fim: T6
+Progresso (T4): 100.00%	ODs: 9625/10000(096%)	Tempo: 397.44138
+		Fim: T4
+Progresso (T5): 100.00%	ODs: 9750/10000(098%)	Tempo: 398.60788
+		Fim: T5
+Progresso (T8): 100.00%	ODs: 9875/10000(099%)	Tempo: 398.98086
+		Fim: T8
+Progresso (T7): 100.00%	ODs: 10000/10000(100%)	Tempo: 404.78631
+		Fim: T7
+
+Quantidade de rotas: 10000
+Status: Found Qtd.: 10000
+Tempo decorrido para BruteForce para 100 metros = 3081.71747465167
+para o arquivo: Fortaleza-network-osm-2019-1_1
+
