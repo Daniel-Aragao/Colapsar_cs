@@ -15,6 +15,6 @@
     <None Include="$(ProjectDir)logs\**" LinkBase="logs\"  CopyToOutputDirectory="Always"/>
     <None Include="$(ProjectDir)ODs\**" LinkBase="ODs\"  CopyToOutputDirectory="Always"/>
     <None Include="$(ProjectDir)outputs\**" LinkBase="outputs\"  CopyToOutputDirectory="Always"/>
+    <None Include="$(ProjectDir)appsettings.json" LinkBase="appsettings.json" CopyToOutputDirectory="Always"/>
   </ItemGroup>
-
 </Project>

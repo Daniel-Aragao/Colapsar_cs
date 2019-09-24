@@ -9,14 +9,14 @@ namespace Infra.services.multithread
 {
     public class ThreadSearch
     {
-        private Graph _graph; 
-        private SearchStrategy Strategy; 
-        private List<Tuple<long,long>> ODs;
+        private Graph _graph;
+        private SearchStrategy Strategy;
+        private List<Tuple<long, long>> ODs;
         private double Radius;
         private ThreadManager ThreadManager;
-        public int ODSize { get {return this.ODs.Count;} }
+        public int ODSize { get { return this.ODs.Count; } }
 
-        public ThreadSearch(Graph graph, SearchStrategy strategy, List<Tuple<long,long>> ODs, double radius, ThreadManager threadManager)
+        public ThreadSearch(Graph graph, SearchStrategy strategy, List<Tuple<long, long>> ODs, double radius, ThreadManager threadManager)
         {
             this._graph = graph;
             this.Strategy = strategy;
@@ -27,40 +27,48 @@ namespace Infra.services.multithread
 
         public void Search()
         {
-            var percent = (this.ODSize * 10)/100;
-            var pathRoutes = new List<PathRoute>();
-            var threadTimeStart = DateTime.Now;
-            TimeSpan threadTimeDelta = threadTimeStart - threadTimeStart;
-
-            for(int i = 1, j = 0; i <= this.ODs.Count; i++)
+            try
             {
-                var od = this.ODs[i - 1];
+                var percent = (this.ODSize * 10) / 100;
+                var pathRoutes = new List<PathRoute>();
+                var threadTimeStart = DateTime.Now;
+                TimeSpan threadTimeDelta = threadTimeStart - threadTimeStart;
 
-                var sourceId = od.Item1;
-                var targetId = od.Item2;
-
-                var timeStart = DateTime.Now;
-
-                var pathRoute = this.Strategy.Search(this._graph.GetNodeById(sourceId), this._graph.GetNodeById(targetId), this.Radius);                
-
-                var timeEnd = DateTime.Now;
-
-                pathRoute.DeltaTime = timeEnd - timeStart;
-                threadTimeDelta += pathRoute.DeltaTime;
-
-                pathRoutes.Add(pathRoute);
-
-                if(percent <= i - j || i == this.ODSize)
+                for (int i = 1, j = 0; i <= this.ODs.Count; i++)
                 {
-                    float progress = (((float)i)/this.ODSize) * 100;
-                    this.ThreadManager.addProgress(progress, pathRoutes, threadTimeDelta);
+                    var od = this.ODs[i - 1];
 
-                    j = i;
-                    pathRoutes = new List<PathRoute>();
+                    var sourceId = od.Item1;
+                    var targetId = od.Item2;
+
+                    var timeStart = DateTime.Now;
+
+                    var pathRoute = this.Strategy.Search(this._graph.GetNodeById(sourceId), this._graph.GetNodeById(targetId), this.Radius);
+
+                    var timeEnd = DateTime.Now;
+
+                    pathRoute.DeltaTime = timeEnd - timeStart;
+                    threadTimeDelta += pathRoute.DeltaTime;
+
+                    pathRoutes.Add(pathRoute);
+
+                    if (percent <= i - j || i == this.ODSize)
+                    {
+                        float progress = (((float)i) / this.ODSize) * 100;
+                        this.ThreadManager.addProgress(progress, pathRoutes, threadTimeDelta);
+
+                        j = i;
+                        pathRoutes = new List<PathRoute>();
+                    }
                 }
+
+                this.ThreadManager.endThread(threadTimeDelta);
+            }
+            catch (Exception e)
+            {
+                this.ThreadManager.errorThread(e);
             }
 
-            this.ThreadManager.endThread(threadTimeDelta);
         }
     }
 }

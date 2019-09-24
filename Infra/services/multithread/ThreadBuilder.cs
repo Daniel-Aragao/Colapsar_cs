@@ -15,26 +15,27 @@ namespace Infra.services.multithread
         private List<Tuple<long, long>> ODs;
         private double Radius;
         private int ThreadsQuantity;
+        private EmailSender emailSender;
 
-        public ThreadBuilder(Graph g, SearchStrategyFactory strategyFactory, List<Tuple<long, long>> ODs, double radius, int threads)
+        public ThreadBuilder(Graph g, SearchStrategyFactory strategyFactory, List<Tuple<long, long>> ODs, double radius, int threads, EmailSender emailSender=null)
         {
             this._graph = g;
             this.StrategyFactory = strategyFactory;
             this.ODs = ODs;
             this.Radius = radius;
             this.ThreadsQuantity = Math.Max(Math.Min(Math.Min(ODs.Count, threads), Environment.ProcessorCount), 1);
-
+            this.emailSender = emailSender;
             // new Thread(new ThreadStart(ThreadManager))
         }
 
-        public void Begin()
+        public void Begin(EmailSender emailSender=null)
         {
             var logger = LoggerFactory.GetLogger();
 
             int interval = this.ODs.Count / this.ThreadsQuantity;
             int rest = this.ODs.Count % this.ThreadsQuantity;
 
-            ThreadManager manager = new ThreadManager(this._graph, this.ThreadsQuantity, this.ODs.Count, this.Radius, this.StrategyFactory.SearchName);
+            ThreadManager manager = new ThreadManager(this._graph, this.ThreadsQuantity, this.ODs.Count, this.Radius, this.StrategyFactory.SearchName, this.emailSender);
 
             for (int i = 0; i < this.ThreadsQuantity; i++)
             {

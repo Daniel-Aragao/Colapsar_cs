@@ -9,6 +9,8 @@ using Infra.services;
 using Infra.services.log;
 using Infra.services.regions;
 using Infra.services.multithread;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace SearchConsoleApp
 {
@@ -20,6 +22,8 @@ namespace SearchConsoleApp
             var file_path = Constants.PATH_GRAPH;
             var ods_path = Constants.PATH_ODs;
             var logToFile = Constants.LOG_TO_FILE;
+            EmailSender emailSender = null;
+            IConfiguration config = GetConfig();
 
             string helpMessage = "====================> Region search program <====================\n";
             helpMessage += "\n==========> Description <==========\n";
@@ -90,9 +94,25 @@ namespace SearchConsoleApp
             
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
-            var threadBuilder = new ThreadBuilder(graph, strategyFactory, ods, radius, defaultThreadNumber);
+            if(bool.Parse(config["EmailConfiguration:useEmail"])){
+                emailSender = new EmailSender(config);
+            }
+
+            var threadBuilder = new ThreadBuilder(graph, strategyFactory, ods, radius, defaultThreadNumber, emailSender);
             
             threadBuilder.Begin();
         }
+
+        public static IConfiguration GetConfig()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+ 
+             return new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, true)
+                .Build();
+        }
+
     }
 }
