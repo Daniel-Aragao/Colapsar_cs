@@ -100,7 +100,7 @@ namespace Infra.services.multithread
 
                 if (this.emailSender != null)
                 {
-                    if (progress > 50 && progressSendMail)
+                    if (progress >= 50 && progressSendMail)
                     {
                         emailSender.SendMail(this.logBody + "\n" + logMessage, "Progresso");
                         progressSendMail = false;
@@ -135,18 +135,17 @@ namespace Infra.services.multithread
                     }
 
                     var endString = "Tempo decorrido para " + StrategyName + " para " + this.Radius
-                    + " metros = " + this.TotalTime.TotalMinutes + "\n"
-                    + "para o arquivo: " + this.graph.Name + "\n";
+                    + " metros = " + this.TotalTime.TotalMinutes + "\n";
 
-                    this._logger.WriteLine(endString);
-
-                    var outputWriter = Export.GetWriter(this.OutputFileName);
-                    outputWriter.Close();
+                    this._logger.WriteLine(endString + "para o arquivo: " + this.graph.Name + "\n");
 
                     if (this.emailSender != null)
                     {
-                        emailSender.SendMail(this.logBody + "\n" + endString, "Fim");
+                        this.emailSender.SendMail(this.logBody + "\n" + endString, "FIM " + this.graph.Name + " ODs" + this.ODsSize);
                     }
+
+                    var outputWriter = Export.GetWriter(this.OutputFileName);
+                    outputWriter.Close();
                 }
             }
         }

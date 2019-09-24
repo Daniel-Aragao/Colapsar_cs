@@ -50,7 +50,7 @@ namespace Infra.services
             }
         }
 
-        public async void SendMail(string msg, string subject = "")
+        public void SendMail(string msg, string subject = "")
         {
             try
             {
@@ -71,16 +71,17 @@ namespace Infra.services
 
                     client.Authenticate(UserId, Password);
 
-                    await client.SendAsync(message);
+                    client.Send(message);
 
                     client.Disconnect(true);
                 }
+
+                Console.WriteLine("--> E-Mail sent -->");
             }
             catch(Exception e)
             {
-                Console.WriteLine("Error sending e-mail: \n" + e);
+                Console.WriteLine("--> Error sending e-mail: \n" + e);
             }
-
         }
     }
 }
