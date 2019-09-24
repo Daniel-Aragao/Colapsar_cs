@@ -1,0 +1,108 @@
+Iniciando BruteForce:{
+	Grafo:Mumbai-network-osm-2019-1_2
+	Threads: 8
+	Raio: 150
+	ODs: 10000
+}
+T1 ODs: 1250
+T2 ODs: 1250
+T3 ODs: 1250
+T4 ODs: 1250
+T5 ODs: 1250
+T6 ODs: 1250
+T7 ODs: 1250
+T8 ODs: 1250
+Progresso (T2): 10.00%	ODs: 125/10000(001%)	Tempo: 28.63663
+Progresso (T1): 10.00%	ODs: 250/10000(003%)	Tempo: 30.44819
+Progresso (T3): 10.00%	ODs: 375/10000(004%)	Tempo: 30.93683
+Progresso (T4): 10.00%	ODs: 500/10000(005%)	Tempo: 32.56810
+Progresso (T7): 10.00%	ODs: 625/10000(006%)	Tempo: 33.26849
+Progresso (T8): 10.00%	ODs: 750/10000(008%)	Tempo: 34.01608
+Progresso (T6): 10.00%	ODs: 875/10000(009%)	Tempo: 35.26040
+Progresso (T5): 10.00%	ODs: 1000/10000(010%)	Tempo: 36.26805
+Progresso (T6): 20.00%	ODs: 1125/10000(011%)	Tempo: 62.19857
+Progresso (T2): 20.00%	ODs: 1250/10000(013%)	Tempo: 63.04346
+Progresso (T3): 20.00%	ODs: 1375/10000(014%)	Tempo: 65.66677
+Progresso (T4): 20.00%	ODs: 1500/10000(015%)	Tempo: 65.97844
+Progresso (T7): 20.00%	ODs: 1625/10000(016%)	Tempo: 66.30298
+Progresso (T8): 20.00%	ODs: 1750/10000(018%)	Tempo: 67.47414
+Progresso (T1): 20.00%	ODs: 1875/10000(019%)	Tempo: 69.12481
+Progresso (T5): 20.00%	ODs: 2000/10000(020%)	Tempo: 70.32681
+Progresso (T6): 30.00%	ODs: 2125/10000(021%)	Tempo: 86.69126
+Progresso (T2): 30.00%	ODs: 2250/10000(023%)	Tempo: 89.14765
+Progresso (T7): 30.00%	ODs: 2375/10000(024%)	Tempo: 94.46182
+Progresso (T4): 30.00%	ODs: 2500/10000(025%)	Tempo: 97.63828
+Progresso (T8): 30.00%	ODs: 2625/10000(026%)	Tempo: 99.58115
+Progresso (T1): 30.00%	ODs: 2750/10000(028%)	Tempo: 104.79426
+Progresso (T3): 30.00%	ODs: 2875/10000(029%)	Tempo: 104.80158
+Progresso (T5): 30.00%	ODs: 3000/10000(030%)	Tempo: 110.28570
+Progresso (T6): 40.00%	ODs: 3125/10000(031%)	Tempo: 121.20534
+Progresso (T2): 40.00%	ODs: 3250/10000(033%)	Tempo: 124.29677
+Progresso (T4): 40.00%	ODs: 3375/10000(034%)	Tempo: 127.99758
+Progresso (T7): 40.00%	ODs: 3500/10000(035%)	Tempo: 130.74852
+Progresso (T3): 40.00%	ODs: 3625/10000(036%)	Tempo: 136.57748
+Progresso (T1): 40.00%	ODs: 3750/10000(038%)	Tempo: 137.43332
+Progresso (T8): 40.00%	ODs: 3875/10000(039%)	Tempo: 141.18850
+Progresso (T5): 40.00%	ODs: 4000/10000(040%)	Tempo: 156.50042
+Progresso (T2): 50.00%	ODs: 4125/10000(041%)	Tempo: 160.28565
+Progresso (T7): 50.00%	ODs: 4250/10000(043%)	Tempo: 163.31615
+Progresso (T6): 50.00%	ODs: 4375/10000(044%)	Tempo: 165.13077
+Progresso (T4): 50.00%	ODs: 4500/10000(045%)	Tempo: 167.57972
+Progresso (T3): 50.00%	ODs: 4625/10000(046%)	Tempo: 167.67800
+Progresso (T1): 50.00%	ODs: 4750/10000(048%)	Tempo: 179.61389
+Progresso (T8): 50.00%	ODs: 4875/10000(049%)	Tempo: 185.99504
+Progresso (T2): 60.00%	ODs: 5000/10000(050%)	Tempo: 195.02626
+Progresso (T3): 60.00%	ODs: 5125/10000(051%)	Tempo: 195.43231
+Progresso (T6): 60.00%	ODs: 5250/10000(053%)	Tempo: 198.20205
+Progresso (T5): 50.00%	ODs: 5375/10000(054%)	Tempo: 199.36021
+Progresso (T7): 60.00%	ODs: 5500/10000(055%)	Tempo: 206.79273
+Progresso (T4): 60.00%	ODs: 5625/10000(056%)	Tempo: 213.51448
+Progresso (T1): 60.00%	ODs: 5750/10000(058%)	Tempo: 217.61643
+Progresso (T8): 60.00%	ODs: 5875/10000(059%)	Tempo: 218.04027
+Progresso (T3): 70.00%	ODs: 6000/10000(060%)	Tempo: 226.26868
+Progresso (T2): 70.00%	ODs: 6125/10000(061%)	Tempo: 229.18933
+Progresso (T5): 60.00%	ODs: 6250/10000(063%)	Tempo: 230.25484
+Progresso (T4): 70.00%	ODs: 6375/10000(064%)	Tempo: 240.55783
+Progresso (T7): 70.00%	ODs: 6500/10000(065%)	Tempo: 242.65167
+Progresso (T6): 70.00%	ODs: 6625/10000(066%)	Tempo: 243.39305
+Progresso (T1): 70.00%	ODs: 6750/10000(068%)	Tempo: 249.96378
+Progresso (T8): 70.00%	ODs: 6875/10000(069%)	Tempo: 251.05690
+Progresso (T2): 80.00%	ODs: 7000/10000(070%)	Tempo: 259.10890
+Progresso (T3): 80.00%	ODs: 7125/10000(071%)	Tempo: 264.01341
+Progresso (T4): 80.00%	ODs: 7250/10000(073%)	Tempo: 266.63371
+Progresso (T5): 70.00%	ODs: 7375/10000(074%)	Tempo: 270.67723
+Progresso (T1): 80.00%	ODs: 7500/10000(075%)	Tempo: 280.46526
+Progresso (T8): 80.00%	ODs: 7625/10000(076%)	Tempo: 281.79431
+Progresso (T2): 90.00%	ODs: 7750/10000(078%)	Tempo: 287.85388
+Progresso (T7): 80.00%	ODs: 7875/10000(079%)	Tempo: 290.13269
+Progresso (T6): 80.00%	ODs: 8000/10000(080%)	Tempo: 291.71695
+Progresso (T3): 90.00%	ODs: 8125/10000(081%)	Tempo: 294.07941
+Progresso (T4): 90.00%	ODs: 8250/10000(083%)	Tempo: 301.47206
+Progresso (T5): 80.00%	ODs: 8375/10000(084%)	Tempo: 305.87120
+Progresso (T8): 90.00%	ODs: 8500/10000(085%)	Tempo: 306.72402
+Progresso (T6): 90.00%	ODs: 8625/10000(086%)	Tempo: 319.40503
+Progresso (T2): 100.00%	ODs: 8750/10000(088%)	Tempo: 319.65892
+		Fim: T2
+Progresso (T7): 90.00%	ODs: 8875/10000(089%)	Tempo: 322.52574
+Progresso (T1): 90.00%	ODs: 9000/10000(090%)	Tempo: 323.26707
+Progresso (T3): 100.00%	ODs: 9125/10000(091%)	Tempo: 324.04935
+		Fim: T3
+Progresso (T4): 100.00%	ODs: 9250/10000(093%)	Tempo: 327.08092
+		Fim: T4
+Progresso (T8): 100.00%	ODs: 9375/10000(094%)	Tempo: 338.26729
+		Fim: T8
+Progresso (T5): 90.00%	ODs: 9500/10000(095%)	Tempo: 346.39131
+Progresso (T7): 100.00%	ODs: 9625/10000(096%)	Tempo: 350.05830
+		Fim: T7
+Progresso (T1): 100.00%	ODs: 9750/10000(098%)	Tempo: 351.90368
+		Fim: T1
+Progresso (T6): 100.00%	ODs: 9875/10000(099%)	Tempo: 353.23212
+		Fim: T6
+Progresso (T5): 100.00%	ODs: 10000/10000(100%)	Tempo: 367.53891
+		Fim: T5
+
+Quantidade de rotas: 10000
+Status: Found Qtd.: 10000
+Tempo decorrido para BruteForce para 150 metros = 2731.78948438333
+para o arquivo: Mumbai-network-osm-2019-1_2
+
