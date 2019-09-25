@@ -100,7 +100,7 @@ namespace Infra.services.multithread
 
                 if (this.emailSender != null)
                 {
-                    if (progress >= 50 && progressSendMail)
+                    if (totalPercent >= 50 && progressSendMail)
                     {
                         emailSender.SendMail(this.logBody + "\n" + logMessage, "Progresso");
                         progressSendMail = false;
