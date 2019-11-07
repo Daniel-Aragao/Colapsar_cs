@@ -34,17 +34,17 @@ rotina_por_grafo () {
 #rotina_por_grafo C Paris-network-osm-2019-1_1.txt
 #rotina_por_grafo BF Paris-network-osm-2019-1_1.txt
 
-rotina_por_grafo C RegularGraph_100_100_2019_11_6_23_48_53.txt
-rotina_por_grafo BF RegularGraph_100_100_2019_11_6_23_48_53.txt
+rotina_por_grafo C RegularGraph_100_100_2019_11_6_23_48_53_1.txt
+rotina_por_grafo BF RegularGraph_100_100_2019_11_6_23_48_53_1.txt
 
-rotina_por_grafo C SmallWorldGraph_100_100_0.03_2019_11_6_23_54_41.txt
-rotina_por_grafo BF SmallWorldGraph_100_100_0.03_2019_11_6_23_54_41.txt
+rotina_por_grafo C SmallWorldGraph_100_100_0.03_2019_11_6_23_54_41_1.txt
+rotina_por_grafo BF SmallWorldGraph_100_100_0.03_2019_11_6_23_54_41_1.txt
 
-rotina_por_grafo C SmallWorldGraph_100_100_0.3_2019_11_6_23_54_17.txt
-rotina_por_grafo BF SmallWorldGraph_100_100_0.3_2019_11_6_23_54_17.txt
+rotina_por_grafo C SmallWorldGraph_100_100_0.3_2019_11_6_23_54_17_1.txt
+rotina_por_grafo BF SmallWorldGraph_100_100_0.3_2019_11_6_23_54_17_1.txt
 
-rotina_por_grafo C ScaleFreeGraph_10000_2019_11_6_23_55_3.txt
-rotina_por_grafo BF ScaleFreeGraph_10000_2019_11_6_23_55_3.txt
+rotina_por_grafo C ScaleFreeGraph_10000_2019_11_6_23_55_3_1.txt
+rotina_por_grafo BF ScaleFreeGraph_10000_2019_11_6_23_55_3_1.txt
 
-rotina_por_grafo C RandomGraph_100_100_2019_11_6_23_53_14.txt
-rotina_por_grafo BF RandomGraph_100_100_2019_11_6_23_53_14.txt
+rotina_por_grafo C RandomGraph_100_100_2019_11_6_23_53_14_1.txt
+rotina_por_grafo BF RandomGraph_100_100_2019_11_6_23_53_14_1.txt
