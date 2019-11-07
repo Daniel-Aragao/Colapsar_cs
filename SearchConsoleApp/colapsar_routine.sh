@@ -8,7 +8,8 @@ fi
 rotina_por_grafo () {
     strategy=$1
     grafo=$2
-
+    # run SearchConsoleApp.dll
+    # 50 100 150 200 250   2 4 5 7 9
     dotnet run $strategy $grafo 50 10000 && echo "Success $strategy $grafo 50" >> progresso || echo "Error $strategy $grafo 50" >> progresso
     dotnet run $strategy $grafo 100 10000 && echo "Success $strategy $grafo 100" >> progresso || echo "Error $strategy $grafo 100" >> progresso
     dotnet run $strategy $grafo 150 10000 && echo "Success $strategy $grafo 150" >> progresso || echo "Error $strategy $grafo 150" >> progresso
