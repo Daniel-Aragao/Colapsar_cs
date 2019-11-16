@@ -22,7 +22,7 @@ namespace AuxiliarPrograms
 
             if (program == "compare_outputs" || program == "CO")
             {
-                Compare.Comparer(args);
+                Comparer.Compare(args);
             }
             else if(program == "graph_info" || program == "GI")
             {

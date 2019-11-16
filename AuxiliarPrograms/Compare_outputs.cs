@@ -11,7 +11,7 @@ namespace AuxiliarPrograms
 {
     public static class Comparer
     {
-        static static void Compare(string[] args)
+        public static void Compare(string[] args)
         {            
             if (args.Length < 5)
             {
