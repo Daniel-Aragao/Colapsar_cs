@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Threading;
 using System.Globalization;
@@ -13,20 +14,28 @@ namespace AuxiliarPrograms
     {
         public static void GetInfo(string[] args)
         {            
-            if (args.Length < 2)
-            {
-                throw new ArgumentException("You must inform o");
-            }
+            //if (args.Length < 2)
+            //{
+            //    throw new ArgumentException("You must inform o");
+            //}
             
             Graph graph = null;
             
-            graph = Import.LoadCityFromText(Constants.PATH_GRAPH + args[1]);
+            foreach(var path in Directory.GetFiles(Constants.PATH_GRAPH))
+            {
+                Console.WriteLine(path);
+                
+                graph = Import.LoadCityFromText(path);
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-            
-            GraphRunner graphRunner = null;
-
-            Console.WriteLine();
+                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+                
+                var entropy = graph.Entropy();
+                var cc = graph.GetClusteringCoefficient();
+                var avgPathLength = graph.AveragePathLenght();
+                var hubDegree = graph.Hub.Degree;
+                
+                Console.WriteLine("{ graph: {0}, entropy: {1}, avgPathLength: {2}, hubDegree: {3}, clusterCoefficient: {4} }", path, entropy, avgPathLength, hubDegree, cc);
+            }
 
             // Console.WriteLine("Resultados negativos simbolizam que os valores para os resultados da direita são maiores");
             // Console.WriteLine("Resultados iguais       : " + countRight.ToString());
