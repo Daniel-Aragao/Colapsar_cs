@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Core.extensions;
 
 namespace Core.models
@@ -344,19 +345,6 @@ namespace Core.models
                     var index = border.FindIndex(node => totalCostForNode[node.Id] > costFunction);
 
                     border.Insert(index >= 0 ? index : border.Count, children);
-
-                    // if (!weightToNode.ContainsKey(children.Id) || weightToNode[children.Id] > weightToChildren)
-                    // {
-                    //     border.Remove(children);
-
-                    //     weightToNode[children.Id] = weightToChildren;
-                    //     totalCostForNode[children.Id] = costFunction;
-                    //     parents[children.Id] = edge;
-
-                    //     var index = border.FindIndex(node => totalCostForNode[node.Id] > costFunction);
-
-                    //     border.Insert(index >= 0 ? index : border.Count, children);
-                    // }
                 }
             }
 
@@ -393,18 +381,13 @@ namespace Core.models
             return new PathRoute(EPathStatus.NotFound, source, target);
         }
 
-        public double AveragePathLenght()
+        private double ThreadAveragePathLenght(IEnumerable<Node> nodes, Dictionary<long, Node>.ValueCollection targets)
         {
             double avg = 0;
-
-            var nodes = this._nodes.Values;
-
-            int nodesSize = nodes.Count;
-            int possibleEdges = nodesSize * (nodesSize - 1);
-
+            
             foreach (var source in nodes)
             {
-                foreach (var target in nodes)
+                foreach (var target in targets)
                 {
                     if (source != target)
                     {
@@ -416,6 +399,50 @@ namespace Core.models
                         }
                     }
                 }
+            }
+            
+            return avg;
+        }
+
+        public double AveragePathLenght()
+        {
+            double avg = 0;
+
+            var nodes = this._nodes.Values;
+
+            int nodesSize = nodes.Count;
+            int possibleEdges = nodesSize * (nodesSize - 1);
+
+            var nodesList = nodes.ToList();
+
+            int threadsNumber = Environment.ProcessorCount;
+
+            int interval = nodesSize / threadsNumber;
+            int rest = nodesSize % threadsNumber;
+
+            var threads = new Thread[threadsNumber];
+
+            for(var i = 0; i < threadsNumber; i++)
+            {
+                int begin = i * interval;
+                int end = interval;//i * interval + interval;
+
+                if (i + 1 == threadsNumber)
+                {
+                    end += rest;
+                }
+
+                var tnodes = nodesList.GetRange(begin, end);
+
+                var thread = new Thread(new ThreadStart(() => avg += this.ThreadAveragePathLenght(tnodes, nodes)));
+
+                threads[i] = thread;
+                thread.Start();
+            }
+
+            foreach(var thread in threads)
+            {
+                thread.Join();
             }
 
             avg = avg / possibleEdges;

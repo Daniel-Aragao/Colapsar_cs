@@ -20,35 +20,26 @@ namespace AuxiliarPrograms
             //}
             
             Graph graph = null;
+            var paths = Directory.GetFiles(Constants.PATH_GRAPH);
+            Array.Reverse(paths);
             
-            foreach(var path in Directory.GetFiles(Constants.PATH_GRAPH))
+            foreach(var path in paths)
             {
                 Console.WriteLine(path);
                 
                 graph = Import.LoadCityFromText(path);
 
+                Console.WriteLine("graph loaded " + graph.Name);
+
                 Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
                 
-                var entropy = graph.Entropy();
-                var cc = graph.GetClusteringCoefficient();
-                var avgPathLength = graph.AveragePathLenght();
-                var hubDegree = graph.Hub.Degree;
+                double hubDegree = graph.Hub.Degree; Console.WriteLine("hub degree " + hubDegree);
+                double cc = graph.GetClusteringCoefficient(); Console.WriteLine("cluster coefficient " + cc);
+                double entropy = graph.Entropy(); Console.WriteLine("entropy " + entropy);
+                double avgPathLength = graph.AveragePathLenght(); Console.WriteLine("avgPathLength " + avgPathLength);
                 
-                Console.WriteLine("{ graph: {0}, entropy: {1}, avgPathLength: {2}, hubDegree: {3}, clusterCoefficient: {4} }", path, entropy, avgPathLength, hubDegree, cc);
+                Console.WriteLine($"{{ graph: {path}, entropy: {entropy}, avgPathLength: {avgPathLength}, hubDegree: {hubDegree}, clusterCoefficient: {cc} }}");
             }
-
-            // Console.WriteLine("Resultados negativos simbolizam que os valores para os resultados da direita são maiores");
-            // Console.WriteLine("Resultados iguais       : " + countRight.ToString());
-            // Console.WriteLine("Resultados diferentes   : " + (differentRoutesDistance.Count + differentRoutesStatus.Count).ToString());
-            // Console.WriteLine("\tStatus diferentes     : " + differentRoutesStatus.Count.ToString());
-            // Console.WriteLine("\tDistâncias diferentes : " + differentRoutesDistance.Count.ToString());
-            // Console.WriteLine("Diferença de distância  : " + totalDistanceDifferenceAllPaths.ToString());
-            // Console.WriteLine("\tCaminhos iguais       : " + totalDistanceDifferenceForEqualPaths.ToString());
-            // Console.WriteLine("\tCaminhos diferentes   : " + totalDistanceDifferenceForDifferentPaths.ToString());
-            // Console.WriteLine("Diferença de tempo      : " + totalTimeDifferenceAllPaths.ToString());
-            // Console.WriteLine("\tCaminhos iguais       : " + totalTimeDifferenceForEqualPaths.ToString());
-            // Console.WriteLine("\tCaminhos diferentes   : " + totalTimeDifferenceForDifferentPaths.ToString());
-            
         }
     }
 }
