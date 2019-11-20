@@ -1,0 +1,5 @@
+ScaleFreeGraph_10000_2019_11_6_23_55_3_1
+graph loaded ScaleFreeGraph_10000_2019_11_6_23_55_3_1
+hub degree 260
+cluster coefficient 0.7654
+entropy 1.47783590277275
