@@ -15,34 +15,36 @@ namespace AuxiliarPrograms
     {
         public static void GetInfo(string[] args)
         {            
-            if (args.Length < 2)
-            {
-               throw new ArgumentException("You must inform o");
-            }
+            // if (args.Length < 2)
+            // {
+            //    throw new ArgumentException("You must inform o");
+            // }
             
             Graph graph = null;
-            // var paths = Directory.GetFiles(Constants.PATH_GRAPH);
-            var paths = new string [] { args[1] };//Directory.GetFiles(Constants.PATH_GRAPH);
+            var paths = Directory.GetFiles(Constants.PATH_GRAPH);
+            // var paths = new string [] { args[1] };//Directory.GetFiles(Constants.PATH_GRAPH);
             Array.Reverse(paths);
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             
             foreach(var path in paths)
             {
-                ILogger logger = LoggerFactory.Define(true, "GraphInfo-" + path);
-                logger.WriteLine(path);
+                ILogger logger = LoggerFactory.Define(false, "GraphInfo-" + path);
+                // logger.WriteLine(path);
                 
-                graph = Import.LoadCityFromText(Constants.PATH_GRAPH + path + Constants.FILE_EXTENSION_OUTPUT);
+                graph = Import.LoadCityFromText(path);
+                // graph = Import.LoadCityFromText(Constants.PATH_GRAPH + path + Constants.FILE_EXTENSION_OUTPUT);
 
-                logger.WriteLine("graph loaded " + graph.Name);
+                // logger.WriteLine("graph loaded " + graph.Name);
                 
-                double hubDegree = graph.Hub.Degree; logger.WriteLine($"hub degree {hubDegree}");
-                double cc = graph.GetClusteringCoefficient(); logger.WriteLine($"cluster coefficient {cc}");
-                double entropy = graph.Entropy(); logger.WriteLine($"entropy {entropy}");
-                double avgPathLength = graph.AveragePathLenght(); logger.WriteLine($"avgPathLength {avgPathLength}");
+                double hubDegree = graph.Hub.Degree; //logger.WriteLine($"hub degree {hubDegree}");
+                double cc = graph.GetClusteringCoefficient(); //logger.WriteLine($"cluster coefficient {cc}");
+                double entropy = graph.Entropy(); //logger.WriteLine($"entropy {entropy}");
+                // double avgPathLength = graph.AveragePathLenght(); logger.WriteLine($"avgPathLength {avgPathLength}");
                 
-                logger.WriteLine($"{{ graph: {path}, entropy: {entropy}, avgPathLength: {avgPathLength}, hubDegree: {hubDegree}, clusterCoefficient: {cc} }}");
-                logger.WriteLine();
+                // logger.WriteLine($"{{ graph: {path}, entropy: {entropy}, avgPathLength: {avgPathLength}, hubDegree: {hubDegree}, clusterCoefficient: {cc} }}");
+                logger.WriteLine($"{{ graph: {path}, entropy: {entropy}, hubDegree: {hubDegree}, clusterCoefficient: {cc} }}");
+                // logger.WriteLine();
             }
         }
     }
