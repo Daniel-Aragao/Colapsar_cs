@@ -1,0 +1,204 @@
+
+======================Montar Gráficos======================
+======================50=Fortaleza======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-50.0-Fortaleza-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-50.0-Fortaleza-network-osm-2018-1.txt
+é de 717
+Acurácia Total: 96.41482074103706
+Erro total: 10908.835437439806
+Erro máximo: 73.06571936807632
+Erro médio: 0.5454690453242566
+Erro percentual médio Total: 3.5766588007261437
+Total de Linhas Percorridas:20000
+======================Montar Gráficos======================
+======================100=Fortaleza======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-100.0-Fortaleza-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-100.0-Fortaleza-network-osm-2018-1.txt
+é de 1906
+Acurácia Total: 90.4695234761738
+Erro total: 55514.028820822205
+Erro máximo: 204.00468334135167
+Erro médio: 2.775840233052763
+Erro percentual médio Total: 9.496817001243606
+Total de Linhas Percorridas:20000
+======================Montar Gráficos======================
+======================250=Fortaleza======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-250.0-Fortaleza-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-250.0-Fortaleza-network-osm-2018-1.txt
+é de 677
+Acurácia Total: 83.07076769192298
+Erro total: 27643.40568995994
+Erro máximo: 400.4723079268392
+Erro médio: 6.912579567381831
+Erro percentual médio Total: 16.82039963247229
+Total de Linhas Percorridas:4000
+======================Montar Gráficos======================
+======================500=Fortaleza======================
+Não iniciado
+======================Montar Gráficos======================
+======================50=Paris======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-50.0-Paris-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-50.0-Paris-network-osm-2018-1.txt
+é de 1116
+Acurácia Total: 94.4197209860493
+Erro total: 16450.230385255956
+Erro máximo: 77.42669244302488
+Erro médio: 0.8225526468951425
+Erro percentual médio Total: 5.56471742445823
+Total de Linhas Percorridas:20000
+======================Montar Gráficos======================
+======================100=Paris======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-100.0-Paris-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-100.0-Paris-network-osm-2018-1.txt
+é de 2407
+Acurácia Total: 87.964398219911
+Erro total: 66750.61550510445
+Erro máximo: 171.25889534370253
+Erro médio: 3.3376976601382293
+Erro percentual médio Total: 11.962748474240795
+Total de Linhas Percorridas:20000
+======================Montar Gráficos======================
+======================250=Paris======================
+Não iniciado
+======================Montar Gráficos======================
+======================500=Paris======================
+Não iniciado
+======================Montar Gráficos======================
+======================50=Toquio======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-50.0-Toquio-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-50.0-Toquio-network-osm-2018-1.txt
+é de 545
+Acurácia Total: 97.27486374318715
+Erro total: 10506.161157671911
+Erro máximo: 90.48188667815703
+Erro médio: 0.5253343245998255
+Erro percentual médio Total: 2.7222594217675358
+Total de Linhas Percorridas:20000
+======================Montar Gráficos======================
+======================100=Toquio======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-100.0-Toquio-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-100.0-Toquio-network-osm-2018-1.txt
+é de 830
+Acurácia Total: 95.84979248962449
+Erro total: 26397.598936192415
+Erro máximo: 189.32597776718058
+Erro médio: 1.319945944106826
+Erro percentual médio Total: 4.141529798253532
+Total de Linhas Percorridas:20000
+======================Montar Gráficos======================
+======================250=Toquio======================
+Não iniciado
+======================Montar Gráficos======================
+======================500=Toquio======================
+Não iniciado
+======================Montar Gráficos======================
+======================50=NY======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-50.0-NY-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-50.0-NY-network-osm-2018-1.txt
+é de 1007
+Acurácia Total: 94.96474823741187
+Erro total: 15734.93908738217
+Erro máximo: 81.90734720932232
+Erro médio: 0.7867862936837927
+Erro percentual médio Total: 5.029107743539099
+Total de Linhas Percorridas:20000
+======================Montar Gráficos======================
+======================100=NY======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-100.0-NY-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-100.0-NY-network-osm-2018-1.txt
+é de 832
+Acurácia Total: 88.11258751250179
+Erro total: 26606.593967247594
+Erro máximo: 169.55941830190568
+Erro médio: 3.80148506461603
+Erro percentual médio Total: 11.860000751824417
+Total de Linhas Percorridas:7000
+======================Montar Gráficos======================
+======================250=NY======================
+Não iniciado
+======================Montar Gráficos======================
+======================500=NY======================
+Não iniciado
+======================Montar Gráficos======================
+======================50=Mumbai======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-50.0-Mumbai-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-50.0-Mumbai-network-osm-2018-1.txt
+é de 796
+Acurácia Total: 96.0198009900495
+Erro total: 12127.71216201189
+Erro máximo: 85.24237522231488
+Erro médio: 0.6064159288970393
+Erro percentual médio Total: 3.9692326569014607
+Total de Linhas Percorridas:20000
+======================Montar Gráficos======================
+======================100=Mumbai======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-100.0-Mumbai-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-100.0-Mumbai-network-osm-2018-1.txt
+é de 1138
+Acurácia Total: 94.30971548577429
+Erro total: 30774.446583345845
+Erro máximo: 153.74876612962362
+Erro médio: 1.5387992691307488
+Erro percentual médio Total: 5.671460707625211
+Total de Linhas Percorridas:20000
+======================Montar Gráficos======================
+======================250=Mumbai======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-250.0-Mumbai-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-250.0-Mumbai-network-osm-2018-1.txt
+é de 1771
+Acurácia Total: 91.14455722786138
+Erro total: 68707.78012219403
+Erro máximo: 310.94615046111926
+Erro médio: 3.435560784148909
+Erro percentual médio Total: 8.80917330975413
+Total de Linhas Percorridas:20000
+======================Montar Gráficos======================
+======================500=Mumbai======================
+
+Total de diferenças entre o arquivo (file1) 
+caracterizacao-dados-reviews/saida/250/BruteForce-20000-500.0-Mumbai-network-osm-2018-1.txt
+e o arquivo (file2)
+caracterizacao-dados-reviews/saida/250/20000-500.0-Mumbai-network-osm-2018-1.txt
+é de 319
+Acurácia Total: 89.36312104034678
+Erro total: 15047.706406713085
+Erro máximo: 305.388813122443
+Erro médio: 5.017574660457847
+Erro percentual médio Total: 10.547057224833603
+Total de Linhas Percorridas:3000

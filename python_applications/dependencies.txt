@@ -1,0 +1,9 @@
+python_applications/
+    networkx
+    numpy
+    matplotlib
+    tkinter # via dnf
+
+    graph view/
+        proj
+        https://matplotlib.org/basemap/users/installing.html

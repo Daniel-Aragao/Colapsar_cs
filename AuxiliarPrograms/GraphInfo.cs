@@ -40,10 +40,11 @@ namespace AuxiliarPrograms
                 double hubDegree = graph.Hub.Degree; //logger.WriteLine($"hub degree {hubDegree}");
                 double cc = graph.GetClusteringCoefficient(); //logger.WriteLine($"cluster coefficient {cc}");
                 double entropy = graph.Entropy(); //logger.WriteLine($"entropy {entropy}");
+                double density = graph.Density(); //logger.WriteLine($"entropy {entropy}");
                 // double avgPathLength = graph.AveragePathLenght(); logger.WriteLine($"avgPathLength {avgPathLength}");
                 
                 // logger.WriteLine($"{{ graph: {path}, entropy: {entropy}, avgPathLength: {avgPathLength}, hubDegree: {hubDegree}, clusterCoefficient: {cc} }}");
-                logger.WriteLine($"{{ graph: {path}, entropy: {entropy}, hubDegree: {hubDegree}, clusterCoefficient: {cc} }}");
+                logger.WriteLine($"{{ graph: {path}, entropy: {entropy}, hubDegree: {hubDegree}, clusterCoefficient: {cc}, density: {density} }}");
                 // logger.WriteLine();
             }
         }
