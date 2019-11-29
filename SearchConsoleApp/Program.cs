@@ -39,7 +39,7 @@ namespace SearchConsoleApp
             helpMessage += "\t\t( ) <optional arguments>\n";
             helpMessage += "\t\t    <any kind of argument> :type\n";
             helpMessage += "\t\t    <any kind of argument> (description)\n";
-            helpMessage += "\t3. The order of the parameters must be followed (you can \n\tuse i to avoid change default values or to ignore optional arguments)\n";
+            helpMessage += "\t3. The order of the parameters must be followed (you can \n\tuse 'i' to avoid change default values or to ignore optional arguments)\n";
             helpMessage += "\n==========> Arguments <==========\n";
             helpMessage += "\t(*) <Strategy> : string (<C> to Collapse, <BF> to BruteForce)\n";
             helpMessage += "\t(*) <File name> : string #"+Constants.PATH_GRAPH+"<File name>\n";
